@@ -1,28 +1,26 @@
-import './App.css'
-import 'bootstrap/dist/css/bootstrap.min.css'
+import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 import Navigation from "./components/Navigation/Navigation.jsx";
 import Home from "./components/home/home.jsx";
-import {Navigate, Route, Routes} from "react-router-dom";
+import Upload from "./components/Upload/Upload";
+import { Navigate, Route, Routes } from "react-router-dom";
 import Questions from "./components/Questions/Questions.jsx";
 
 function App() {
-
-  return (
-    <>
-        <div>
-            <Navigation/>
+    return (
+        <>
             <div>
-                <Routes>
-                    <Route path='/' element={<Home />} />
-                    <Route path='/start' element={<Questions />} />
-                </Routes>
-
+                <Navigation />
+                <div>
+                    <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/start" element={<Questions />} />
+                        <Route path="/upload" element={<Upload />} />
+                    </Routes>
+                </div>
             </div>
-
-        </div>
-
-    </>
-  )
+        </>
+    );
 }
 
 export default App;
