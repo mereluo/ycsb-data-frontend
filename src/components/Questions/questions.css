@@ -1,0 +1,19 @@
+.card-body {
+    text-align: left;
+}
+
+.card-body p {
+    margin-top: 10px;
+}
+
+.card {
+    margin-top: 15px;
+}
+
+.card-title {
+    margin-bottom: 20px;
+}
+
+#number-input {
+    width: 10em;
+}
