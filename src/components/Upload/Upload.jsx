@@ -69,22 +69,22 @@ function Upload() {
             <h1 className="mt-5">Upload Your Data</h1>
 
             <div className="mt-4">
-                <h3>Download CSV Template</h3>
-                <button className="btn btn-primary p-3" onClick={handleDownload}>
+                <h4>Download CSV Template</h4>
+                <button className="btn btn-outline-info p-3" onClick={handleDownload}>
                     Download Template
                 </button>
             </div>
             <div className="mt-4">
-                <h3>Upload CSV File</h3>
+                <h4>Upload CSV File</h4>
                 <div className="custom-file">
                     <input type="file" className="custom-file-input" id="csvFile" accept=".csv" onChange={handleUpload} />
-                    <label className="custom-file-label" htmlFor="csvFile">
+                    <label className="custom-file-label col-5" htmlFor="csvFile">
                         Choose local file
                     </label>
                 </div>
             </div>
             <br />
-            <table>
+            <table className="table">
                 <thead>
                     <tr>
                         <th>Header</th>
