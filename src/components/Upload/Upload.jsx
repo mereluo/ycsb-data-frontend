@@ -1,21 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Papa from "papaparse";
+import { ATemplate } from "../../models/WorkloadA";
 
 function Upload() {
-    // parsed data in general
-    const [parsedData, setParsedData] = useState([]);
-    // table Column name
-    const [tableRows, setTableRows] = useState([]);
-    // values
-    const [values, setValues] = useState([]);
+    const [workload, setWorkload] = useState(null);
 
     const handleDownload = () => {
-        const workloadA = "Column1,Column2,Column3\nValue1,Value2,Value3";
-        const workloadB = "Column1,Column2,Column3\nValue1,Value2,Value3";
-        const workloadF = "Column1,Column2,Column3\nValue1,Value2,Value3";
-
         const createTemplate = (template, filename) => {
-            // Create a Blob with the CSV content
             const blob = new Blob([template], { type: "text/csv" });
 
             // Create a URL for the Blob
@@ -29,10 +20,7 @@ function Upload() {
             a.click();
             window.URL.revokeObjectURL(url);
         };
-
-        createTemplate(workloadA, "workloadA");
-        createTemplate(workloadB, "workloadB");
-        createTemplate(workloadF, "workloadF");
+        createTemplate(ATemplate, "workloadA");
     };
 
     const handleUpload = (event) => {
@@ -43,29 +31,17 @@ function Upload() {
                 header: true,
                 skipEmptyLines: true,
                 complete: function (results) {
-                    const rowsArray = [];
-                    const valuesArray = [];
-
-                    // Iterating data to get column name and their values
-                    results.data.map((d) => {
-                        rowsArray.push(Object.keys(d));
-                        valuesArray.push(Object.values(d));
-                    });
-                    // Parsed Data Response in array format
-                    setParsedData(results.data);
-
-                    // Filtered Column Names
-                    setTableRows(rowsArray[0]);
-
-                    // Filtered Values
-                    setValues(valuesArray);
+                    setWorkload(results.data[0]);
                 },
             });
         }
-        const option = createWorkloadA("MongoDB");
     };
 
-    const createWorkloadA = async (name) => {
+    useEffect(() => {
+        createWorkloadA();
+    }, [workload]);
+
+    const createWorkloadA = async () => {
         try {
             // Create DatabaseOption
             const databaseOptionResponse = await fetch("http://localhost:8080/api/dbOption", {
@@ -73,10 +49,9 @@ function Upload() {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ database: name }),
+                body: JSON.stringify({ database: workload.database }),
             });
             const databaseOption = await databaseOptionResponse.json();
-            console.log(databaseOption);
 
             // Create DBconfig
             const dbConfigResponse = await fetch("http://localhost:8080/api/dbConfig", {
@@ -86,16 +61,15 @@ function Upload() {
                 },
                 body: JSON.stringify({
                     databaseOption: { id: databaseOption.id },
-                    description: "Test DBConfig",
-                    isTransactional: true,
-                    platform: "Test Platform",
-                    numOfNodes: 3,
-                    numOfRegions: 2,
-                    isMultiRegion: true,
+                    description: workload.description,
+                    isTransactional: workload.isTransactional,
+                    platform: workload.platform,
+                    numOfNodes: workload.numOfNodes,
+                    numOfRegions: workload.numOfRegions,
+                    isMultiRegion: workload.isMultiRegion,
                 }),
             });
             const dbConfig = await dbConfigResponse.json();
-            console.log(dbConfig + " " + dbConfig.id);
 
             // Create TestConfig
             const testConfigResponse = await fetch("http://localhost:8080/api/testConfig", {
@@ -104,9 +78,9 @@ function Upload() {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    concurrencyLevel: 64,
-                    recordCounts: 3,
-                    commandLine: "test commandLine",
+                    concurrencyLevel: workload.concurrencyLevel,
+                    recordCounts: workload.recordCounts,
+                    commandLine: workload.commandLine,
                     dbConfig: { id: dbConfig.id },
                 }),
             });
@@ -119,15 +93,15 @@ function Upload() {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    opsPerSec: 100.0,
-                    readMeanLatency: 10.5,
-                    readMaxLatency: 20.5,
-                    readP95: 15.5,
-                    readP99: 25.5,
-                    updateMeanLatency: 8.5,
-                    updateMaxLatency: 18.5,
-                    updateP95: 13.5,
-                    updateP99: 23.5,
+                    opsPerSec: workload.opsPerSec,
+                    readMeanLatency: workload.readMeanLatency,
+                    readMaxLatency: workload.readMaxLatency,
+                    readP95: workload.readP95,
+                    readP99: workload.readP99,
+                    updateMeanLatency: workload.updateMeanLatency,
+                    updateMaxLatency: workload.updateMaxLatency,
+                    updateP95: workload.updateP95,
+                    updateP99: workload.updateP99,
                     timeSeries: { key: "testkey", value: "testlatency" },
                     testConfigA: { id: testConfig.id },
                 }),
@@ -162,19 +136,23 @@ function Upload() {
             <table className="table">
                 <thead>
                     <tr>
-                        <th>Header</th>
-                        <th>Data</th>
+                        <th>Field</th>
+                        <th>Value</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {tableRows.map((row, index) => (
-                        <tr key={index}>
-                            <th>{row}</th>
-                            {values.map((value, i) => (
-                                <td key={i}>{value[index]}</td>
-                            ))}
+                    {workload === null ? (
+                        <tr>
+                            <td>No data uploaded</td>
                         </tr>
-                    ))}
+                    ) : (
+                        Object.entries(workload).map(([key, value]) => (
+                            <tr key={key}>
+                                <th>{key}</th>
+                                <td>{value}</td>
+                            </tr>
+                        ))
+                    )}
                 </tbody>
             </table>
         </div>
