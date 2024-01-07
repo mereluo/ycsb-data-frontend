@@ -38,7 +38,9 @@ function Upload() {
     };
 
     useEffect(() => {
-        createWorkloadA();
+        if (workload !== null) {
+            createWorkloadA();
+        }
     }, [workload]);
 
     const createWorkloadA = async () => {
