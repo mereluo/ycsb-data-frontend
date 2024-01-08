@@ -46,69 +46,14 @@ function Upload() {
     const createWorkloadA = async () => {
         try {
             // Create DatabaseOption
-            const databaseOptionResponse = await fetch("http://localhost:8080/api/dbOption", {
+            const entity = await fetch("http://localhost:8080/api/workloadA/createA", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ database: workload.database }),
+                body: JSON.stringify(workload),
             });
-            const databaseOption = await databaseOptionResponse.json();
-
-            // Create DBconfig
-            const dbConfigResponse = await fetch("http://localhost:8080/api/dbConfig", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    databaseOption: { id: databaseOption.id },
-                    description: workload.description,
-                    isTransactional: workload.isTransactional,
-                    platform: workload.platform,
-                    numOfNodes: workload.numOfNodes,
-                    numOfRegions: workload.numOfRegions,
-                    isMultiRegion: workload.isMultiRegion,
-                }),
-            });
-            const dbConfig = await dbConfigResponse.json();
-
-            // Create TestConfig
-            const testConfigResponse = await fetch("http://localhost:8080/api/testConfig", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    concurrencyLevel: workload.concurrencyLevel,
-                    recordCounts: workload.recordCounts,
-                    commandLine: workload.commandLine,
-                    dbConfig: { id: dbConfig.id },
-                }),
-            });
-            const testConfig = await testConfigResponse.json();
-
-            // Create WorkloadA
-            const workloadAResponse = await fetch("http://localhost:8080/api/workloadA", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    opsPerSec: workload.opsPerSec,
-                    readMeanLatency: workload.readMeanLatency,
-                    readMaxLatency: workload.readMaxLatency,
-                    readP95: workload.readP95,
-                    readP99: workload.readP99,
-                    updateMeanLatency: workload.updateMeanLatency,
-                    updateMaxLatency: workload.updateMaxLatency,
-                    updateP95: workload.updateP95,
-                    updateP99: workload.updateP99,
-                    timeSeries: { key: "testkey", value: "testlatency" },
-                    testConfigA: { id: testConfig.id },
-                }),
-            });
-            const workloadA = await workloadAResponse.json();
+            const workloadA = await entity.json();
             console.log("WorloadA created: ", workloadA);
         } catch (error) {
             console.error("Error creating workloadA: ", error);
