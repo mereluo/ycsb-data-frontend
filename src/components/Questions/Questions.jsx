@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./questions.css";
 function Questions() {
     const DBOption = [
-        { id: 1, label: "Google Spanner" },
+        { id: 1, label: "Spanner" },
         { id: 2, label: "CockroachDB" },
         { id: 3, label: "MongoDB" },
     ];
@@ -24,9 +24,23 @@ function Questions() {
         setFormState((prevState) => ({ ...prevState, [fieldName]: value }));
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         console.log(formState);
+        try {
+            const entity = await fetch("http://localhost:8080/api/workloadA/retrieveA", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formState),
+            });
+            const workloadA = await entity.json();
+            console.log("WorkloadA requested: ", workloadA);
+        } catch (error) {
+            console.error("Error finding workloadA: ", error);
+        }
     };
+
     return (
         <div>
             <div className="card text-center">
