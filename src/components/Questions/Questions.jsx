@@ -1,11 +1,14 @@
 import { useState } from "react";
 import "./questions.css";
+import { useNavigate } from "react-router-dom";
+
 function Questions() {
     const DBOption = [
         { id: 1, label: "Spanner" },
         { id: 2, label: "CockroachDB" },
         { id: 3, label: "MongoDB" },
     ];
+    const navigateTo = useNavigate();
 
     const [formState, setFormState] = useState({
         concurrencyLevel: null,
@@ -24,7 +27,8 @@ function Questions() {
         setFormState((prevState) => ({ ...prevState, [fieldName]: value }));
     };
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (event) => {
+        event.preventDefault();
         console.log(formState);
         try {
             const entity = await fetch("http://localhost:8080/api/workloadA/retrieveA", {
@@ -36,6 +40,7 @@ function Questions() {
             });
             const workloadA = await entity.json();
             console.log("WorkloadA requested: ", workloadA);
+            navigateTo("/result", { state: { workload: workloadA } });
         } catch (error) {
             console.error("Error finding workloadA: ", error);
         }
@@ -168,7 +173,7 @@ function Questions() {
                 </div>
             </div>
             <div className="mt-2 text-center">
-                <button className="btn btn-primary" onClick={handleSubmit}>
+                <button className="btn btn-primary" onClick={(event) => handleSubmit(event)}>
                     Submit
                 </button>
             </div>
