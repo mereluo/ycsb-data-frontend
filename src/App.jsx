@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Navigation from "./components/Navigation/Navigation.jsx";
 import Home from "./components/home/home.jsx";
 import Upload from "./components/Upload/Upload.jsx";
+import Result from "./components/Result/Result.jsx";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Questions from "./components/Questions/Questions.jsx";
 
@@ -16,6 +17,7 @@ function App() {
                         <Route path="/" element={<Home />} />
                         <Route path="/start" element={<Questions />} />
                         <Route path="/upload" element={<Upload />} />
+                        <Route path="/result" element={<Result />} />
                     </Routes>
                 </div>
             </div>

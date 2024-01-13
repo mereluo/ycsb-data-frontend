@@ -5,6 +5,7 @@ import { ATemplate } from "../../models/WorkloadA";
 function Upload() {
     const [workload, setWorkload] = useState(null);
 
+    // Download workloadA template
     const handleDownload = () => {
         const createTemplate = (template, filename) => {
             const blob = new Blob([template], { type: "text/csv" });
@@ -23,6 +24,7 @@ function Upload() {
         createTemplate(ATemplate, "workloadA");
     };
 
+    // Create workloadA instance
     const handleUpload = (event) => {
         // Handle the uploaded file here
         const file = event.target.files[0];
@@ -45,7 +47,6 @@ function Upload() {
 
     const createWorkloadA = async () => {
         try {
-            // Create DatabaseOption
             const entity = await fetch("http://localhost:8080/api/workloadA/createA", {
                 method: "POST",
                 headers: {
