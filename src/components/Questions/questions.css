@@ -1,3 +1,4 @@
+
 .card-body {
     text-align: left;
 }
@@ -10,8 +11,8 @@
     margin-top: 15px;
 }
 
-.card-title {
-    margin-bottom: 20px;
+.card-header {
+    font-weight: bold;
 }
 
 #number-input {
