@@ -1,0 +1,38 @@
+h1 {
+    display: flex;
+    justify-content: center;
+}
+.table {
+    margin: 0 auto;
+    font-size: 12px;
+}
+
+.button-box {
+    display: flex;
+    justify-content: center;
+}
+
+/* .statistics {
+    display: flex;
+}
+
+.graph-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    width: auto;
+} */
+.statistics {
+    display: flex;
+    width: 100%;
+}
+
+.table {
+    flex: 1;
+    margin-right: 16px;
+}
+
+.graph-box {
+    flex: 2;
+}

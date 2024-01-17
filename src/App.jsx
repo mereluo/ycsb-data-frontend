@@ -4,7 +4,7 @@ import Navigation from "./components/Navigation/Navigation.jsx";
 import Home from "./components/home/home.jsx";
 import Upload from "./components/Upload/Upload.jsx";
 import Result from "./components/Result/Result.jsx";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Questions from "./components/Questions/Questions.jsx";
 
 function App() {

@@ -63,7 +63,7 @@ function Upload() {
 
     return (
         <div className="container">
-            <h1 className="mt-5">Upload Your Data</h1>
+            <h2 className="mt-4">Upload Your Data</h2>
 
             <div className="mt-4">
                 <h4>Download CSV Template</h4>

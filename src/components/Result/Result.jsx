@@ -1,52 +1,105 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import "./result.css";
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
+import { Line } from "react-chartjs-2";
+
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 function Result() {
     const location = useLocation();
     const navigateTo = useNavigate();
     const workload = location.state.workload;
+    const database = workload.testConfigA.dbConfig.databaseOption.database;
+    console.log(workload);
 
     const goBack = () => {
         navigateTo("/start");
     };
+
+    const downloadCSV = () => {
+        // Add logic to download data as CSV
+    };
+
+    const renderRows = () => {
+        const keysToExclude = ["testConfigA", "timeSeries", "id"];
+        const keys = Object.keys(workload).filter((key) => !keysToExclude.includes(key));
+
+        return keys.map((key) => (
+            <tr key={key}>
+                <td className="p-3 ">{key}</td>
+                <td className="p-3">{workload[key]}</td>
+            </tr>
+        ));
+    };
+
+    const options = {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: "top",
+            },
+            title: {
+                display: true,
+                text: "Time Series Line Chart",
+            },
+        },
+        scales: {
+            x: {
+                title: {
+                    display: true,
+                    text: "Time elapsed (milliseconds)",
+                    offset: true,
+                },
+            },
+            y: {
+                title: {
+                    display: true,
+                    text: "Mean performance time (milliseconds)",
+                    offset: true,
+                },
+            },
+        },
+    };
+
+    const data = {
+        labels: [1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000],
+        datasets: [
+            {
+                label: "Mean READ Latency",
+                data: [32612, 27861, 28008, 27136, 27137, 27138, 27169, 26761, 26313, 25315],
+                borderColor: "rgba(75,192,192,1)",
+            },
+            {
+                label: "Mean Update Latency",
+                data: [66708, 55467, 51148, 49795, 50543, 49862, 49439, 49592, 48217, 48885],
+                borderColor: "#742774",
+            },
+        ],
+    };
+
     return (
         <div className="container mt-5">
-            <h1 className="mb-4">Workload A Data</h1>
-            <div className="card-body">
-                <p className="card-text">
-                    <strong className="card-title">Ops Per Sec: </strong>
-                    {workload.opsPerSec}
-                    <br />
-                    <strong>Read Mean Latency:</strong> {workload.readMeanLatency}
-                    <br />
-                    <strong>Read Max Latency:</strong> {workload.readMaxLatency}
-                    <br />
-                    <strong>Read P95:</strong> {workload.readP95}
-                    <br />
-                    <strong>Read P99:</strong> {workload.readP99}
-                    <br />
-                    <strong>Update Mean Latency:</strong> {workload.updateMeanLatency}
-                    <br />
-                    <strong>Update Max Latency:</strong> {workload.updateMaxLatency}
-                    <br />
-                    <strong>Update P95:</strong> {workload.updateP95}
-                    <br />
-                    <strong>Update P99:</strong> {workload.updateP99}
-                </p>
-                <p className="card-text">
-                    <strong>Database Option:</strong> {workload.testConfigA.dbConfig.databaseOption.database}
-                    <br />
-                    <strong>Platform:</strong> {workload.testConfigA.dbConfig.platform}
-                    <br />
-                    <strong>Number of Nodes:</strong> {workload.testConfigA.dbConfig.numOfNodes}
-                    <br />
-                    <strong>Number of Regions:</strong> {workload.testConfigA.dbConfig.numOfRegions}
-                    <br />
-                    <strong>Transactional:</strong> {workload.testConfigA.dbConfig.transactional ? "Yes" : "No"}
-                    <br />
-                    <strong>Multi-Region:</strong> {workload.testConfigA.dbConfig.multiRegion ? "Yes" : "No"}
-                </p>
-                <button className="btn btn-primary" onClick={goBack}>
+            <h1 className="mb-4">Workload A Data for {database}</h1>
+            <div className="statistics">
+                <table className="table table-striped text-center w-auto mr-4">
+                    <thead>
+                        <tr>
+                            <th>Metric</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>{renderRows()}</tbody>
+                </table>
+                <div className="graph-box">
+                    <Line options={options} data={data} />
+                </div>
+            </div>
+            <div className="button-box">
+                <button className="btn btn-primary mt-3" onClick={downloadCSV}>
+                    Download CSV
+                </button>
+                <button className="btn btn-secondary ml-2 mt-3" onClick={goBack}>
                     Go Back
                 </button>
             </div>
