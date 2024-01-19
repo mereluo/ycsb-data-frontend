@@ -21,18 +21,22 @@ function Questions() {
         numOfRegions: null,
         description: "",
         database: "",
+        type: "",
     });
-
 
     const handleInputChange = (fieldName, value) => {
         setFormState((prevState) => ({ ...prevState, [fieldName]: value }));
+        if (fieldName == "isMultiRegion" && !value) {
+            setFormState((prevState) => ({ ...prevState, ["numOfRegions"]: 1 }));
+        }
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         console.log(formState);
+        const workloadType = formState.type;
         try {
-            const entity = await fetch("http://localhost:8080/api/workloadA/retrieveA", {
+            const entity = await fetch(`http://localhost:8080/api/workload${workloadType}/retrieve`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -101,15 +105,21 @@ function Questions() {
                             </div>
                         </div>
                         <div className="row">
-                            <div className="col">
+                            <div className="col mt-3">
                                 <p className="card-text">Is Multi-regional</p>
+                                <div className="form-check form-check-inline">
+                                    <input className="form-check-input" type="radio" name="isMultiRegion" value="true" onChange={() => handleInputChange("isMultiRegion", true)} />
+                                    <label className="form-check-label" htmlFor="isMultiRegion1">
+                                        Yes
+                                    </label>
+                                </div>
 
-                                <button className="btn btn-light" onClick={() => handleInputChange("isMultiRegion", true)}>
-                                    Yes
-                                </button>
-                                <button className="btn btn-light" style={{ marginLeft: "5px" }} onClick={() => handleInputChange("isMultiRegion", false)}>
-                                    No
-                                </button>
+                                <div className="form-check form-check-inline">
+                                    <input className="form-check-input" type="radio" name="isMultiRegion" value="false" onChange={() => handleInputChange("isMultiRegion", false)} />
+                                    <label className="form-check-label" htmlFor="isMultiRegion2">
+                                        No
+                                    </label>
+                                </div>
                             </div>
                             {formState.isMultiRegion && (
                                 <div className="col">
@@ -161,19 +171,19 @@ function Questions() {
 
                     <div className="card-body">
                         <div className="form-check form-check-inline">
-                            <input className="form-check-input" type="radio" name="workloadOptions" id="inlineRadio1" value="option1" />
+                            <input className="form-check-input" type="radio" name="workloadOptions" id="inlineRadio1" value="A" onChange={() => handleInputChange("type", "A")} />
                             <label className="form-check-label" htmlFor="inlineRadio1">
                                 Workload A
                             </label>
                         </div>
                         <div className="form-check form-check-inline">
-                            <input className="form-check-input" type="radio" name="workloadOptions" id="inlineRadio2" value="option2" />
+                            <input className="form-check-input" type="radio" name="workloadOptions" id="inlineRadio2" value="B" onChange={() => handleInputChange("type", "B")} />
                             <label className="form-check-label" htmlFor="inlineRadio2">
                                 Workload B
                             </label>
                         </div>
                         <div className="form-check form-check-inline">
-                            <input className="form-check-input" type="radio" name="workloadOptions" id="inlineRadio3" value="option3" />
+                            <input className="form-check-input" type="radio" name="workloadOptions" id="inlineRadio3" value="C" onChange={() => handleInputChange("type", "F")} />
                             <label className="form-check-label" htmlFor="inlineRadio2">
                                 Workload F
                             </label>

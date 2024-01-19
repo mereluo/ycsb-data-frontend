@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Papa from "papaparse";
-import { ATemplate } from "../../models/WorkloadA";
+import { ATemplate } from "../../models/Workload";
 
 function Upload() {
     const [workload, setWorkload] = useState(null);
@@ -46,8 +46,10 @@ function Upload() {
     }, [workload]);
 
     const createWorkloadA = async () => {
+        const type = workload.workloadType;
+        const fetchPath = type.toUpperCase();
         try {
-            const entity = await fetch("http://localhost:8080/api/workloadA/createA", {
+            const entity = await fetch(`http://localhost:8080/api/workload${fetchPath}/save`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
