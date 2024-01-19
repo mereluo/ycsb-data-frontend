@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Papa from "papaparse";
-import { ATemplate } from "../../models/Workload";
+import { ATemplate, BTemplate, FTemplate } from "../../models/Workload";
 
 function Upload() {
     const [workload, setWorkload] = useState(null);
@@ -22,6 +22,8 @@ function Upload() {
             window.URL.revokeObjectURL(url);
         };
         createTemplate(ATemplate, "workloadA");
+        createTemplate(BTemplate, "workloadB");
+        createTemplate(FTemplate, "workloadF");
     };
 
     // Create workloadA instance
