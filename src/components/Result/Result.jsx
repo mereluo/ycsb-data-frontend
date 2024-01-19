@@ -10,8 +10,8 @@ function Result() {
     const location = useLocation();
     const navigateTo = useNavigate();
     const workload = location.state.workload;
-    const database = workload.testConfigA.dbConfig.databaseOption.database;
     console.log(workload);
+    const database = workload.testConfig.dbConfig.databaseOption.database;
 
     const goBack = () => {
         navigateTo("/start");
@@ -22,7 +22,7 @@ function Result() {
     };
 
     const renderRows = () => {
-        const keysToExclude = ["testConfigA", "timeSeries", "id"];
+        const keysToExclude = ["testConfig", "timeSeries", "id"];
         const keys = Object.keys(workload).filter((key) => !keysToExclude.includes(key));
 
         return keys.map((key) => (
