@@ -80,7 +80,9 @@ function Result() {
 
     return (
         <div className="container mt-5">
-            <h1 className="mb-4">Workload A Data for {database}</h1>
+            <h1 className="mb-4">
+                Workload {workload.workloadType} Data for {database}
+            </h1>
             <div className="statistics">
                 <table className="table table-striped text-center w-auto mr-4">
                     <thead>
