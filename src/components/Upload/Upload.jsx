@@ -127,11 +127,11 @@ function Upload() {
         <div className="container">
             <div className="mt-2 ">
                 <h2>Upload data</h2>
-                <p>Fill in all the required fields and upload the time series data as CSV.</p>
+                <p>Fill in all the fields and upload the time series data as CSV.</p>
             </div>
             <div className="question-container mt-2">
                 <div className="row">
-                    <div className="card text-center col mr-3">
+                    <div className="card col mr-3">
                         <div className="card-header">1. Database Options</div>
 
                         <div className="card-body">
@@ -208,7 +208,7 @@ function Upload() {
                         </div>
                     </div>
 
-                    <div className="card text-center col">
+                    <div className="card col">
                         <div className="card-header">3. Test Configuration</div>
 
                         <div className="card-body">
@@ -271,7 +271,7 @@ function Upload() {
             </div>
             <div>
                 <div className="row">
-                    <div className="card text-center col-9 mt-3">
+                    <div className="card col-9 mt-3">
                         <div className="card-header">5. Workload Data</div>
                         <div className="card-body col">
                             <p className="card-text">Operations per Second</p>
