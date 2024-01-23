@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Papa from "papaparse";
-import { ATemplate, BTemplate, FTemplate } from "../../models/Workload";
+import { TSTemplate } from "../../models/Workload";
 
 function Upload() {
     const DBOption = [
@@ -24,6 +24,7 @@ function Upload() {
         database: "",
         workloadType: "",
 
+        timeSeries: null,
         opsPerSec: null,
         readMeanLatency: null,
         readMaxLatency: null,
@@ -62,10 +63,64 @@ function Upload() {
                 header: true,
                 skipEmptyLines: true,
                 complete: function (results) {
-                    setWorkload(results.data[0]);
+                    const inputData = results.data;
+                    const resultObject = {};
+
+                    inputData.forEach((item) => {
+                        const { category, time, mean_latency } = item;
+                        if (!resultObject[category]) {
+                            resultObject[category] = {
+                                time: [],
+                                latency: [],
+                            };
+                        }
+                        resultObject[category].time.push(time);
+                        resultObject[category].latency.push(mean_latency);
+                    });
+                    const finalResult = {
+                        data: resultObject,
+                    };
+                    console.log(finalResult);
+                    setFormState((prevState) => ({ ...prevState, ["timeSeries"]: finalResult }));
                 },
             });
         }
+    };
+
+    const handleSubmit = async () => {
+        const type = formState.workloadType;
+        const fetchPath = type.toUpperCase();
+        try {
+            const entity = await fetch(`http://localhost:8080/api/workload${fetchPath}/save`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formState),
+            });
+            const result = await entity.json();
+            console.log("Workload created: ", result);
+        } catch (error) {
+            console.error("Error creating workloadA: ", error);
+        }
+    };
+
+    const handleDownload = () => {
+        const createTemplate = (template, filename) => {
+            const blob = new Blob([template], { type: "text/csv" });
+
+            // Create a URL for the Blob
+            const url = window.URL.createObjectURL(blob);
+
+            // Create a temporary anchor element to trigger the download
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = filename + ".csv";
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+        };
+        createTemplate(TSTemplate, "time-series");
     };
 
     return (
@@ -130,14 +185,14 @@ function Upload() {
                                 <div className="col mt-3">
                                     <p className="card-text">Is Multi-regional</p>
                                     <div className="form-check form-check-inline">
-                                        <input className="form-check-input" type="radio" name="isMultiRegion" value="true" onChange={() => handleInputChange("isMultiRegion", true)} />
+                                        <input className="form-check-input" type="radio" name="isMultiRegion" value="true" onChange={() => handleInputChange("multiRegion", true)} />
                                         <label className="form-check-label" htmlFor="isMultiRegion1">
                                             Yes
                                         </label>
                                     </div>
 
                                     <div className="form-check form-check-inline">
-                                        <input className="form-check-input" type="radio" name="isMultiRegion" value="false" onChange={() => handleInputChange("isMultiRegion", false)} />
+                                        <input className="form-check-input" type="radio" name="isMultiRegion" value="false" onChange={() => handleInputChange("multiRegion", false)} />
                                         <label className="form-check-label" htmlFor="isMultiRegion2">
                                             No
                                         </label>
@@ -285,8 +340,14 @@ function Upload() {
                             </div>
                         )}
                     </div>
-                    <div className="card text-center col mt-3">
-                        <div className="card-header">6. Upload CSV</div>
+                    <div className="card col mt-3">
+                        <div className="card-header">6. Upload Time Series CSV</div>
+                        <div className="mt-4">
+                            <p>Download CSV Template</p>
+                            <button className="btn btn-outline-info p-3" onClick={handleDownload}>
+                                Download Template
+                            </button>
+                        </div>
                         <div className="custom-file mt-5">
                             <input type="file" className="custom-file-input" id="csvFile" accept=".csv" onChange={handleUpload} />
                             <label className="custom-file-label" htmlFor="csvFile">
@@ -295,6 +356,11 @@ function Upload() {
                         </div>
                     </div>
                 </div>
+            </div>
+            <div className="mt-3 text-center">
+                <button className="btn btn-outline-primary col-md-5" onClick={(event) => handleSubmit(event)}>
+                    Submit
+                </button>
             </div>
         </div>
     );
