@@ -198,10 +198,10 @@ function Upload() {
                                         </label>
                                     </div>
                                 </div>
-                                {formState.isMultiRegion && (
+                                {formState.multiRegion && (
                                     <div className="col">
                                         <p className="card-text">Number of regions</p>
-                                        <input type="number" id="number-input" className="form-control " onChange={(e) => handleInputChange("numOfRegions", Math.max(1, e.target.value))} min="1" />
+                                        <input type="number" id="number-input" className="form-control " onChange={(e) => handleInputChange("numOfRegions", Math.max(2, e.target.value))} min="2" />
                                     </div>
                                 )}
                             </div>

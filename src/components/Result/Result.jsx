@@ -1,9 +1,9 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./result.css";
-import { Chart as ChartJS, LineElement, PointElement, Filler, LinearScale } from "chart.js";
+import { Chart as ChartJS, LineElement, PointElement, Filler, LinearScale, Tooltip, Legend, Title } from "chart.js";
 import { Scatter } from "react-chartjs-2";
-ChartJS.register(LineElement, PointElement, Filler, LinearScale);
+ChartJS.register(LineElement, PointElement, Filler, LinearScale, Tooltip, Legend, Title);
 
 function Result() {
     const location = useLocation();
@@ -19,26 +19,20 @@ function Result() {
     };
 
     const downloadCSV = () => {
-        // Create a CSV string with headers
         let csvContent = "category,time,mean_latency\n";
 
-        // Iterate over entries in the data object
         Object.keys(timeSeries).forEach((entryKey) => {
             const entry = timeSeries[entryKey];
 
-            // Iterate over latency and time arrays
             entry.latency.forEach((latency, index) => {
                 const time = entry.time[index];
 
-                // Append a new line with category, time, and mean_latency values
                 csvContent += `${entryKey},${time},${latency}\n`;
             });
         });
 
-        // Create a Blob containing the CSV content
         const blob = new Blob([csvContent], { type: "text/csv" });
 
-        // Create a link element and trigger a download
         const link = document.createElement("a");
         link.href = URL.createObjectURL(blob);
         link.download = "timeSeries.csv";
@@ -59,22 +53,23 @@ function Result() {
 
     const options = {
         responsive: true,
-        tooltips: {
-            mode: "index",
-            intersect: false,
-        },
-        hover: {
-            mode: "nearest",
-            intersect: true,
-        },
         plugins: {
             legend: {
+                display: true,
                 position: "top",
             },
             title: {
                 display: true,
-                text: "Time Series Line Chart",
+                text: "Time Series",
             },
+            tooltips: {
+                mode: "index",
+                intersect: false,
+            },
+        },
+        hover: {
+            mode: "nearest",
+            intersect: false,
         },
         scales: {
             x: {
