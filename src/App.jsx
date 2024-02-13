@@ -1,7 +1,7 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Navigation from "./components/Navigation/Navigation.jsx";
-import Home from "./components/home/home.jsx";
+import Home from "./components/Home/home.jsx";
 import Upload from "./components/Upload/Upload.jsx";
 import Result from "./components/Result/Result.jsx";
 import { Route, Routes } from "react-router-dom";
