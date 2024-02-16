@@ -45,4 +45,9 @@ function AForYCSB({ handleDataChange, validateDoubleInput, setData, numberPatter
                         <input type="text" id="updateP99" className="form-control " onChange={(e) => handleDataChange(setData, "updateP99", validateDoubleInput(e.target.value))} pattern={numberPattern} />
                     </div>
                 </div>
-          
+            </div>
+        </div>
+    );
+}
+
+export default AForYCSB;
