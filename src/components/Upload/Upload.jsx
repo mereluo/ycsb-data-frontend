@@ -1,13 +1,9 @@
 import { useState } from "react";
 import Papa from "papaparse";
-import { TSTemplate } from "../../models/Workload";
+import { TSTemplate } from "../../models/TimeSeries";
+import AForYCSB from "../Workloads/AForYCSB";
 
 function Upload() {
-    const DBOption = [
-        { id: 1, label: "Spanner" },
-        { id: 2, label: "CockroachDB" },
-        { id: 3, label: "MongoDB" },
-    ];
     const numberPattern = "[0-9]+([.][0-9]+)?";
     const [formState, setFormState] = useState({
         workloadType: "",
@@ -22,7 +18,9 @@ function Upload() {
         type: "",
         platform: "",
         numOfNodes: null,
-        numOfRegions: null,
+        isMultiRegional: null,
+        isCoLocated: null,
+        locationDetails: "",
         description: "",
 
         database: "",
@@ -33,7 +31,7 @@ function Upload() {
     const handleInputChange = (fieldName, value) => {
         setFormState((prevState) => ({ ...prevState, [fieldName]: value }));
     };
-    const handleDataChange = (fieldName, value) => {
+    const handleDataChange = (setData, fieldName, value) => {
         setData((prevState) => ({ ...prevState, [fieldName]: value }));
     };
 
@@ -76,6 +74,7 @@ function Upload() {
 
     const handleSubmit = async () => {
         try {
+            setFormState((prevState) => ({ ...prevState, userDefinedFields: data }));
             const entity = await fetch(`http://localhost:8080/api/workload/save`, {
                 method: "POST",
                 headers: {
@@ -138,7 +137,7 @@ function Upload() {
                                 </div>
                             </div>
                             <div className="row">
-                                <div className="col">
+                                <div className="col-4">
                                     <p className="card-text">Test Type</p>
                                     <div className="form-group">
                                         <select className="form-select" id="typeSelect" onChange={(e) => handleInputChange("type", e.target.value)}>
@@ -150,11 +149,20 @@ function Upload() {
                                 </div>
                                 <div className="col">
                                     <p className="card-text">Number of Nodes</p>
-                                    <input type="number" id="number-input" className="form-control " onChange={(e) => handleInputChange("numOfNodes", Math.max(1, e.target.value))} min="1" />
+                                    <input type="number" id="number-input" className="form-control " onChange={(e) => handleInputChange("numOfNodes", Math.max(1000, e.target.value))} min="1000" />
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col-4">
+                                    <p className="card-text">Single or Multiple</p>
+                                    <select className="form-select" id="multiRegionSelect" onChange={(e) => handleInputChange("isMultiRegional", e.target.value)}>
+                                        <option value="false">Single Region</option>
+                                        <option value="true">Multiple Regions</option>
+                                    </select>
                                 </div>
                                 <div className="col">
-                                    <p className="card-text">Number of Regions</p>
-                                    <input type="number" id="number-input" className="form-control " onChange={(e) => handleInputChange("numOfNodes", Math.max(1, e.target.value))} min="1" />
+                                    <p className="card-text">Locations for client and lead database</p>
+                                    <input type="text" id="description-input" className="form-control" placeholder="E.g., Client: Oregon, Lead: Los Angeles" onChange={(e) => handleInputChange("description", e.target.value)} />
                                 </div>
                             </div>
                         </div>
@@ -190,11 +198,14 @@ function Upload() {
                             <div className="row">
                                 <div className="col">
                                     <p className="card-text">Update Type</p>
-                                    <input type="text" id="update-input" className="form-control" onChange={(e) => handleInputChange("updateType", e.target.value)} />
+                                    <select className="form-select" id="multiRegionSelect" onChange={(e) => handleInputChange("updateType", e.target.value)}>
+                                        <option value="query">by query</option>
+                                        <option value="buffer">by buffer</option>
+                                    </select>
                                 </div>
                                 <div className="col">
                                     <p className="card-text">Workload Type</p>
-                                    <input type="text" id="workloadType-input" className="form-control" onChange={(e) => handleInputChange("workloadType", e.target.value)} />
+                                    <input type="text" id="workloadType-input" className="form-control" placeholder="E.g., A" onChange={(e) => handleInputChange("workloadType", e.target.value)} />
                                 </div>
                             </div>
                         </div>
@@ -205,52 +216,7 @@ function Upload() {
                 <div className="row">
                     <div className="card col-9 mt-3">
                         <div className="card-header">5. Workload Data</div>
-                        <div className="card-body col">
-                            <p className="card-text">Operations per Second</p>
-                            <input type="text" id="opsPerSec-input" className="form-control col-3" onChange={(e) => handleDataChange("opsPerSec", validateDoubleInput(e.target.value))} pattern={numberPattern} />
-                            <div className="row">
-                                <div className="col-3">
-                                    <p className="card-text">Read Mean Latency</p>
-                                    <input type="text" id="readMeanLatency" className="form-control " onChange={(e) => handleDataChange("readMeanLatency", validateDoubleInput(e.target.value))} pattern={numberPattern} />
-                                </div>
-
-                                <div className="col-3">
-                                    <p className="card-text">Read Max Latency</p>
-                                    <input type="text" id="readMaxLatency" className="form-control " onChange={(e) => handleDataChange("readMaxLatency", validateDoubleInput(e.target.value))} pattern={numberPattern} />
-                                </div>
-                                <div className="col-3">
-                                    <p className="card-text">Read Percentile 95</p>
-                                    <input type="text" id="readP95" className="form-control " onChange={(e) => handleDataChange("readP95", validateDoubleInput(e.target.value))} pattern={numberPattern} />
-                                </div>
-
-                                <div className="col-3">
-                                    <p className="card-text">Read Percentile 99</p>
-                                    <input type="text" id="readP99" className="form-control " onChange={(e) => handleDataChange("readP99", validateDoubleInput(e.target.value))} pattern={numberPattern} />
-                                </div>
-                            </div>
-                        </div>
-
-                        {(formState.workloadType === "B" || formState.workloadType === "A") && (
-                            <div className="card-body row">
-                                <div className="col-3">
-                                    <p className="card-text">Update Mean Latency</p>
-                                    <input type="text" id="updateMeanLatency" className="form-control " onChange={(e) => handleInputChange("updateMeanLatency", validateDoubleInput(e.target.value))} pattern={numberPattern} />
-                                </div>
-                                <div className="col-3">
-                                    <p className="card-text">Update Max Latency</p>
-                                    <input type="text" id="updateMaxLatency" className="form-control " onChange={(e) => handleInputChange("updateMaxLatency", validateDoubleInput(e.target.value))} pattern={numberPattern} />
-                                </div>
-                                <div className="col-3">
-                                    <p className="card-text">Update Percentile 95</p>
-                                    <input type="text" id="updateP95" className="form-control " onChange={(e) => handleInputChange("updateP95", validateDoubleInput(e.target.value))} pattern={numberPattern} />
-                                </div>
-                                <div className="col-3">
-                                    <p className="card-text">Update Percentile 99</p>
-                                    <input type="text" id="updateP99" className="form-control " onChange={(e) => handleInputChange("updateP99", validateDoubleInput(e.target.value))} pattern={numberPattern} />
-                                </div>
-                            </div>
-                        )}
-
+                        {formState.workloadType === "A" && <AForYCSB handleDataChange={handleDataChange} validateDoubleInput={validateDoubleInput} setData={setData} numberPattern={numberPattern} />}
                         {formState.workloadType === "F" && (
                             <div className="card-body row">
                                 <div className="col-3">
