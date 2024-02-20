@@ -23,7 +23,7 @@ function SearchFields() {
                             </div>
                             <div className="col">
                                 <p className="card-text mt-2">Platform</p>
-                                <input type="text" id="platform-input" className="form-control " onChange={(e) => handleInputChange("numOfRegions", e.target.value)} />
+                                <input type="text" id="platform-input" className="form-control " onChange={(e) => handleInputChange("platform", e.target.value)} />
                             </div>
                         </div>
                         <div className="row">
@@ -43,18 +43,25 @@ function SearchFields() {
                             </div>
                         </div>
                         <div className="row">
-                            <div className="col-4">
+                            <div className="col">
                                 <p className="card-text">Single or Multiple</p>
-                                <select className="form-select" id="multiRegionSelect" onChange={(e) => handleInputChange("isMultiRegional", e.target.value)}>
+                                <select className="form-select" id="multiRegionSelect" onChange={(e) => handleInputChange("multiRegional", e.target.value)}>
                                     <option value="false">Single Region</option>
                                     <option value="true">Multiple Regions</option>
                                 </select>
                             </div>
                             <div className="col">
-                                <p className="card-text">Locations for client and lead database</p>
-                                <input type="text" id="description-input" className="form-control" placeholder="E.g., Client: Oregon, Lead: Los Angeles" onChange={(e) => handleInputChange("description", e.target.value)} />
+                                <p className="card-text">Client and DB Colocated?</p>
+                                <div className="form-group">
+                                    <select className="form-select" id="locateSelect" onChange={(e) => handleInputChange("coLocated", e.target.value)}>
+                                        <option value="true">True</option>
+                                        <option value="false">False</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
+                        <p className="card-text">Locations for client and lead database</p>
+                        <input type="text" id="description-input" className="form-control" placeholder="E.g., Client: Oregon, Lead: Los Angeles" onChange={(e) => handleInputChange("description", e.target.value)} />
                     </div>
                 </div>
 

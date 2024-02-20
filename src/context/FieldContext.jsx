@@ -4,11 +4,9 @@ import Papa from "papaparse";
 const FieldContext = createContext();
 
 const FieldProvider = ({ children }) => {
-    // Variables and states
-    const numberPattern = "[0-9]+([.][0-9]+)?";
-    const [formState, setFormState] = useState({
+    const initialForm = {
         workloadType: "",
-        updateType: "",
+        updateType: "query",
         userDefinedFields: null,
         timeSeries: null,
 
@@ -19,13 +17,16 @@ const FieldProvider = ({ children }) => {
         type: "ycsb",
         platform: "",
         numOfNodes: null,
-        isMultiRegional: null,
-        isCoLocated: null,
+        multiRegional: null,
+        coLocated: true,
         locationDetails: "",
         description: "",
 
         database: "",
-    });
+    };
+    // Variables and states
+    const numberPattern = "[0-9]+([.][0-9]+)?";
+    const [formState, setFormState] = useState(initialForm);
     const [data, setData] = useState(null);
 
     // Functions for building form and data objects
