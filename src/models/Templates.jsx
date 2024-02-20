@@ -22,9 +22,32 @@ const createMetric = (label) => {
     };
 };
 
-const A = {
+const AB = {
     read: createMetric("read"),
     update: createMetric("update"),
 };
 
-export { TSTemplate, A };
+const AB_T = {
+    read: createMetric("read"),
+    update: createMetric("update"),
+    commit: createMetric("commit"),
+    start: createMetric("start"),
+    abort: createMetric("abort"),
+};
+
+const F = {
+    read: createMetric("read"),
+    rmw: createMetric("rmw"),
+    update: createMetric("update"),
+};
+
+const F_T = {
+    read: createMetric("read"),
+    rmw: createMetric("rmw"),
+    update: createMetric("update"),
+    commit: createMetric("commit"),
+    start: createMetric("start"),
+    abort: createMetric("abort"),
+};
+
+export { TSTemplate, AB, AB_T, F, F_T };
