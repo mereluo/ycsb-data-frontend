@@ -6,6 +6,7 @@ import Upload from "./components/Upload/Upload.jsx";
 import Result from "./components/Result/Result.jsx";
 import { Route, Routes } from "react-router-dom";
 import Questions from "./components/Questions/Questions.jsx";
+import { FieldProvider } from "./context/FieldContext.jsx";
 
 function App() {
     return (
@@ -15,8 +16,22 @@ function App() {
                 <div>
                     <Routes>
                         <Route path="/" element={<Home />} />
-                        <Route path="/start" element={<Questions />} />
-                        <Route path="/upload" element={<Upload />} />
+                        <Route
+                            path="/start"
+                            element={
+                                <FieldProvider>
+                                    <Questions />
+                                </FieldProvider>
+                            }
+                        />
+                        <Route
+                            path="/upload"
+                            element={
+                                <FieldProvider>
+                                    <Upload />
+                                </FieldProvider>
+                            }
+                        />
                         <Route path="/result" element={<Result />} />
                     </Routes>
                 </div>
