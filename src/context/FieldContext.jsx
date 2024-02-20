@@ -16,7 +16,7 @@ const FieldProvider = ({ children }) => {
         recordCounts: null,
         commandLine: "",
 
-        type: "",
+        type: "ycsb",
         platform: "",
         numOfNodes: null,
         isMultiRegional: null,

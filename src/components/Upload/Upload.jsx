@@ -1,11 +1,11 @@
 import { TSTemplate } from "../../models/Templates";
 import WorkloadFactory from "../Workload/WorkloadFactory";
-import { FieldContext } from "../../context/FieldContext";
 import SearchFields from "../SearchFields/SearchFields";
 import { useContext } from "react";
+import { FieldContext } from "../../context/FieldContext";
 
 function Upload() {
-    const { formState, setFormState } = useContext(FieldContext);
+    const { formState, setFormState, handleTimeSeriesUpload } = useContext(FieldContext);
     const handleSubmit = async () => {
         try {
             setFormState((prevState) => ({ ...prevState, userDefinedFields: data }));
@@ -50,7 +50,7 @@ function Upload() {
             <div className="row">
                 <div className="card col-9 mt-3">
                     <div className="card-header">5. Workload Data</div>
-                    <WorkloadFactory type={formState.workloadType} test={formState.type} />
+                    {formState.workloadType && <WorkloadFactory type={formState.workloadType} test={formState.type} />}
                 </div>
                 <div className="card col mt-3">
                     <div className="card-header">6. Upload Time Series CSV</div>

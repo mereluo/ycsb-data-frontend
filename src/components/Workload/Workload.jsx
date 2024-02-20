@@ -1,4 +1,4 @@
-import React from "react";
+import { useContext } from "react";
 import { FieldContext } from "../../context/FieldContext";
 
 function Workload({ metric }) {
@@ -12,6 +12,7 @@ function Workload({ metric }) {
         ));
     };
     const generateRows = (metricObject) => {
+        console.log(metricObject);
         return Object.keys(metricObject).map((metricType) => (
             <div className="row" key={metricType}>
                 {generateDataFields(metricObject[metricType])}

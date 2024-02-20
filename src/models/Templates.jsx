@@ -2,7 +2,7 @@ const columnsForTS = ["category", "time", "mean_latency"];
 const TSTemplate = columnsForTS.join(",");
 
 const createMetric = (label) => {
-    const metric = {
+    return {
         mean: {
             title: `${label} mean latency`,
             field: `${label}MeanLatency`,
