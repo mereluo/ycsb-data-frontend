@@ -1,5 +1,5 @@
-import { TSTemplate } from "../../models/TimeSeries";
-import AForYCSB from "../Workloads/AForYCSB";
+import { TSTemplate } from "../../models/Templates";
+import WorkloadFactory from "../Workload/WorkloadFactory";
 import { FieldContext } from "../../context/FieldContext";
 import SearchFields from "../SearchFields/SearchFields";
 import { useContext } from "react";
@@ -47,46 +47,24 @@ function Upload() {
                 <p>Fill in all the fields and upload the time series data as CSV.</p>
             </div>
             <SearchFields />
-            <div>
-                <div className="row">
-                    <div className="card col-9 mt-3">
-                        <div className="card-header">5. Workload Data</div>
-                        {formState.workloadType === "A" && <AForYCSB />}
-                        {formState.workloadType === "F" && (
-                            <div className="card-body row">
-                                <div className="col-3">
-                                    <p className="card-text">RMW Mean Latency</p>
-                                    <input type="text" id="rmwMeanLatency" className="form-control " onChange={(e) => handleInputChange("rmwMeanLatency", validateDoubleInput(e.target.value))} pattern={numberPattern} />
-                                </div>
-                                <div className="col-3">
-                                    <p className="card-text">RMW Max Latency</p>
-                                    <input type="text" id="rmwMaxLatency" className="form-control " onChange={(e) => handleInputChange("rmwMaxLatency", validateDoubleInput(e.target.value))} pattern={numberPattern} />
-                                </div>
-                                <div className="col-3">
-                                    <p className="card-text">RMW Percentile 95</p>
-                                    <input type="text" id="rmwP95" className="form-control " onChange={(e) => handleInputChange("rmwP95", validateDoubleInput(e.target.value))} pattern={numberPattern} />
-                                </div>
-                                <div className="col-3">
-                                    <p className="card-text">RMW Percentile 99</p>
-                                    <input type="text" id="rmwP99" className="form-control " onChange={(e) => handleInputChange("rmwP99", validateDoubleInput(e.target.value))} pattern={numberPattern} />
-                                </div>
-                            </div>
-                        )}
+            <div className="row">
+                <div className="card col-9 mt-3">
+                    <div className="card-header">5. Workload Data</div>
+                    <WorkloadFactory type={formState.workloadType} test={formState.type} />
+                </div>
+                <div className="card col mt-3">
+                    <div className="card-header">6. Upload Time Series CSV</div>
+                    <div className="mt-4">
+                        <p>Download CSV Template</p>
+                        <button className="btn btn-outline-info p-3" onClick={handleDownload}>
+                            Download Template
+                        </button>
                     </div>
-                    <div className="card col mt-3">
-                        <div className="card-header">6. Upload Time Series CSV</div>
-                        <div className="mt-4">
-                            <p>Download CSV Template</p>
-                            <button className="btn btn-outline-info p-3" onClick={handleDownload}>
-                                Download Template
-                            </button>
-                        </div>
-                        <div className="custom-file mt-5">
-                            <input type="file" className="custom-file-input" id="csvFile" accept=".csv" onChange={handleTimeSeriesUpload} />
-                            <label className="custom-file-label" htmlFor="csvFile">
-                                Choose file
-                            </label>
-                        </div>
+                    <div className="custom-file mt-5">
+                        <input type="file" className="custom-file-input" id="csvFile" accept=".csv" onChange={handleTimeSeriesUpload} />
+                        <label className="custom-file-label" htmlFor="csvFile">
+                            Choose file
+                        </label>
                     </div>
                 </div>
             </div>
