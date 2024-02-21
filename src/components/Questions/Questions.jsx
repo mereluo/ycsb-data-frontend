@@ -1,16 +1,16 @@
 import SearchFields from "../SearchFields/SearchFields";
 import "./questions.css";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { FieldContext } from "../../context/FieldContext";
 
 function Questions() {
-    const { formState, setFormState } = useContext(FieldContext);
+    const { formState } = useContext(FieldContext);
     const navigateTo = useNavigate();
     const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log(formState);
-        const type = formState.workloadType;
         try {
-            const entity = await fetch(`http://localhost:8080/api/workload${type}/retrieve`, {
+            const entity = await fetch(`http://localhost:8080/api/workload/search`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -19,7 +19,9 @@ function Questions() {
             });
             const result = await entity.json();
             console.log("Workload requested: ", result);
-            navigateTo("/result", { state: { workload: result } });
+            if (result.length !== 0) {
+                navigateTo("/result", { state: { workload: result } });
+            }
         } catch (error) {
             console.error("Error finding workloadA: ", error);
         }

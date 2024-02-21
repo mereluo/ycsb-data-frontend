@@ -33,8 +33,9 @@ const FieldProvider = ({ children }) => {
     const handleInputChange = (fieldName, value) => {
         setFormState((prevState) => ({ ...prevState, [fieldName]: value }));
     };
-    const handleDataChange = (setData, fieldName, value) => {
-        setData((prevState) => ({ ...prevState, [fieldName]: value }));
+    const handleDataChange = (fieldName, value) => {
+        const newData = { ...formState.userDefinedFields, [fieldName]: value };
+        setFormState((prevState) => ({ ...prevState, userDefinedFields: newData }));
     };
     const validateDoubleInput = (input) => {
         // Validate if the input is a valid double

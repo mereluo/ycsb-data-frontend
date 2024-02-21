@@ -5,10 +5,9 @@ import { useContext } from "react";
 import { FieldContext } from "../../context/FieldContext";
 
 function Upload() {
-    const { formState, setFormState, handleTimeSeriesUpload, data } = useContext(FieldContext);
+    const { formState, handleTimeSeriesUpload } = useContext(FieldContext);
     const handleSubmit = async () => {
         try {
-            setFormState((prevState) => ({ ...prevState, userDefinedFields: data }));
             const entity = await fetch(`http://localhost:8080/api/workload/save`, {
                 method: "POST",
                 headers: {

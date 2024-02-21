@@ -8,10 +8,12 @@ ChartJS.register(LineElement, PointElement, Filler, LinearScale, Tooltip, Legend
 function Result() {
     const location = useLocation();
     const navigateTo = useNavigate();
-    const workload = location.state.workload;
+
+    const workload = location.state.workload[0];
+    const database = workload.testConfig.dbConfig.dbOption.database;
     console.log(workload);
-    const database = workload.testConfig.dbConfig.databaseOption.database;
-    const timeSeries = workload.timeSeries.data;
+
+    const timeSeries = workload.timeSeries;
     console.log(timeSeries);
 
     const goBack = () => {
@@ -40,13 +42,12 @@ function Result() {
     };
 
     const renderRows = () => {
-        const keysToExclude = ["testConfig", "timeSeries", "id"];
-        const keys = Object.keys(workload).filter((key) => !keysToExclude.includes(key));
+        const keys = Object.keys(workload.userDefinedFields);
 
         return keys.map((key) => (
             <tr key={key}>
                 <td className="p-3 ">{key}</td>
-                <td className="p-3">{workload[key]}</td>
+                <td className="p-3">{workload.userDefinedFields[key]}</td>
             </tr>
         ));
     };
@@ -103,25 +104,29 @@ function Result() {
         return color;
     }
 
-    const datasets = Object.keys(timeSeries).map((entryKey) => {
-        const entry = timeSeries[entryKey];
-        const label = `Mean ${entryKey.toUpperCase()} Latency`;
-        const transformedData = entry.time.map((value, index) => ({
-            x: value,
-            y: entry.latency[index],
-        }));
-        return {
-            label,
-            data: transformedData,
-            showLine: true,
-            fill: false,
-            borderColor: getRandomColor(),
-        };
-    });
-    console.log(datasets);
+    const buildData = () => {
+        if (timeSeries !== null) {
+            return Object.keys(timeSeries).map((entryKey) => {
+                const entry = timeSeries[entryKey];
+                const label = `Mean ${entryKey.toUpperCase()} Latency`;
+                const transformedData = entry.time.map((value, index) => ({
+                    x: value,
+                    y: entry.latency[index],
+                }));
+                return {
+                    label,
+                    data: transformedData,
+                    showLine: true,
+                    fill: false,
+                    borderColor: getRandomColor(),
+                };
+            });
+        }
+        return null;
+    };
 
     const data = {
-        datasets: datasets,
+        datasets: buildData(),
     };
 
     return (
@@ -139,16 +144,18 @@ function Result() {
                     </thead>
                     <tbody>{renderRows()}</tbody>
                 </table>
-                <div className="graph-box">
-                    <Scatter options={options} data={data} />
-                </div>
+                {(timeSeries && (
+                    <div className="graph-box">
+                        <Scatter options={options} data={data} />
+                    </div>
+                )) || <div>No Time Series Data Available</div>}
             </div>
             <div className="button-box">
-                <button className="btn btn-primary mt-3" onClick={downloadCSV}>
-                    Download CSV
+                <button className="btn btn-primary mt-3" onClick={downloadCSV} disabled={timeSeries === null}>
+                    Download Time Series CSV
                 </button>
                 <button className="btn btn-secondary ml-2 mt-3" onClick={goBack}>
-                    Go Back
+                    Start Another Search
                 </button>
             </div>
         </div>
