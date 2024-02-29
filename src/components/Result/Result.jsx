@@ -1,22 +1,13 @@
 import React from "react";
-import { useLocation, useNavigate } from "react-router-dom";
 import "./result.css";
 import { Chart as ChartJS, LineElement, PointElement, Filler, LinearScale, Tooltip, Legend, Title } from "chart.js";
 import { Scatter } from "react-chartjs-2";
 ChartJS.register(LineElement, PointElement, Filler, LinearScale, Tooltip, Legend, Title);
 
-function Result() {
-    const location = useLocation();
-    const navigateTo = useNavigate();
-    const workload = location.state.workload;
+function Result({ workload }) {
     console.log(workload);
-    const database = workload.testConfig.dbConfig.databaseOption.database;
-    const timeSeries = workload.timeSeries.data;
+    const timeSeries = workload.timeSeries;
     console.log(timeSeries);
-
-    const goBack = () => {
-        navigateTo("/start");
-    };
 
     const downloadCSV = () => {
         let csvContent = "category,time,mean_latency\n";
@@ -40,13 +31,12 @@ function Result() {
     };
 
     const renderRows = () => {
-        const keysToExclude = ["testConfig", "timeSeries", "id"];
-        const keys = Object.keys(workload).filter((key) => !keysToExclude.includes(key));
+        const keys = Object.keys(workload.userDefinedFields);
 
         return keys.map((key) => (
             <tr key={key}>
-                <td className="p-3 ">{key}</td>
-                <td className="p-3">{workload[key]}</td>
+                <td className="pt-2 pb-2">{key}</td>
+                <td className="pt-2 pb-2">{workload.userDefinedFields[key]}</td>
             </tr>
         ));
     };
@@ -103,35 +93,36 @@ function Result() {
         return color;
     }
 
-    const datasets = Object.keys(timeSeries).map((entryKey) => {
-        const entry = timeSeries[entryKey];
-        const label = `Mean ${entryKey.toUpperCase()} Latency`;
-        const transformedData = entry.time.map((value, index) => ({
-            x: value,
-            y: entry.latency[index],
-        }));
-        return {
-            label,
-            data: transformedData,
-            showLine: true,
-            fill: false,
-            borderColor: getRandomColor(),
-        };
-    });
-    console.log(datasets);
+    const buildData = () => {
+        if (timeSeries !== null) {
+            return Object.keys(timeSeries).map((entryKey) => {
+                const entry = timeSeries[entryKey];
+                const label = `Mean ${entryKey.toUpperCase()} Latency`;
+                const transformedData = entry.time.map((value, index) => ({
+                    x: value,
+                    y: entry.latency[index],
+                }));
+                return {
+                    label,
+                    data: transformedData,
+                    showLine: true,
+                    fill: false,
+                    borderColor: getRandomColor(),
+                };
+            });
+        }
+        return null;
+    };
 
     const data = {
-        datasets: datasets,
+        datasets: buildData(),
     };
 
     return (
-        <div className="container mt-5">
-            <h1 className="mb-4">
-                Workload {workload.workloadType} Data for {database}
-            </h1>
+        <div className="result-container">
             <div className="statistics">
-                <table className="table table-striped text-center w-auto mr-4">
-                    <thead>
+                <table className="table table-hover table-sm mr-4 text-center">
+                    <thead className="thead-light">
                         <tr>
                             <th>Metric</th>
                             <th>Value</th>
@@ -139,16 +130,15 @@ function Result() {
                     </thead>
                     <tbody>{renderRows()}</tbody>
                 </table>
-                <div className="graph-box">
-                    <Scatter options={options} data={data} />
-                </div>
+                {(timeSeries && (
+                    <div className="graph-box">
+                        <Scatter options={options} data={data} />
+                    </div>
+                )) || <div>No Time Series Data Available</div>}
             </div>
             <div className="button-box">
-                <button className="btn btn-primary mt-3" onClick={downloadCSV}>
-                    Download CSV
-                </button>
-                <button className="btn btn-secondary ml-2 mt-3" onClick={goBack}>
-                    Go Back
+                <button className="btn btn-primary btn-sm mt-3 mb-3" onClick={downloadCSV} disabled={timeSeries === null}>
+                    Download Time Series CSV
                 </button>
             </div>
         </div>
