@@ -17,17 +17,17 @@ function SearchFields() {
                     <div className="card-header">2. Database Configurations</div>
                     <div className="card-body">
                         <div className="row">
-                            <div className="col-5">
+                            <div className="col">
                                 <p className="card-text">Description</p>
                                 <input type="text" id="description-input" className="form-control" onChange={(e) => handleInputChange("description", e.target.value)} />
                             </div>
-                            <div className="col-5">
+                            <div className="col">
                                 <p className="card-text">Platform</p>
                                 <input type="text" id="platform-input" className="form-control " onChange={(e) => handleInputChange("platform", e.target.value)} />
                             </div>
                         </div>
                         <div className="row">
-                            <div className="col-5">
+                            <div className="col">
                                 <p className="card-text mt-1">Test Type</p>
                                 <div className="form-group">
                                     <select className="form-select" id="typeSelect" onChange={(e) => handleInputChange("type", e.target.value)}>
@@ -37,20 +37,20 @@ function SearchFields() {
                                     </select>
                                 </div>
                             </div>
-                            <div className="col-5">
+                            <div className="col">
                                 <p className="card-text mt-1">Number of Nodes</p>
                                 <input type="number" id="number-input" className="form-control " onChange={(e) => handleInputChange("numOfNodes", Math.max(1000, e.target.value))} min="1000" />
                             </div>
                         </div>
                         <div className="row">
-                            <div className="col-5">
+                            <div className="col">
                                 <p className="card-text">Single or Multiple</p>
                                 <select className="form-select" id="multiRegionSelect" onChange={(e) => handleInputChange("multiRegional", e.target.value)}>
                                     <option value="single">Single Region</option>
                                     <option value="multiple">Multiple Regions</option>
                                 </select>
                             </div>
-                            <div className="col-5">
+                            <div className="col">
                                 <p className="card-text">Client and DB Colocated?</p>
                                 <div className="form-group">
                                     <select className="form-select" id="locateSelect" onChange={(e) => handleInputChange("coLocated", e.target.value)}>
@@ -71,17 +71,11 @@ function SearchFields() {
                         <div className="row">
                             <div className="col">
                                 <p className="card-text">Concurrency Level</p>
-                                <div className="form-group">
-                                    <select className="form-select" id="concurrencySelect" onChange={(e) => handleInputChange("concurrencyLevel", e.target.value)}>
-                                        <option value="64">64</option>
-                                        <option value="128">128</option>
-                                        <option value="256">256</option>
-                                    </select>
-                                </div>
+                                <input type="number" id="concurrencySelect" className="form-control" onChange={(e) => handleInputChange("concurrencyLevel", Math.max(1, e.target.value))} />
                             </div>
                             <div className="col">
-                                <p className="card-text">Record Counts</p>
-                                <input type="number" id="number-input" className="form-control" onChange={(e) => handleInputChange("recordCounts", Math.max(1, e.target.value))} min="1" />
+                                <p className="card-text">Record Counts (in Million)</p>
+                                <input type="number" id="number-input" className="form-control" onChange={(e) => handleInputChange("recordCounts", Math.max(1, e.target.value))} />
                             </div>
                         </div>
                         <p className="card-text">Command Line</p>

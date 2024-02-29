@@ -1,0 +1,15 @@
+.table-container {
+    width: 100%;
+}
+
+.table-container table {
+    width: 100%;
+}
+td {
+    width: 200px;
+    font-size: 14px;
+}
+
+.td-key {
+    font-weight: bold;
+}

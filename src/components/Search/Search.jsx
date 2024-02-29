@@ -20,7 +20,7 @@ function Questions() {
             const result = await entity.json();
             console.log("Workload requested: ", result);
             if (result.length !== 0) {
-                navigateTo("/resultMain", { state: { workload: result } });
+                navigateTo("/result", { state: { workload: result } });
             }
         } catch (error) {
             console.error("Error finding workloadA: ", error);
