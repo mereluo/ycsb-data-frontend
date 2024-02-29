@@ -3,9 +3,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Navigation from "./components/Navigation/Navigation.jsx";
 import Home from "./components/Home/home.jsx";
 import Upload from "./components/Upload/Upload.jsx";
-import Result from "./components/Result/Result.jsx";
+import ResultMain from "./components/Result/ResultMain.jsx";
 import { Route, Routes } from "react-router-dom";
-import Questions from "./components/Questions/Questions.jsx";
+import Search from "./components/Search/Search.jsx";
 import { FieldProvider } from "./context/FieldContext.jsx";
 
 function App() {
@@ -17,10 +17,10 @@ function App() {
                     <Routes>
                         <Route path="/" element={<Home />} />
                         <Route
-                            path="/start"
+                            path="/search"
                             element={
                                 <FieldProvider>
-                                    <Questions />
+                                    <Search />
                                 </FieldProvider>
                             }
                         />
@@ -32,7 +32,7 @@ function App() {
                                 </FieldProvider>
                             }
                         />
-                        <Route path="/result" element={<Result />} />
+                        <Route path="/resultMain" element={<ResultMain />} />
                     </Routes>
                 </div>
             </div>

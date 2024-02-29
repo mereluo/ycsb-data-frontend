@@ -5,24 +5,8 @@ const FieldContext = createContext();
 
 const FieldProvider = ({ children }) => {
     const initialForm = {
-        workloadType: "",
         updateType: "query",
-        userDefinedFields: null,
-        timeSeries: null,
-
-        concurrencyLevel: null,
-        recordCounts: null,
-        commandLine: "",
-
         type: "ycsb",
-        platform: "",
-        numOfNodes: null,
-        multiRegional: null,
-        coLocated: true,
-        locationDetails: "",
-        description: "",
-
-        database: "",
     };
     // Variables and states
     const numberPattern = "[0-9]+([.][0-9]+)?";

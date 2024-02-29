@@ -1,5 +1,5 @@
 import SearchFields from "../SearchFields/SearchFields";
-import "./questions.css";
+import "./search.css";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { FieldContext } from "../../context/FieldContext";
@@ -20,7 +20,7 @@ function Questions() {
             const result = await entity.json();
             console.log("Workload requested: ", result);
             if (result.length !== 0) {
-                navigateTo("/result", { state: { workload: result } });
+                navigateTo("/resultMain", { state: { workload: result } });
             }
         } catch (error) {
             console.error("Error finding workloadA: ", error);

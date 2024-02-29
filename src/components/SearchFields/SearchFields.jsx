@@ -17,18 +17,18 @@ function SearchFields() {
                     <div className="card-header">2. Database Configurations</div>
                     <div className="card-body">
                         <div className="row">
-                            <div className="col">
+                            <div className="col-5">
                                 <p className="card-text">Description</p>
                                 <input type="text" id="description-input" className="form-control" onChange={(e) => handleInputChange("description", e.target.value)} />
                             </div>
-                            <div className="col">
-                                <p className="card-text mt-2">Platform</p>
+                            <div className="col-5">
+                                <p className="card-text">Platform</p>
                                 <input type="text" id="platform-input" className="form-control " onChange={(e) => handleInputChange("platform", e.target.value)} />
                             </div>
                         </div>
                         <div className="row">
-                            <div className="col-4">
-                                <p className="card-text">Test Type</p>
+                            <div className="col-5">
+                                <p className="card-text mt-1">Test Type</p>
                                 <div className="form-group">
                                     <select className="form-select" id="typeSelect" onChange={(e) => handleInputChange("type", e.target.value)}>
                                         <option value="ycsb">YCSB</option>
@@ -37,20 +37,20 @@ function SearchFields() {
                                     </select>
                                 </div>
                             </div>
-                            <div className="col">
-                                <p className="card-text">Number of Nodes</p>
+                            <div className="col-5">
+                                <p className="card-text mt-1">Number of Nodes</p>
                                 <input type="number" id="number-input" className="form-control " onChange={(e) => handleInputChange("numOfNodes", Math.max(1000, e.target.value))} min="1000" />
                             </div>
                         </div>
                         <div className="row">
-                            <div className="col">
+                            <div className="col-5">
                                 <p className="card-text">Single or Multiple</p>
                                 <select className="form-select" id="multiRegionSelect" onChange={(e) => handleInputChange("multiRegional", e.target.value)}>
-                                    <option value="false">Single Region</option>
-                                    <option value="true">Multiple Regions</option>
+                                    <option value="single">Single Region</option>
+                                    <option value="multiple">Multiple Regions</option>
                                 </select>
                             </div>
-                            <div className="col">
+                            <div className="col-5">
                                 <p className="card-text">Client and DB Colocated?</p>
                                 <div className="form-group">
                                     <select className="form-select" id="locateSelect" onChange={(e) => handleInputChange("coLocated", e.target.value)}>

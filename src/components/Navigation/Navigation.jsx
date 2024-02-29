@@ -26,8 +26,8 @@ function Navigation() {
                         <Link to="/" className={`nav-link ${isActive("/")}`}>
                             Home
                         </Link>
-                        <Link to="/start" className={`nav-link ${isActive("/start")}`}>
-                            Start
+                        <Link to="/search" className={`nav-link ${isActive("/search")}`}>
+                            Start Search
                         </Link>
                         <NavDropdown title="Database" id="basic-nav-dropdown">
                             <NavDropdown.Item href="#Database/spanner">Google Spanner</NavDropdown.Item>
