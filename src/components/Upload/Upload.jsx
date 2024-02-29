@@ -1,11 +1,13 @@
 import { TSTemplate } from "../../models/Templates";
 import WorkloadFactory from "../Workload/WorkloadFactory";
 import SearchFields from "../SearchFields/SearchFields";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { FieldContext } from "../../context/FieldContext";
 
 function Upload() {
     const { formState, handleTimeSeriesUpload } = useContext(FieldContext);
+    const [submissionResult, setSubmissionResult] = useState(null);
+
     const handleSubmit = async () => {
         try {
             const entity = await fetch(`http://localhost:8080/api/workload/save`, {
@@ -16,9 +18,14 @@ function Upload() {
                 body: JSON.stringify(formState),
             });
             const result = await entity.json();
+            setSubmissionResult(result);
             console.log("Workload created: ", result);
         } catch (error) {
             console.error("Error creating workload: ", error);
+            setSubmissionResult({
+                error: "Failed to create workload. Please try again.",
+                details: error,
+            });
         }
     };
     const handleDownload = () => {
@@ -71,6 +78,23 @@ function Upload() {
                 <button className="btn btn-outline-primary col-md-5" onClick={(event) => handleSubmit(event)}>
                     Submit
                 </button>
+                {submissionResult && (
+                    <div className={`alert ${submissionResult.error ? "alert-danger" : "alert-success"}`} role="alert">
+                        {submissionResult.error ? (
+                            submissionResult.error
+                        ) : (
+                            <div>
+                                <strong>Workload created successfully!</strong>
+                                <br /> submissionResult
+                            </div>
+                        )}
+                        {submissionResult.details && (
+                            <div className="mt-2">
+                                <strong>Error Details:</strong> {submissionResult.details}
+                            </div>
+                        )}
+                    </div>
+                )}
             </div>
         </div>
     );

@@ -11,7 +11,7 @@ function SearchFields() {
                     <div className="card-body">
                         <div className="form-group">
                             <label htmlFor="textInput">Enter Database</label>
-                            <input type="text" className="form-control" id="textInput" placeholder="E.g., Spanner" onChange={(e) => handleInputChange("database", e.target.value)} />
+                            <input type="text" className="form-control" id="textInput" placeholder="E.g., Spanner" onChange={(e) => handleInputChange("database", e.target.value.toLowerCase())} />
                         </div>
                     </div>
                     <div className="card-header">2. Database Configurations</div>
@@ -46,7 +46,7 @@ function SearchFields() {
                         <div className="row">
                             <div className="col">
                                 <p className="card-text">Single or Multiple</p>
-                                <select className="form-select" id="multiRegionSelect" onChange={(e) => handleInputChange("multiRegional", e.target.value)}>
+                                <select className="form-select" id="multiRegionSelect" onChange={(e) => handleInputChange("isMultiRegional", e.target.value)}>
                                     <option></option>
                                     <option value="single">Single Region</option>
                                     <option value="multiple">Multiple Regions</option>
@@ -55,7 +55,7 @@ function SearchFields() {
                             <div className="col">
                                 <p className="card-text">Client and DB Colocated?</p>
                                 <div className="form-group">
-                                    <select className="form-select" id="locateSelect" onChange={(e) => handleInputChange("coLocated", e.target.value)}>
+                                    <select className="form-select" id="locateSelect" onChange={(e) => handleInputChange("isCoLocated", e.target.value)}>
                                         <option></option>
                                         <option value="true">True</option>
                                         <option value="false">False</option>
