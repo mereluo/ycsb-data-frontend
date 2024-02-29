@@ -31,6 +31,7 @@ function SearchFields() {
                                 <p className="card-text mt-1">Test Type</p>
                                 <div className="form-group">
                                     <select className="form-select" id="typeSelect" onChange={(e) => handleInputChange("type", e.target.value)}>
+                                        <option></option>
                                         <option value="ycsb">YCSB</option>
                                         <option value="ycsb-t">YCSB-T</option>
                                         <option value="ycsb-r">YCSB-R</option>
@@ -46,6 +47,7 @@ function SearchFields() {
                             <div className="col">
                                 <p className="card-text">Single or Multiple</p>
                                 <select className="form-select" id="multiRegionSelect" onChange={(e) => handleInputChange("multiRegional", e.target.value)}>
+                                    <option></option>
                                     <option value="single">Single Region</option>
                                     <option value="multiple">Multiple Regions</option>
                                 </select>
@@ -54,6 +56,7 @@ function SearchFields() {
                                 <p className="card-text">Client and DB Colocated?</p>
                                 <div className="form-group">
                                     <select className="form-select" id="locateSelect" onChange={(e) => handleInputChange("coLocated", e.target.value)}>
+                                        <option></option>
                                         <option value="true">True</option>
                                         <option value="false">False</option>
                                     </select>
@@ -88,6 +91,7 @@ function SearchFields() {
                             <div className="col">
                                 <p className="card-text">Update Type</p>
                                 <select className="form-select" id="multiRegionSelect" onChange={(e) => handleInputChange("updateType", e.target.value)}>
+                                    <option></option>
                                     <option value="query">by query</option>
                                     <option value="buffer">by buffer</option>
                                 </select>

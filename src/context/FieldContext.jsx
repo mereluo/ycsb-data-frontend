@@ -4,10 +4,7 @@ import Papa from "papaparse";
 const FieldContext = createContext();
 
 const FieldProvider = ({ children }) => {
-    const initialForm = {
-        updateType: "query",
-        type: "ycsb",
-    };
+    const initialForm = {};
     // Variables and states
     const numberPattern = "[0-9]+([.][0-9]+)?";
     const [formState, setFormState] = useState(initialForm);

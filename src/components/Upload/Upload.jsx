@@ -43,7 +43,7 @@ function Upload() {
         <div className="container">
             <div className="mt-2 ">
                 <h2>Upload data</h2>
-                <p>Fill in all the fields and upload the time series data as CSV.</p>
+                <p>Fill in ALL the fields and (Optional) upload the time series data as CSV.</p>
             </div>
             <SearchFields />
             <div className="row">
