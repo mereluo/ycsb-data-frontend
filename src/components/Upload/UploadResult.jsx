@@ -1,6 +1,9 @@
-import React from "react";
+import { useState } from "react";
 
 function UploadResult({ formState, submissionResult }) {
+    const [deleteResult, setDeleteResult] = useState(null);
+    const [tablesHidden, setTablesHidden] = useState(false);
+
     const generateTable = () => {
         const excludedKeys = ["timeSeries", "userDefinedFields"];
 
@@ -15,6 +18,7 @@ function UploadResult({ formState, submissionResult }) {
                 </tr>
             ));
     };
+
     const generateMetric = () => {
         const userDefined = Object.keys(formState.userDefinedFields);
         return userDefined.map((key) => (
@@ -26,7 +30,28 @@ function UploadResult({ formState, submissionResult }) {
             </tr>
         ));
     };
-    const handleRetract = () => {};
+
+    const handleRetract = async () => {
+        try {
+            const response = await fetch(`/api/workloads/${submissionResult.id}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+            setTablesHidden(true);
+            if (response.ok) {
+                setDeleteResult(`Workload with ID ${submissionResult.id} deleted successfully`);
+            } else {
+                const data = await response.json();
+                setDeleteResult(`Error: ${data.message}`);
+            }
+        } catch (error) {
+            console.error("Error deleting workload:", error);
+            setDeleteResult("Error deleting workload. Please try again.");
+        }
+    };
+
     return (
         <div>
             {submissionResult && (
@@ -39,32 +64,38 @@ function UploadResult({ formState, submissionResult }) {
                         </div>
                     ) : (
                         <div>
-                            <strong>Workload created successfully!</strong>{" "}
-                            <button className="btn btn-outline-danger p-2 m-2" onClick={handleRetract}>
-                                Retract Upload
-                            </button>
-                            {submissionResult && Object.keys(submissionResult).length > 0 ? (
+                            {Object.keys(submissionResult).length > 0 ? (
                                 <div>
-                                    <div className="row">
-                                        <table className="table col">
-                                            <thead>
-                                                <tr>
-                                                    <th>Configurations</th>
-                                                    <th>Value</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>{generateTable()}</tbody>
-                                        </table>
-                                        <table className="table col ml-3">
-                                            <thead>
-                                                <tr>
-                                                    <th>Metric</th>
-                                                    <th>Value</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>{generateMetric()}</tbody>
-                                        </table>
-                                    </div>
+                                    {tablesHidden ? (
+                                        <p>{deleteResult}</p>
+                                    ) : (
+                                        <div>
+                                            <strong>Workload created successfully!</strong>
+                                            <button className="btn btn-outline-danger p-2 m-2" onClick={handleRetract}>
+                                                Retract Upload
+                                            </button>
+                                            <div className="row">
+                                                <table className="table col">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Configuration</th>
+                                                            <th>Value</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>{generateTable()}</tbody>
+                                                </table>
+                                                <table className="table col ml-3">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Metric</th>
+                                                            <th>Value</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>{generateMetric()}</tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
                             ) : (
                                 <p>Loading...</p>
