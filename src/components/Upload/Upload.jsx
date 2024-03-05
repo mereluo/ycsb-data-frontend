@@ -1,11 +1,13 @@
 import { TSTemplate } from "../../models/Templates";
 import WorkloadFactory from "../Workload/WorkloadFactory";
 import SearchFields from "../SearchFields/SearchFields";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { FieldContext } from "../../context/FieldContext";
 
 function Upload() {
     const { formState, handleTimeSeriesUpload } = useContext(FieldContext);
+    const [submissionResult, setSubmissionResult] = useState(null);
+
     const handleSubmit = async () => {
         try {
             const entity = await fetch(`http://localhost:8080/api/workload/save`, {
@@ -16,9 +18,14 @@ function Upload() {
                 body: JSON.stringify(formState),
             });
             const result = await entity.json();
+            setSubmissionResult(formState);
             console.log("Workload created: ", result);
         } catch (error) {
             console.error("Error creating workload: ", error);
+            setSubmissionResult({
+                error: "Failed to create workload. Please try again.",
+                details: error,
+            });
         }
     };
     const handleDownload = () => {
@@ -37,6 +44,29 @@ function Upload() {
             window.URL.revokeObjectURL(url);
         };
         createTemplate(TSTemplate, "time-series");
+    };
+
+    const generateTable = () => {
+        const excludedKeys = ["timeSeries", "userDefinedFields"];
+
+        const configurePart = Object.entries(formState)
+            .filter(([key, value]) => !excludedKeys.includes(key))
+            .map(([key, value]) => (
+                <tr className="table-content" key={key}>
+                    <td className="pt-2 pb-2 td-key">{key}</td>
+                    <td className="pt-2 pb-2">{value}</td>
+                </tr>
+            ));
+
+        const userDefined = Object.keys(formState.userDefinedFields);
+        const userDefinedPart = userDefined.map((key) => (
+            <tr className="table-content" key={key}>
+                <td className="pt-2 pb-2 td-key">{key}</td>
+                <td className="pt-2 pb-2">{formState.userDefinedFields[key]}</td>
+            </tr>
+        ));
+
+        return [...configurePart, ...userDefinedPart];
     };
 
     return (
@@ -71,6 +101,34 @@ function Upload() {
                 <button className="btn btn-outline-primary col-md-5" onClick={(event) => handleSubmit(event)}>
                     Submit
                 </button>
+                {submissionResult && (
+                    <div className={`alert ${submissionResult.error ? "alert-danger" : "alert-success"}`} role="alert">
+                        {submissionResult.error ? (
+                            <div>
+                                <strong>{submissionResult.error}</strong>
+                                <br />
+                                <strong>Error Details:</strong> {submissionResult.details}
+                            </div>
+                        ) : (
+                            <div>
+                                <strong>Workload created successfully!</strong>
+                                {submissionResult && Object.keys(submissionResult).length > 0 ? (
+                                    <table className="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Key</th>
+                                                <th>Value</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>{generateTable()}</tbody>
+                                    </table>
+                                ) : (
+                                    <p>Loading...</p>
+                                )}
+                            </div>
+                        )}
+                    </div>
+                )}
             </div>
         </div>
     );
