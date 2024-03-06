@@ -1,8 +1,7 @@
 import { useState } from "react";
 
-function UploadResult({ formState, submissionResult }) {
+function UploadResult({ formState, submissionResult, setSubmissionResult, setTablesHidden, tablesHidden }) {
     const [deleteResult, setDeleteResult] = useState(null);
-    const [tablesHidden, setTablesHidden] = useState(false);
 
     const generateTable = () => {
         const excludedKeys = ["timeSeries", "userDefinedFields"];
@@ -33,15 +32,15 @@ function UploadResult({ formState, submissionResult }) {
 
     const handleRetract = async () => {
         try {
-            const response = await fetch(`/api/workloads/${submissionResult.id}`, {
+            const response = await fetch(`http://localhost:8080/api/workload/delete/${submissionResult.id}`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
                 },
             });
-            setTablesHidden(true);
             if (response.ok) {
-                setDeleteResult(`Workload with ID ${submissionResult.id} deleted successfully`);
+                setDeleteResult(`Workload retracted successfully`);
+                setTablesHidden(true);
             } else {
                 const data = await response.json();
                 setDeleteResult(`Error: ${data.message}`);
@@ -55,26 +54,29 @@ function UploadResult({ formState, submissionResult }) {
     return (
         <div>
             {submissionResult && (
-                <div className={`mt-3 alert ${submissionResult.error ? "alert-danger" : "alert-success"}`} role="alert">
+                <div className="mt-3">
                     {submissionResult.error ? (
-                        <div>
+                        <div className="alert alert-danger" role="alert">
                             <strong>{submissionResult.error}</strong>
                             <br />
                             <strong>Error Details:</strong> {submissionResult.details}
                         </div>
                     ) : (
                         <div>
-                            {Object.keys(submissionResult).length > 0 ? (
+                            {tablesHidden ? (
+                                <strong>{deleteResult}</strong>
+                            ) : (
                                 <div>
-                                    {tablesHidden ? (
-                                        <p>{deleteResult}</p>
-                                    ) : (
+                                    {Object.keys(submissionResult).length > 0 && (
                                         <div>
-                                            <strong>Workload created successfully!</strong>
-                                            <button className="btn btn-outline-danger p-2 m-2" onClick={handleRetract}>
-                                                Retract Upload
-                                            </button>
-                                            <div className="row">
+                                            <div className="alert alert-success" role="alert">
+                                                <strong>Workload created successfully!</strong>
+                                                <button className="btn btn-outline-danger ml-3 p-2 " onClick={handleRetract}>
+                                                    Retract Upload
+                                                </button>
+                                            </div>
+
+                                            <div className="row mt-3">
                                                 <table className="table col">
                                                     <thead>
                                                         <tr>
@@ -97,8 +99,6 @@ function UploadResult({ formState, submissionResult }) {
                                         </div>
                                     )}
                                 </div>
-                            ) : (
-                                <p>Loading...</p>
                             )}
                         </div>
                     )}

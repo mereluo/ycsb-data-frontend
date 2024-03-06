@@ -8,6 +8,7 @@ import UploadResult from "./UploadResult";
 function Upload() {
     const { formState, handleTimeSeriesUpload } = useContext(FieldContext);
     const [submissionResult, setSubmissionResult] = useState(null);
+    const [tablesHidden, setTablesHidden] = useState(false);
 
     const handleSubmit = async () => {
         try {
@@ -20,6 +21,7 @@ function Upload() {
             });
             const result = await entity.json();
             setSubmissionResult(result);
+            setTablesHidden(false);
             console.log("Workload created: ", result);
         } catch (error) {
             console.error("Error creating workload: ", error);
@@ -79,7 +81,7 @@ function Upload() {
                 <button className="btn btn-outline-primary col-md-5" onClick={(event) => handleSubmit(event)}>
                     Submit
                 </button>
-                <UploadResult formState={formState} submissionResult={submissionResult} />
+                <UploadResult formState={formState} submissionResult={submissionResult} setSubmissionResult={setSubmissionResult} setTablesHidden={setTablesHidden} tablesHidden={tablesHidden} />
             </div>
         </div>
     );
