@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { FieldContext } from "../../context/FieldContext";
 
-function Questions() {
+function Search() {
     const { formState } = useContext(FieldContext);
     const navigateTo = useNavigate();
     const handleSubmit = async (event) => {
@@ -39,4 +39,4 @@ function Questions() {
     );
 }
 
-export default Questions;
+export default Search;

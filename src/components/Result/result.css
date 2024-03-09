@@ -1,18 +1,8 @@
-/* .result-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.workload-grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Adjust the column widths as needed */
+    gap: 20px; /* Adjust the gap between items as needed */
 }
-.table {
-    flex: 1;
-    table-layout: auto;
+.card-body {
+    font-size: 12px;
 }
-
-.graph-box {
-    flex: 2;
-}
-
-.button-box {
-    display: flex;
-    justify-content: center;
-} */

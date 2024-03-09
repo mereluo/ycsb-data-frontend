@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { FieldContext } from "../../context/FieldContext";
+import "./searchFields.css";
 
 function SearchFields() {
     const { handleInputChange } = useContext(FieldContext);
