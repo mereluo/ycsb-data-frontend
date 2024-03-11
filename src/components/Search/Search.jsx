@@ -1,12 +1,21 @@
-import SearchFields from "../SearchFields/SearchFields";
+import Form from "../Form/Form";
 import "./search.css";
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FieldContext } from "../../context/FieldContext";
 
 function Search() {
-    const { formState } = useContext(FieldContext);
+    const { formState, setFormState } = useContext(FieldContext);
     const navigateTo = useNavigate();
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        if (!mounted) {
+            setFormState({});
+        }
+        setMounted(true);
+    }, []);
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
@@ -29,7 +38,7 @@ function Search() {
 
     return (
         <div className="container">
-            <SearchFields />
+            <Form />
             <div className="mt-3 text-center">
                 <button className="btn btn-outline-primary col-md-5" onClick={(event) => handleSubmit(event)}>
                     Submit

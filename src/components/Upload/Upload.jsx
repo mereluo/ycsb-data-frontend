@@ -2,7 +2,7 @@ import { TSTemplate } from "../../models/Templates";
 import { useContext, useState } from "react";
 import { FieldContext } from "../../context/FieldContext";
 import WorkloadFactory from "../Workload/WorkloadFactory";
-import SearchFields from "../SearchFields/SearchFields";
+import Form from "../Form/Form";
 import UploadResult from "./UploadResult";
 
 function Upload() {
@@ -55,7 +55,7 @@ function Upload() {
                 <h2>Upload data</h2>
                 <p>Fill in ALL the fields and (Optional) upload the time series data as CSV.</p>
             </div>
-            <SearchFields />
+            <Form />
             <div className="row">
                 <div className="card col-9 mt-3">
                     <div className="card-header">5. Workload Data</div>

@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import { FieldContext } from "../../context/FieldContext";
-import "./searchFields.css";
+import "./form.css";
 
-function SearchFields() {
+function Form() {
     const { handleInputChange } = useContext(FieldContext);
     return (
         <div className="question-container mt-2">
@@ -109,4 +109,4 @@ function SearchFields() {
     );
 }
 
-export default SearchFields;
+export default Form;
