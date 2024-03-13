@@ -38,7 +38,7 @@ function Search() {
 
     return (
         <div className="container">
-            <Form />
+            <Form isUpload={false} />
             <div className="mt-3 text-center">
                 <button className="btn btn-outline-primary col-md-5" onClick={(event) => handleSubmit(event)}>
                     Submit

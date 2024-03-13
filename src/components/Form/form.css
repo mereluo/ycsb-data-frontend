@@ -4,3 +4,8 @@
 .card-text {
     font-size: 12pt;
 }
+
+.required::after {
+    content: " *";
+    color: red;
+}
