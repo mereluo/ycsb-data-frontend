@@ -10,7 +10,8 @@ function Upload() {
     const [submissionResult, setSubmissionResult] = useState(null);
     const [tablesHidden, setTablesHidden] = useState(false);
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (event) => {
+        event.preventDefault();
         try {
             const entity = await fetch(`http://localhost:8080/api/workload/save`, {
                 method: "POST",
@@ -51,36 +52,40 @@ function Upload() {
 
     return (
         <div className="container">
-            <div className="mt-2 ">
-                <h2>Upload data</h2>
-                <p>Fill in ALL the fields and (Optional) upload the time series data as CSV.</p>
+            <div className="mt-3">
+                <h2 className="mb-2">Upload Data</h2>
+                <p className="lead">Fill in the required fields and (Optional) upload the time series data as CSV.</p>
             </div>
-            <Form />
-            <div className="row">
-                <div className="card col-9 mt-3">
-                    <div className="card-header">5. Workload Data</div>
-                    {formState.workloadType && <WorkloadFactory type={formState.workloadType} test={formState.type} />}
-                </div>
-                <div className="card col mt-3">
-                    <div className="card-header">6. Upload Time Series CSV</div>
-                    <div className="mt-4">
-                        <p>Download CSV Template</p>
-                        <button className="btn btn-outline-info p-3" onClick={handleDownload}>
-                            Download Template
-                        </button>
+            <form onSubmit={(event) => handleSubmit(event)}>
+                <Form isUpload={true} />
+                <div className="row">
+                    <div className="card col-9 mt-3">
+                        <div className="card-header">5. Workload Data</div>
+                        {formState.workloadType && formState.type && <WorkloadFactory type={formState.workloadType} test={formState.type} />}
                     </div>
-                    <div className="custom-file mt-5">
-                        <input type="file" className="custom-file-input" id="csvFile" accept=".csv" onChange={handleTimeSeriesUpload} />
-                        <label className="custom-file-label" htmlFor="csvFile">
-                            Choose file
-                        </label>
+                    <div className="card col mt-3">
+                        <div className="card-header">6. Upload Time Series CSV</div>
+                        <div className="mt-4">
+                            <p>Download CSV Template</p>
+                            <button className="btn btn-outline-info p-3" onClick={handleDownload}>
+                                Download Template
+                            </button>
+                        </div>
+                        <div className="custom-file mt-5">
+                            <input type="file" className="custom-file-input" id="csvFile" accept=".csv" onChange={handleTimeSeriesUpload} />
+                            <label className="custom-file-label" htmlFor="csvFile">
+                                Choose file
+                            </label>
+                        </div>
                     </div>
                 </div>
-            </div>
+                <div className="mt-3 text-center">
+                    <button className="btn btn-outline-primary col-md-5" type="submit">
+                        Submit
+                    </button>
+                </div>
+            </form>
             <div className="mt-3 text-center">
-                <button className="btn btn-outline-primary col-md-5" onClick={(event) => handleSubmit(event)}>
-                    Submit
-                </button>
                 <UploadResult formState={formState} submissionResult={submissionResult} setSubmissionResult={setSubmissionResult} setTablesHidden={setTablesHidden} tablesHidden={tablesHidden} />
             </div>
         </div>
