@@ -59,7 +59,7 @@ function Upload() {
             <form onSubmit={(event) => handleSubmit(event)}>
                 <Form isUpload={true} />
                 <div className="row">
-                    <div className="card col-9 mt-3">
+                    <div className="card col-9 mt-3 mr-3">
                         <div className="card-header">5. Workload Data</div>
                         {formState.workloadType && formState.type && <WorkloadFactory type={formState.workloadType} test={formState.type} />}
                     </div>
