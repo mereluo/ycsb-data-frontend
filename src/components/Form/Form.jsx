@@ -31,7 +31,7 @@ function Form({ isUpload }) {
                         </div>
                         <div className="row">
                             <div className="col">
-                                <p className={`${requiredField} mt-1`}>Test Type</p>
+                                <p className={`${requiredField} mt-4`}>Test Type</p>
                                 <div className="form-group">
                                     <select className="form-select" id="typeSelect" onChange={(e) => handleInputChange("type", e.target.value)} required={isUpload}>
                                         <option></option>
@@ -42,7 +42,7 @@ function Form({ isUpload }) {
                                 </div>
                             </div>
                             <div className="col">
-                                <p className={`${requiredField} mt-1`}>Number of Nodes</p>
+                                <p className={`${requiredField} mt-4`}>Number of Nodes</p>
                                 <input type="number" id="number-input" className="form-control " onChange={(e) => handleInputChange("numOfNodes", Math.max(1000, e.target.value))} min="1000" required={isUpload} />
                             </div>
                         </div>
