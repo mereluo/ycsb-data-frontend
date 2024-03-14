@@ -30,6 +30,8 @@ function Search() {
             console.log("Workload requested: ", result);
             if (result.length !== 0) {
                 navigateTo("/result", { state: { workload: result } });
+            } else {
+                alert("No matching workload found. Please try again.");
             }
         } catch (error) {
             console.error("Error finding workloadA: ", error);

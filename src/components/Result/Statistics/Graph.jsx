@@ -4,7 +4,7 @@ import { Scatter } from "react-chartjs-2";
 ChartJS.register(LineElement, PointElement, Filler, LinearScale, Tooltip, Legend, Title);
 
 function Graph({ workload }) {
-    const timeSeries = workload.timeSeries;
+    const timeSeries = workload.timeSeries.data;
 
     const downloadCSV = () => {
         let csvContent = "category,time,mean_latency\n";
