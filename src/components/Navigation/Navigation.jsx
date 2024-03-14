@@ -3,7 +3,6 @@ import "./navigation.css";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
 import { Link, useLocation } from "react-router-dom";
 
 function Navigation() {
@@ -18,7 +17,7 @@ function Navigation() {
             <Container>
                 <img src="/src/assets/ycsblogo.png" width={50} height={40} className="d-inline-block align-top" alt="" />
                 <Navbar.Brand to="/" style={{ marginLeft: "20px" }}>
-                    YCSB Database BenchMark
+                    YCSB Database Repository
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
@@ -29,13 +28,6 @@ function Navigation() {
                         <Link to="/search" className={`nav-link ${isActive("/search")}`}>
                             Start Search
                         </Link>
-                        <NavDropdown title="Database" id="basic-nav-dropdown">
-                            <NavDropdown.Item href="#Database/spanner">Google Spanner</NavDropdown.Item>
-                            <NavDropdown.Item href="#Database/cockroach">CockroachDB</NavDropdown.Item>
-                            <NavDropdown.Item href="#Database/mongo">MongoDB</NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item href="#Database/other">Other</NavDropdown.Item>
-                        </NavDropdown>
                         <Link to="/upload" className={`nav-link ${isActive("/upload")}`}>
                             Upload
                         </Link>
