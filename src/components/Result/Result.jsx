@@ -89,7 +89,7 @@ function Result() {
 
     return (
         <div>
-            <div className="mt-4 ml-4">
+            <div className="mt-4 ml-4" style={{ maxHeight: "50vh", overflowY: "auto" }}>
                 <table {...getTableProps()} className="table">
                     <thead>
                         {headerGroups.map((headerGroup) => (
@@ -120,7 +120,7 @@ function Result() {
             <button className="btn btn-outline-primary" onClick={goBack}>
                 Start Another Search
             </button>
-            <div className="d-flex flex-wrap mt-3">
+            <div className="d-flex flex-wrap mt-3" style={{ maxHeight: "50vh", overflowY: "auto" }}>
                 {workloads.map((workload, index) => (
                     <div key={index} className="">
                         {showData[index] && (
