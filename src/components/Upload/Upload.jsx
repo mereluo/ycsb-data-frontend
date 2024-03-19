@@ -13,7 +13,7 @@ function Upload() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const entity = await fetch(`http://localhost:8080/api/workload/save`, {
+            const entity = await fetch(`https://ycsb-nosql.onrender.com/api/workload/save`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
