@@ -1,29 +1,39 @@
 import React from "react";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
 import "./Table.css";
 
-function Table({ workload }) {
+function CustomTable({ workload }) {
     const renderRows = () => {
         const keys = Object.keys(workload.userDefinedFields);
 
         return keys.map((key) => (
-            <tr className="table-content" key={key}>
-                <td className="pt-2 pb-2 td-key">{key}</td>
-                <td className="pt-2 pb-2">{workload.userDefinedFields[key]}</td>
-            </tr>
+            <TableRow key={key} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                <TableCell component="th" scope="row" align="center">
+                    {key}
+                </TableCell>
+                <TableCell align="center">{workload.userDefinedFields[key]}</TableCell>
+            </TableRow>
         ));
     };
+
     return (
         <div className="table-container">
-            <table className="table table-hover table-sm text-center">
-                <thead className="thead-light">
-                    <tr>
-                        <th>Metric</th>
-                        <th>Value</th>
-                    </tr>
-                </thead>
-                <tbody>{renderRows()}</tbody>
-            </table>
-            <div className="mb-4">
+            <TableContainer component={Paper}>
+                <Table className="table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell align="center">
+                                <strong>Metric</strong>
+                            </TableCell>
+                            <TableCell align="center">
+                                <strong>Value</strong>
+                            </TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>{renderRows()}</TableBody>
+                </Table>
+            </TableContainer>
+            <div className="mb-4 mt-2">
                 {workload.description && <div> Description:{workload.description}</div>}
                 {workload.locationDetails && <div>Location Details: {workload.locationDetails}</div>}
                 {workload.commandLine && <div>Command Line: {workload.commandLine}</div>}
@@ -32,4 +42,4 @@ function Table({ workload }) {
     );
 }
 
-export default Table;
+export default CustomTable;

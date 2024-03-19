@@ -40,6 +40,11 @@ function Search() {
 
     return (
         <div className="container">
+            <div className="mt-3">
+                <h2 className="mb-2">Search for Workloads</h2>
+                <div className="lead">All the fields below are not required. </div>
+                <p>(e.g., if you specify nothing and submit, all workloads will be shown in the result).</p>
+            </div>
             <Form isUpload={false} />
             <div className="mt-3 text-center">
                 <button className="btn btn-outline-primary col-md-5" onClick={(event) => handleSubmit(event)}>

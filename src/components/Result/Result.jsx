@@ -121,17 +121,18 @@ function Result() {
                 Start Another Search
             </button>
             <div className="d-flex flex-wrap mt-3" style={{ maxHeight: "50vh", overflowY: "auto" }}>
-                {workloads.map((workload, index) => (
-                    <div key={index} className="col-5">
-                        {showData[index] && (
-                            <div>
-                                <h5>Table for Index {index + 1}</h5>
-                                <Table workload={workload} />
-                                <Graph workload={workload} />
+                {workloads.map(
+                    (workload, index) =>
+                        showData[index] && (
+                            <div key={workload.id} className="col-5">
+                                <div>
+                                    <h5>Table for Index {index + 1}</h5>
+                                    <Table workload={workload} />
+                                    <Graph workload={workload} />
+                                </div>
                             </div>
-                        )}
-                    </div>
-                ))}
+                        )
+                )}
             </div>
         </div>
     );

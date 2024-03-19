@@ -105,9 +105,9 @@ function Graph({ workload }) {
     };
 
     return (
-        <div className="graph-container">
+        <div className="graph-container" style={{ width: "100%" }}>
             {(timeSeries && (
-                <div className="graph-box">
+                <div className="graph-box" style={{ width: "100%" }}>
                     <Scatter options={options} data={data} />
                 </div>
             )) || <div>No Time Series Data Available</div>}
