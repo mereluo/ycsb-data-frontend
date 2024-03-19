@@ -1,6 +1,6 @@
 import React from "react";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
-import "./Table.css";
+import "./table.css";
 
 function CustomTable({ workload }) {
     const renderRows = () => {
