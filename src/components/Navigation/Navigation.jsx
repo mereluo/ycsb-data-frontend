@@ -4,6 +4,7 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { Link, useLocation } from "react-router-dom";
+import logo from "../../assets/ycsblogo.png";
 
 function Navigation() {
     const location = useLocation();
@@ -15,7 +16,7 @@ function Navigation() {
     return (
         <Navbar expand="lg" style={{ backgroundColor: "#f3f5f6" }}>
             <Container>
-                <img src="src/assets/ycsblogo.png" width={50} height={40} className="d-inline-block align-top" alt="" />
+                <img src={logo} width={50} height={40} className="d-inline-block align-top" alt="" />
                 <Navbar.Brand to="/" style={{ marginLeft: "20px" }}>
                     YCSB Database Repository
                 </Navbar.Brand>
