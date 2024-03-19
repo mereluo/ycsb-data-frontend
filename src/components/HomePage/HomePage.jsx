@@ -1,4 +1,4 @@
-const Home = () => {
+const HomePage = () => {
     return (
         <div className="jumbotron">
             <h1 className="display-4">YCSB Database Benchmark</h1>
@@ -14,4 +14,4 @@ const Home = () => {
     );
 };
 
-export default Home;
+export default HomePage;
