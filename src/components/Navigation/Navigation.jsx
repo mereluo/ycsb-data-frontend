@@ -15,7 +15,7 @@ function Navigation() {
     return (
         <Navbar expand="lg" style={{ backgroundColor: "#f3f5f6" }}>
             <Container>
-                <img src="/src/assets/ycsblogo.png" width={50} height={40} className="d-inline-block align-top" alt="" />
+                <img src="src/assets/ycsblogo.png" width={50} height={40} className="d-inline-block align-top" alt="" />
                 <Navbar.Brand to="/" style={{ marginLeft: "20px" }}>
                     YCSB Database Repository
                 </Navbar.Brand>
