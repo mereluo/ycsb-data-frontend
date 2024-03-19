@@ -23,6 +23,11 @@ function Table({ workload }) {
                 </thead>
                 <tbody>{renderRows()}</tbody>
             </table>
+            <div className="mb-4">
+                {workload.description && <div> Description:{workload.description}</div>}
+                {workload.locationDetails && <div>Location Details: {workload.locationDetails}</div>}
+                {workload.commandLine && <div>Command Line: {workload.commandLine}</div>}
+            </div>
         </div>
     );
 }

@@ -69,7 +69,7 @@ function Result() {
             {
                 Header: "Details",
                 accessor: (row, index) => (
-                    <button className="btn btn-outline-info btn-sm" onClick={() => toggleData(index)}>
+                    <button className={`btn btn-sm ${showData[index] ? "btn-info" : "btn-outline-info"}`} onClick={() => toggleData(index)}>
                         {showData[index] ? "Hide" : "Show"}
                     </button>
                 ),
@@ -122,10 +122,10 @@ function Result() {
             </button>
             <div className="d-flex flex-wrap mt-3" style={{ maxHeight: "50vh", overflowY: "auto" }}>
                 {workloads.map((workload, index) => (
-                    <div key={index} className="">
+                    <div key={index} className="col-5">
                         {showData[index] && (
                             <div>
-                                <h5>Table for {index + 1}</h5>
+                                <h5>Table for Index {index + 1}</h5>
                                 <Table workload={workload} />
                                 <Graph workload={workload} />
                             </div>
