@@ -36,7 +36,7 @@ function Result() {
         const deleteId = workloads[index].id;
         console.log(deleteId);
         try {
-            const response = await fetch(`http://localhost:8080/api/workload/delete/${deleteId}`, {
+            const response = await fetch(`https://ycsb-nosql.onrender.com/api/workload/delete/${deleteId}`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
