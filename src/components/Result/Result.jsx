@@ -36,7 +36,7 @@ function Result() {
         const deleteId = workloads[index].id;
         console.log(deleteId);
         try {
-            const response = await fetch(`http://localhost:8080/api/workload/delete/${deleteId}`, {
+            const response = await fetch(`https://ycsb-nosql.onrender.com/api/workload/delete/${deleteId}`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
@@ -69,7 +69,7 @@ function Result() {
             {
                 Header: "Details",
                 accessor: (row, index) => (
-                    <button className="btn btn-outline-info btn-sm" onClick={() => toggleData(index)}>
+                    <button className={`btn btn-sm ${showData[index] ? "btn-info" : "btn-outline-info"}`} onClick={() => toggleData(index)}>
                         {showData[index] ? "Hide" : "Show"}
                     </button>
                 ),
@@ -121,17 +121,18 @@ function Result() {
                 Start Another Search
             </button>
             <div className="d-flex flex-wrap mt-3" style={{ maxHeight: "50vh", overflowY: "auto" }}>
-                {workloads.map((workload, index) => (
-                    <div key={index} className="">
-                        {showData[index] && (
-                            <div>
-                                <h5>Table for {index + 1}</h5>
-                                <Table workload={workload} />
-                                <Graph workload={workload} />
+                {workloads.map(
+                    (workload, index) =>
+                        showData[index] && (
+                            <div key={workload.id} className="col-5">
+                                <div>
+                                    <h5>Table for Index {index + 1}</h5>
+                                    <Table workload={workload} />
+                                    <Graph workload={workload} />
+                                </div>
                             </div>
-                        )}
-                    </div>
-                ))}
+                        )
+                )}
             </div>
         </div>
     );

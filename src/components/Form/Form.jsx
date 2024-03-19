@@ -67,7 +67,7 @@ function Form({ isUpload }) {
                             </div>
                         </div>
                         <p className="card-text">Locations for client and lead database</p>
-                        <input type="text" id="description-input" className="form-control" placeholder="E.g., Client: Oregon, Lead: Los Angeles" onChange={(e) => handleInputChange("description", e.target.value)} />
+                        <input type="text" id="description-input" className="form-control" placeholder="E.g., Client: Oregon, Lead: Los Angeles" onChange={(e) => handleInputChange("locationDetails", e.target.value)} />
                     </div>
                 </div>
 
