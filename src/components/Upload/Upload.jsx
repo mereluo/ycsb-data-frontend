@@ -1,19 +1,28 @@
 import { TSTemplate } from "../../models/Templates";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { FieldContext } from "../../context/FieldContext";
 import WorkloadFactory from "../Workload/WorkloadFactory";
 import Form from "../Form/Form";
 import UploadResult from "./UploadResult";
-import { Typography } from "@mui/joy";
+import { Typography, Button, CircularProgress } from "@mui/joy";
 
 function Upload() {
-    const { formState, handleTimeSeriesUpload } = useContext(FieldContext);
+    const { formState, setFormState, handleTimeSeriesUpload } = useContext(FieldContext);
     const [submissionResult, setSubmissionResult] = useState(null);
     const [tablesHidden, setTablesHidden] = useState(false);
-    console.log(formState);
+    const [mounted, setMounted] = useState(false);
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        if (!mounted) {
+            setFormState({});
+        }
+        setMounted(true);
+    }, []);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        setLoading(true);
         try {
             const entity = await fetch(`https://ycsb-nosql.onrender.com/api/workload/save`, {
                 method: "POST",
@@ -25,7 +34,7 @@ function Upload() {
             const result = await entity.json();
             setSubmissionResult(result);
             setTablesHidden(false);
-            console.log("Workload created: ", result);
+            setLoading(false);
         } catch (error) {
             console.error("Error creating workload: ", error);
             setSubmissionResult({
@@ -90,9 +99,15 @@ function Upload() {
                     </div>
                 </div>
                 <div className="mt-3 text-center">
-                    <button className="btn btn-outline-primary col-md-5" type="submit">
-                        Submit
-                    </button>
+                    {loading ? (
+                        <Button className="col-md-5" variant="outlined" startDecorator={<CircularProgress variant="solid" />}>
+                            Loading…
+                        </Button>
+                    ) : (
+                        <Button className="col-md-5" variant="outlined" type="submit">
+                            Submit
+                        </Button>
+                    )}
                 </div>
             </form>
             <div className="mt-3 text-center">

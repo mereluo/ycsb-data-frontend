@@ -5,6 +5,7 @@ import { faSort, faSortUp, faSortDown } from "@fortawesome/free-solid-svg-icons"
 import Table from "./Statistics/Table.jsx";
 import Graph from "./Statistics/Graph.jsx";
 import { useTable, useSortBy } from "react-table";
+import { Button, Typography } from "@mui/joy";
 import "./result.css";
 
 function Result() {
@@ -69,17 +70,17 @@ function Result() {
             {
                 Header: "Details",
                 accessor: (row, index) => (
-                    <button className={`btn btn-sm ${showData[index] ? "btn-info" : "btn-outline-info"}`} onClick={() => toggleData(index)}>
+                    <Button size="sm" variant={`${showData[index] ? "soft" : "outlined"}`} onClick={() => toggleData(index)}>
                         {showData[index] ? "Hide" : "Show"}
-                    </button>
+                    </Button>
                 ),
             },
             {
                 Header: "Delete",
                 accessor: (row, index) => (
-                    <button className="btn btn-outline-danger btn-sm" onClick={() => handleDelete(index)}>
+                    <Button size="sm" variant="outlined" color="danger" onClick={() => handleDelete(index)}>
                         Delete
-                    </button>
+                    </Button>
                 ),
             },
         ],
@@ -89,9 +90,9 @@ function Result() {
 
     return (
         <div>
-            <div className="mt-4 ml-4" style={{ maxHeight: "50vh", overflowY: "auto" }}>
+            <div className="ml-4" style={{ maxHeight: "30vh", overflowY: "auto" }}>
                 <table {...getTableProps()} className="table">
-                    <thead>
+                    <thead className="sticky-header">
                         {headerGroups.map((headerGroup) => (
                             <tr {...headerGroup.getHeaderGroupProps()}>
                                 {headerGroup.headers.map((column) => (
@@ -117,16 +118,18 @@ function Result() {
                     </tbody>
                 </table>
             </div>
-            <button className="btn btn-outline-primary" onClick={goBack}>
+            <Button className="ml-4" variant="outlined" onClick={goBack}>
                 Start Another Search
-            </button>
-            <div className="d-flex flex-wrap mt-3" style={{ maxHeight: "50vh", overflowY: "auto" }}>
+            </Button>
+            <div className="d-flex flex-wrap mt-3" style={{ maxHeight: "60vh", overflowY: "auto" }}>
                 {workloads.map(
                     (workload, index) =>
                         showData[index] && (
                             <div key={workload.id} className="col-5">
                                 <div>
-                                    <h5>Table for Index {index + 1}</h5>
+                                    <Typography level="title-md" variant="soft">
+                                        Table for Index {index + 1}
+                                    </Typography>
                                     <Table workload={workload} />
                                     <Graph workload={workload} />
                                 </div>
