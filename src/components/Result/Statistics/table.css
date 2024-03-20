@@ -2,14 +2,14 @@
     width: 100%;
 }
 
+thead {
+    font-weight: bold;
+    font-size: 14px;
+}
 .table-container table {
     width: 100%;
 }
 td {
     width: 200px;
-    font-size: 14px;
-}
-
-.td-key {
-    font-weight: bold;
+    font-size: 13px;
 }

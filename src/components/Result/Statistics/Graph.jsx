@@ -106,16 +106,18 @@ function Graph({ workload }) {
 
     return (
         <div className="graph-container" style={{ width: "100%" }}>
-            {(timeSeries && (
-                <div className="graph-box" style={{ width: "100%" }}>
-                    <Scatter options={options} data={data} />
+            {timeSeries && (
+                <div>
+                    <div className="graph-box" style={{ width: "100%" }}>
+                        <Scatter options={options} data={data} />
+                    </div>
+                    <div className="button-box">
+                        <button className="btn btn-primary btn-sm mt-3 mb-3" onClick={downloadCSV} disabled={timeSeries === null}>
+                            Download Time Series CSV
+                        </button>
+                    </div>
                 </div>
-            )) || <div>No Time Series Data Available</div>}
-            <div className="button-box">
-                <button className="btn btn-primary btn-sm mt-3 mb-3" onClick={downloadCSV} disabled={timeSeries === null}>
-                    Download Time Series CSV
-                </button>
-            </div>
+            )}
         </div>
     );
 }
