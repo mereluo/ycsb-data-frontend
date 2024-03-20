@@ -1,8 +1,8 @@
 import Form from "../Form/Form";
-import "./search.css";
 import { useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { FieldContext } from "../../context/FieldContext";
+import { Typography } from "@mui/joy";
 
 function Search() {
     const { formState, setFormState } = useContext(FieldContext);
@@ -41,9 +41,15 @@ function Search() {
     return (
         <div className="container">
             <div className="mt-3">
-                <h2 className="mb-2">Search for Workloads</h2>
-                <div className="lead">All the fields below are not required. </div>
-                <p>(e.g., if you specify nothing and submit, all workloads will be shown in the result).</p>
+                <Typography color="neutral" level="h3" variant="plain" className="mb-2">
+                    Search for Workloads
+                </Typography>
+                <Typography color="neutral" level="body-md" variant="soft">
+                    All the fields below are not required.{" "}
+                </Typography>
+                <Typography color="neutral" level="body-md" variant="soft" className="lead">
+                    (e.g., if you specify nothing and submit, all workloads will be shown in the result).
+                </Typography>
             </div>
             <Form isUpload={false} />
             <div className="mt-3 text-center">
