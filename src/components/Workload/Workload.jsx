@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { FieldContext } from "../../context/FieldContext";
+import { Input } from "@mui/joy";
 
 function Workload({ metric }) {
     const { handleDataChange, validateDoubleInput, numberPattern } = useContext(FieldContext);
@@ -7,7 +8,7 @@ function Workload({ metric }) {
         return Object.keys(metricType).map((key) => (
             <div className="col-3" key={key}>
                 <p className={"card-text required"}>{metricType[key].title}</p>
-                <input type="text" id={metricType[key].field} className="form-control" onChange={(e) => handleDataChange(metricType[key].field, validateDoubleInput(e.target.value))} pattern={numberPattern} required />
+                <Input variant="outlined" color="neutral" size="sm" type="text" id={metricType[key].field} className="form-control" onChange={(e) => handleDataChange(metricType[key].field, validateDoubleInput(e.target.value))} pattern={numberPattern} required />
             </div>
         ));
     };
@@ -22,7 +23,7 @@ function Workload({ metric }) {
         <div>
             <div className="card-body">
                 <p className="card-text required">Operations per Second</p>
-                <input type="text" id="opsPerSec-input" className="form-control col-3" onChange={(e) => handleDataChange("opsPerSec", validateDoubleInput(e.target.value))} pattern={numberPattern} required />
+                <Input variant="outlined" color="neutral" size="sm" type="text" id="opsPerSec-input" className="form-control col-3" onChange={(e) => handleDataChange("opsPerSec", validateDoubleInput(e.target.value))} pattern={numberPattern} required />
                 {generateRows(metric)}
             </div>
         </div>

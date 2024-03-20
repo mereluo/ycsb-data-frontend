@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { FieldContext } from "../../context/FieldContext";
+import { Input, Select, Option, Typography } from "@mui/joy";
 import "./form.css";
 
 function Form({ isUpload }) {
@@ -9,99 +10,103 @@ function Form({ isUpload }) {
     return (
         <div className="question-container mt-2">
             <div className="row">
-                <div className="card col mr-3">
-                    <div className="card-header">1. Database Option</div>
+                <div className="card border-bottom-0 border-top-0 col mr-3">
+                    <Typography className="card-header" color="primary" level="title-md" variant="soft">
+                        1. Database Option
+                    </Typography>
                     <div className="card-body">
                         <div className="form-group">
                             <p className={requiredField}>Enter Database</p>
-                            <input type="text" className="form-control" id="textInput" placeholder="E.g., Spanner" onChange={(e) => handleInputChange("database", e.target.value.toLowerCase())} required={isUpload} />
+                            <Input variant="outlined" color="neutral" size="sm" type="text" className="form-control" id="textInput" placeholder="E.g., Spanner" onChange={(e) => handleInputChange("database", e.target.value.toLowerCase())} required={isUpload} />
                         </div>
                     </div>
-                    <div className="card-header">2. Database Configurations</div>
+                    <Typography className="card-header" color="primary" level="title-md" variant="soft">
+                        2. Database Configurations
+                    </Typography>
                     <div className="card-body">
                         <div className="row">
                             <div className="col">
                                 <p className="card-text">Description</p>
-                                <input type="text" id="description-input" className="form-control" onChange={(e) => handleInputChange("description", e.target.value)} />
+                                <Input variant="outlined" color="neutral" size="sm" type="text" id="description-input" className="form-control" onChange={(e) => handleInputChange("description", e.target.value)} />
                             </div>
                             <div className="col">
                                 <p className="card-text">Platform</p>
-                                <input type="text" id="platform-input" className="form-control " onChange={(e) => handleInputChange("platform", e.target.value)} />
+                                <Input variant="outlined" color="neutral" size="sm" type="text" id="platform-input" className="form-control " onChange={(e) => handleInputChange("platform", e.target.value)} />
                             </div>
                         </div>
                         <div className="row">
                             <div className="col">
                                 <p className={`${requiredField} mt-4`}>Test Type</p>
                                 <div className="form-group">
-                                    <select className="form-select" id="typeSelect" onChange={(e) => handleInputChange("type", e.target.value)} required={isUpload}>
-                                        <option></option>
-                                        <option value="ycsb">YCSB</option>
-                                        <option value="ycsb-t">YCSB-T</option>
-                                        <option value="ycsb-r">YCSB-R</option>
-                                    </select>
+                                    <Select id="typeSelect" onChange={(e, val) => handleInputChange("type", val)} required={isUpload}>
+                                        <Option value="ycsb">YCSB</Option>
+                                        <Option value="ycsb-t">YCSB-T</Option>
+                                        <Option value="ycsb-r">YCSB-R</Option>
+                                    </Select>
                                 </div>
                             </div>
                             <div className="col">
                                 <p className={`${requiredField} mt-4`}>Number of Nodes</p>
-                                <input type="number" id="number-input" className="form-control " onChange={(e) => handleInputChange("numOfNodes", Math.max(1000, e.target.value))} min="1000" required={isUpload} />
+                                <Input variant="outlined" color="neutral" size="sm" type="number" id="number-input" className="form-control " onChange={(e) => handleInputChange("numOfNodes", Math.max(1000, e.target.value))} min="1000" required={isUpload} />
                             </div>
                         </div>
                         <div className="row">
                             <div className="col">
                                 <p className={requiredField}>Single or Multiple</p>
-                                <select className="form-select" id="multiRegionSelect" onChange={(e) => handleInputChange("isMultiRegional", e.target.value)} required={isUpload}>
-                                    <option></option>
-                                    <option value="single">Single Region</option>
-                                    <option value="multiple">Multiple Regions</option>
-                                </select>
+                                <Select id="multiRegionSelect" onChange={(e, val) => handleInputChange("isMultiRegional", val)} required={isUpload}>
+                                    <Option value="single">Single Region</Option>
+                                    <Option value="multiple">Multiple Regions</Option>
+                                </Select>
                             </div>
                             <div className="col">
                                 <p className={requiredField}>Client and DB Colocated?</p>
                                 <div className="form-group">
-                                    <select className="form-select" id="locateSelect" onChange={(e) => handleInputChange("isCoLocated", e.target.value)} required={isUpload}>
-                                        <option></option>
-                                        <option value="true">True</option>
-                                        <option value="false">False</option>
-                                    </select>
+                                    <Select id="locateSelect" onChange={(e, val) => handleInputChange("isCoLocated", val)} required={isUpload}>
+                                        <Option value="true">True</Option>
+                                        <Option value="false">False</Option>
+                                    </Select>
                                 </div>
                             </div>
                         </div>
                         <p className="card-text">Locations for client and lead database</p>
-                        <input type="text" id="description-input" className="form-control" placeholder="E.g., Client: Oregon, Lead: Los Angeles" onChange={(e) => handleInputChange("locationDetails", e.target.value)} />
+                        <Input variant="outlined" color="neutral" size="sm" type="text" id="description-input" className="form-control" placeholder="E.g., Client: Oregon, Lead: Los Angeles" onChange={(e) => handleInputChange("locationDetails", e.target.value)} />
                     </div>
                 </div>
 
-                <div className="card col">
-                    <div className="card-header">3. Test Configuration</div>
+                <div className="card border-bottom-0 border-top-0 col">
+                    <Typography className="card-header" color="primary" level="title-md" variant="soft">
+                        3. Test Configuration
+                    </Typography>
                     <div className="card-body">
                         <div className="row">
                             <div className="col">
                                 <p className={requiredField}>Concurrency Level</p>
-                                <input type="number" id="concurrencySelect" className="form-control" onChange={(e) => handleInputChange("concurrencyLevel", Math.max(1, e.target.value))} required={isUpload} />
+                                <Input variant="outlined" color="neutral" size="sm" type="number" id="concurrencySelect" className="form-control" onChange={(e) => handleInputChange("concurrencyLevel", Math.max(1, e.target.value))} required={isUpload} />
                             </div>
                             <div className="col">
                                 <p className={requiredField}>Record Counts (in Million)</p>
-                                <input type="text" id="Record-input" className="form-control" onChange={(e) => handleInputChange("recordCounts", validateDoubleInput(e.target.value))} pattern={numberPattern} required={isUpload} />
+                                <Input variant="outlined" color="neutral" size="sm" type="text" id="Record-input" className="form-control" onChange={(e) => handleInputChange("recordCounts", validateDoubleInput(e.target.value))} pattern={numberPattern} required={isUpload} />
                             </div>
                         </div>
                         <p className="card-text">Command Line</p>
-                        <input type="text" id="command-line-input" className="form-control col" onChange={(e) => handleInputChange("commandLine", e.target.value)} />
+                        <Input variant="outlined" color="neutral" size="sm" type="text" id="command-line-input" className="form-control col" onChange={(e) => handleInputChange("commandLine", e.target.value)} />
                     </div>
 
-                    <div className="card-header">4. Workload Option</div>
+                    <Typography className="card-header" color="primary" level="title-md" variant="soft">
+                        4. Workload Option
+                    </Typography>
                     <div className="card-body">
                         <div className="row">
                             <div className="col">
                                 <p className={requiredField}>Update Type</p>
-                                <select className="form-select" id="multiRegionSelect" onChange={(e) => handleInputChange("updateType", e.target.value)} required={isUpload}>
-                                    <option></option>
-                                    <option value="query">by query</option>
-                                    <option value="buffer">by buffer</option>
-                                </select>
+                                <Select id="multiRegionSelect" onChange={(e, val) => handleInputChange("updateType", val)} required={isUpload}>
+                                    <Option value="query">by query</Option>
+                                    <Option value="buffer">by buffer</Option>
+                                </Select>
                             </div>
                             <div className="col">
                                 <p className={requiredField}>Workload Type</p>
-                                <input type="text" id="workloadType-input" className="form-control" placeholder="E.g., A" onChange={(e) => handleInputChange("workloadType", e.target.value)} required={isUpload} />
+                                <Input variant="outlined" color="neutral" size="sm" type="text" id="workloadType-input" className="form-control" placeholder="E.g., A" onChange={(e) => handleInputChange("workloadType", e.target.value)} required={isUpload} />
                             </div>
                         </div>
                     </div>

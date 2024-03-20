@@ -4,11 +4,13 @@ import { FieldContext } from "../../context/FieldContext";
 import WorkloadFactory from "../Workload/WorkloadFactory";
 import Form from "../Form/Form";
 import UploadResult from "./UploadResult";
+import { Typography } from "@mui/joy";
 
 function Upload() {
     const { formState, handleTimeSeriesUpload } = useContext(FieldContext);
     const [submissionResult, setSubmissionResult] = useState(null);
     const [tablesHidden, setTablesHidden] = useState(false);
+    console.log(formState);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -53,18 +55,26 @@ function Upload() {
     return (
         <div className="container">
             <div className="mt-3">
-                <h2 className="mb-2">Upload Data</h2>
-                <p className="lead">Fill in the required fields and (Optional) upload the time series data as CSV.</p>
+                <Typography color="neutral" level="h3" variant="plain" className="mb-2">
+                    Upload Data
+                </Typography>
+                <Typography color="neutral" level="body-md" variant="soft">
+                    Fill in the required fields and (Optional) upload the time series data as CSV.
+                </Typography>
             </div>
             <form onSubmit={(event) => handleSubmit(event)}>
                 <Form isUpload={true} />
                 <div className="row">
-                    <div className="card col-9 mt-3 mr-3">
-                        <div className="card-header">5. Workload Data</div>
+                    <div className="card border-bottom-0 border-top-0 col-9 mt-3 mr-3">
+                        <Typography className="card-header" color="primary" level="title-md" variant="soft">
+                            5. Workload Data
+                        </Typography>
                         {formState.workloadType && formState.type && <WorkloadFactory type={formState.workloadType} test={formState.type} />}
                     </div>
-                    <div className="card col mt-3">
-                        <div className="card-header">6. Upload Time Series CSV</div>
+                    <div className="card border-bottom-0 border-top-0 col mt-3">
+                        <Typography className="card-header" color="primary" level="title-md" variant="soft">
+                            6. Upload Time Series CSV
+                        </Typography>
                         <div className="mt-4">
                             <p>Download CSV Template</p>
                             <button className="btn btn-outline-info p-3" onClick={handleDownload}>
