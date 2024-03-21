@@ -2,11 +2,12 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Navigation from "./components/Navigation/Navigation.jsx";
 import HomePage from "./components/HomePage/HomePage.jsx";
-import Upload from "./components/Upload/Upload.jsx";
+import SingleUpload from "./components/Upload/SingleUpload.jsx";
 import Result from "./components/Result/Result.jsx";
 import { Route, Routes } from "react-router-dom";
 import Search from "./components/Search/Search.jsx";
 import { FieldProvider } from "./context/FieldContext.jsx";
+import BatchUpload from "./components/Upload/BatchUpload.jsx";
 
 function App() {
     return (
@@ -25,13 +26,14 @@ function App() {
                             }
                         />
                         <Route
-                            path="/upload"
+                            path="/single-upload"
                             element={
                                 <FieldProvider>
-                                    <Upload />
+                                    <SingleUpload />
                                 </FieldProvider>
                             }
                         />
+                        <Route path="/batch-upload" element={<BatchUpload />} />
                         <Route path="/result" element={<Result />} />
                     </Routes>
                 </div>

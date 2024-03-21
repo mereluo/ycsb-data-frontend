@@ -3,11 +3,11 @@ import { useContext, useState, useEffect } from "react";
 import { FieldContext } from "../../context/FieldContext";
 import WorkloadFactory from "../Workload/WorkloadFactory";
 import Form from "../Form/Form";
-import UploadResult from "./UploadResult";
+import UploadResult from "./SingleResult";
 import { Typography, Button, CircularProgress } from "@mui/joy";
 import ServerPath from "../../context/ServerPath";
 
-function Upload() {
+function SingleUpload() {
     const { formState, setFormState, handleTimeSeriesUpload } = useContext(FieldContext);
     const [submissionResult, setSubmissionResult] = useState(null);
     const [tablesHidden, setTablesHidden] = useState(false);
@@ -118,4 +118,4 @@ function Upload() {
     );
 }
 
-export default Upload;
+export default SingleUpload;

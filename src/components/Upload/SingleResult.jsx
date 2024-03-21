@@ -1,4 +1,5 @@
 import { useState } from "react";
+import ServerPath from "../../context/ServerPath";
 
 function UploadResult({ formState, submissionResult, setSubmissionResult, setTablesHidden, tablesHidden }) {
     const [deleteResult, setDeleteResult] = useState(null);
@@ -32,7 +33,7 @@ function UploadResult({ formState, submissionResult, setSubmissionResult, setTab
 
     const handleRetract = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/api/workload/delete/${submissionResult.id}`, {
+            const response = await fetch(`${ServerPath}/api/workload/delete/${submissionResult.id}`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
