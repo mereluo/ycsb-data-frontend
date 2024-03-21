@@ -7,6 +7,7 @@ import Graph from "./Statistics/Graph.jsx";
 import { useTable, useSortBy } from "react-table";
 import { Button, Typography } from "@mui/joy";
 import "./result.css";
+import ServerPath from "../../context/ServerPath";
 
 function Result() {
     const location = useLocation();
@@ -37,7 +38,7 @@ function Result() {
         const deleteId = workloads[index].id;
         console.log(deleteId);
         try {
-            const response = await fetch(`https://ycsb-nosql.onrender.com/api/workload/delete/${deleteId}`, {
+            const response = await fetch(`${ServerPath}/api/workload/delete/${deleteId}`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",

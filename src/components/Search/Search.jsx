@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { FieldContext } from "../../context/FieldContext";
 import { Typography, Button, CircularProgress } from "@mui/joy";
+import ServerPath from "../../context/ServerPath";
 
 function Search() {
     const { formState, setFormState } = useContext(FieldContext);
@@ -21,7 +22,7 @@ function Search() {
         event.preventDefault();
         try {
             setLoading(true);
-            const entity = await fetch(`https://ycsb-nosql.onrender.com/api/workload/search`, {
+            const entity = await fetch(`${ServerPath}/api/workload/search`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

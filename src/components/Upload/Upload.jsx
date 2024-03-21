@@ -5,6 +5,7 @@ import WorkloadFactory from "../Workload/WorkloadFactory";
 import Form from "../Form/Form";
 import UploadResult from "./UploadResult";
 import { Typography, Button, CircularProgress } from "@mui/joy";
+import ServerPath from "../../context/ServerPath";
 
 function Upload() {
     const { formState, setFormState, handleTimeSeriesUpload } = useContext(FieldContext);
@@ -24,7 +25,7 @@ function Upload() {
         event.preventDefault();
         setLoading(true);
         try {
-            const entity = await fetch(`https://ycsb-nosql.onrender.com/api/workload/save`, {
+            const entity = await fetch(`${ServerPath}/api/workload/save`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
