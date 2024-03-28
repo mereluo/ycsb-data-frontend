@@ -1,9 +1,10 @@
-import Form from "../Form/Form";
 import { useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { FieldContext } from "../../context/FieldContext";
 import { Typography, Button, CircularProgress } from "@mui/joy";
 import ServerPath from "../../context/ServerPath";
+import DBForm from "../Form/DbForm";
+import TestForm from "../Form/TestForm";
 
 function Search() {
     const { formState, setFormState } = useContext(FieldContext);
@@ -52,7 +53,10 @@ function Search() {
                     All the fields below are not required. (e.g., if you specify nothing and submit, all workloads will be shown in the result).
                 </Typography>
             </div>
-            <Form isUpload={false} />
+            <div className="question-container mt-2">
+                <DBForm isUpload={false} />
+                <TestForm isUpload={false} />
+            </div>
             <div className="mt-3 text-center">
                 {loading ? (
                     <Button className="col-md-5" variant="outlined" startDecorator={<CircularProgress variant="solid" />}>

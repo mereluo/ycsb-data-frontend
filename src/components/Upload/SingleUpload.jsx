@@ -2,7 +2,9 @@ import { TSTemplate } from "../../models/Templates";
 import { useContext, useState, useEffect } from "react";
 import { FieldContext } from "../../context/FieldContext";
 import WorkloadFactory from "../Workload/WorkloadFactory";
-import Form from "../Form/Form";
+import DBForm from "../Form/DbForm";
+import TestForm from "../Form/TestForm";
+import WorkloadForm from "../Form/WorkloadForm";
 import UploadResult from "./SingleResult";
 import { Typography, Button, CircularProgress } from "@mui/joy";
 import ServerPath from "../../context/ServerPath";
@@ -44,23 +46,6 @@ function SingleUpload() {
             });
         }
     };
-    const handleDownload = () => {
-        const createTemplate = (template, filename) => {
-            const blob = new Blob([template], { type: "text/csv" });
-
-            // Create a URL for the Blob
-            const url = window.URL.createObjectURL(blob);
-
-            // Create a temporary anchor element to trigger the download
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = filename + ".csv";
-            document.body.appendChild(a);
-            a.click();
-            window.URL.revokeObjectURL(url);
-        };
-        createTemplate(TSTemplate, "time-series");
-    };
 
     return (
         <div className="container">
@@ -73,32 +58,12 @@ function SingleUpload() {
                 </Typography>
             </div>
             <form onSubmit={(event) => handleSubmit(event)}>
-                <Form isUpload={true} />
-                <div className="row">
-                    <div className="card border-bottom-0 border-top-0 col-9 mt-3 mr-3">
-                        <Typography className="card-header" color="primary" level="title-md" variant="soft">
-                            5. Workload Data
-                        </Typography>
-                        {formState.workloadType && formState.type && <WorkloadFactory type={formState.workloadType} test={formState.type} />}
-                    </div>
-                    <div className="card border-bottom-0 border-top-0 col mt-3">
-                        <Typography className="card-header" color="primary" level="title-md" variant="soft">
-                            6. Upload Time Series CSV
-                        </Typography>
-                        <div className="mt-4">
-                            <p>Download CSV Template</p>
-                            <button className="btn btn-outline-info p-3" onClick={handleDownload}>
-                                Download Template
-                            </button>
-                        </div>
-                        <div className="custom-file mt-5">
-                            <input type="file" className="custom-file-input" id="csvFile" accept=".csv" onChange={handleTimeSeriesUpload} />
-                            <label className="custom-file-label" htmlFor="csvFile">
-                                Choose file
-                            </label>
-                        </div>
-                    </div>
+                <div className="question-container mt-2">
+                    <DBForm isUpload={true} />
+                    <TestForm isUpload={true} />
+                    <WorkloadForm />
                 </div>
+
                 <div className="mt-3 text-center">
                     {loading ? (
                         <Button className="col-md-5" variant="outlined" startDecorator={<CircularProgress variant="solid" />}>
