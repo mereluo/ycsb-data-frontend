@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { FieldContext } from "../../context/FieldContext";
+import { FieldContext } from "../../../context/FieldContext";
 import { Input } from "@mui/joy";
 
 function Workload({ metric }) {
