@@ -1,5 +1,6 @@
 import { useContext } from "react";
-import WorkloadFactory from "../Workload/WorkloadFactory";
+import { TSTemplate } from "../../models/Templates";
+import WorkloadFactory from "./Workload/WorkloadFactory";
 import { FieldContext } from "../../context/FieldContext";
 import { Typography } from "@mui/joy";
 

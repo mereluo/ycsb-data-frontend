@@ -1,5 +1,5 @@
 import React from "react";
-import { AB_T, AB, F, F_T } from "../../models/Templates";
+import { AB_T, AB, F, F_T } from "../../../models/Templates";
 import Workload from "./Workload";
 
 function WorkloadFactory({ type, test }) {

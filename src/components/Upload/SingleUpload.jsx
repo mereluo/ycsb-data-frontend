@@ -1,7 +1,5 @@
-import { TSTemplate } from "../../models/Templates";
 import { useContext, useState, useEffect } from "react";
 import { FieldContext } from "../../context/FieldContext";
-import WorkloadFactory from "../Workload/WorkloadFactory";
 import DBForm from "../Form/DbForm";
 import TestForm from "../Form/TestForm";
 import WorkloadForm from "../Form/WorkloadForm";
@@ -10,7 +8,7 @@ import { Typography, Button, CircularProgress } from "@mui/joy";
 import ServerPath from "../../context/ServerPath";
 
 function SingleUpload() {
-    const { formState, setFormState, handleTimeSeriesUpload } = useContext(FieldContext);
+    const { formState, setFormState } = useContext(FieldContext);
     const [submissionResult, setSubmissionResult] = useState(null);
     const [tablesHidden, setTablesHidden] = useState(false);
     const [mounted, setMounted] = useState(false);
