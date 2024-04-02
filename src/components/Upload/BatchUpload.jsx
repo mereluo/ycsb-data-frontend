@@ -43,8 +43,9 @@ function BatchUpload() {
             } else {
                 // Extract user-defined fields
                 const extractedData = extractUserDefinedFields(fileContent);
-
-                setUserDefinedFields(reformatUserDefinedFields(extractedData));
+                const userDefinedFields = reformatUserDefinedFields(extractedData);
+                setUserDefinedFields(userDefinedFields);
+                setFormState((prevState) => ({ ...prevState, userDefinedFields }));
             }
         };
 
@@ -120,6 +121,7 @@ function BatchUpload() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         setLoading(true);
+        console.log(formState);
         try {
             const entity = await fetch(`${ServerPath}/api/workload/save`, {
                 method: "POST",
@@ -129,6 +131,7 @@ function BatchUpload() {
                 body: JSON.stringify(formState),
             });
             const result = await entity.json();
+            console.log("result: ", result);
             setSubmissionResult(result);
             setTablesHidden(false);
             setLoading(false);
@@ -142,18 +145,10 @@ function BatchUpload() {
     };
     return (
         <div>
-            <h2>Upload a text file</h2>
-            <input type="file" onChange={(e) => handleFileUpload(e)} />
             {/* <div>
                 <h3>File content:</h3>
                 <pre>{rawContent}</pre>
             </div> */}
-            {userDefinedFields && (
-                <div>
-                    <h3>User Defined Fields:</h3>
-                    <pre>{JSON.stringify(userDefinedFields, null, 2)}</pre>
-                </div>
-            )}
             <div className="mt-3">
                 <Typography color="neutral" level="h3" variant="plain" className="mb-2">
                     Upload Data
@@ -165,10 +160,21 @@ function BatchUpload() {
             <form onSubmit={(event) => handleSubmit(event)}>
                 <div className="question-container mt-2">
                     <DBForm isUpload={true} />
-                    <TestForm isUpload={true} />
-                    <WorkloadForm />
+                    <div className="row">
+                        <div className="col">
+                            <TestForm isUpload={true} />
+                        </div>
+                        <div className="col mt-4">
+                            <div class="input-group">
+                                <input type="file" id="txtFile" className="form-control" hidden onChange={(e) => handleFileUpload(e)} required />
+                                <label for="txtFile" className="input-group-text">
+                                    Upload .txt File Here
+                                </label>
+                            </div>
+                            {userDefinedFields && <pre style={{ fontSize: "8pt" }}>{JSON.stringify(userDefinedFields, null, 2)}</pre>}
+                        </div>
+                    </div>
                 </div>
-
                 <div className="mt-3 text-center">
                     {loading ? (
                         <Button className="col-md-5" variant="outlined" startDecorator={<CircularProgress variant="solid" />}>

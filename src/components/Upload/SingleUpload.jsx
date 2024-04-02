@@ -24,6 +24,7 @@ function SingleUpload() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         setLoading(true);
+        console.log(formState);
         try {
             const entity = await fetch(`${ServerPath}/api/workload/save`, {
                 method: "POST",
