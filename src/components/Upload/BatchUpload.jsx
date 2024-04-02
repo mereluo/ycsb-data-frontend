@@ -43,10 +43,17 @@ function BatchUpload() {
             if (matches) {
                 const [, field, operation, value] = matches;
                 if (!field.includes("-FAILED") && (operation === "AverageLatency(us)" || operation === "MaxLatency(us)" || operation === "MinLatency(us)" || operation === "95thPercentileLatency(us)" || operation === "99thPercentileLatency(us)" || (field === "OVERALL" && operation === "Throughput(ops/sec)"))) {
-                    if (!extractedData[field]) {
-                        extractedData[field] = {};
+                    // field name preprocessing
+                    const words = field.split(" ");
+                    let formatField = words[0].toLowerCase();
+                    for (let i = 1; i < words.length; i++) {
+                        formatField += words[i].charAt(0).toUpperCase() + words[i].slice(1).toLowerCase();
                     }
-                    extractedData[field][operation] = parseFloat(value);
+                    if (formatField === "read-modify-write") formatField = "rmw";
+                    if (!extractedData[formatField]) {
+                        extractedData[formatField] = {};
+                    }
+                    extractedData[formatField][operation] = parseFloat(value);
                 }
             }
         });
@@ -59,12 +66,7 @@ function BatchUpload() {
         // Map original properties to the desired format
         Object.keys(originalData).forEach((key) => {
             const item = originalData[key];
-            // field name
-            const words = key.split(" ");
-            let prefix = words[0].toLowerCase();
-            for (let i = 1; i < words.length; i++) {
-                prefix += words[i].charAt(0).toUpperCase() + words[i].slice(1).toLowerCase();
-            }
+            const prefix = key;
 
             Object.keys(item).forEach((subKey) => {
                 let newKey = "";
@@ -100,10 +102,10 @@ function BatchUpload() {
         <div>
             <h2>Upload a text file</h2>
             <input type="file" onChange={(e) => handleFileUpload(e)} />
-            <div>
+            {/* <div>
                 <h3>File content:</h3>
                 <pre>{rawContent}</pre>
-            </div>
+            </div> */}
             {userDefinedFields && (
                 <div>
                     <h3>User Defined Fields:</h3>
