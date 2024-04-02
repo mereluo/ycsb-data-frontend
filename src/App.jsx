@@ -33,7 +33,14 @@ function App() {
                                 </FieldProvider>
                             }
                         />
-                        <Route path="/batch-upload" element={<BatchUpload />} />
+                        <Route
+                            path="/batch-upload"
+                            element={
+                                <FieldProvider>
+                                    <BatchUpload />
+                                </FieldProvider>
+                            }
+                        />
                         <Route path="/result" element={<Result />} />
                     </Routes>
                 </div>

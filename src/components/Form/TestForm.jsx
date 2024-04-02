@@ -9,9 +9,9 @@ function TestForm({ isUpload }) {
     const { handleInputChange, validateDoubleInput, numberPattern } = useContext(FieldContext);
     return (
         <div className="row">
-            <div className="col card border-bottom-0 border-top-0 mr-3 ">
+            <div className="card border-bottom-0 border-top-0 mt-2 mb-2 ">
                 <Typography className="card-header" color="primary" level="title-md" variant="soft">
-                    3. Test Configuration
+                    2. Test Configuration
                 </Typography>
                 <div className="card-body">
                     <div className="row">
@@ -23,17 +23,6 @@ function TestForm({ isUpload }) {
                             <p className={requiredField}>Record Counts (in Million)</p>
                             <Input variant="outlined" color="neutral" size="sm" type="text" id="Record-input" className="form-control" onChange={(e) => handleInputChange("recordCounts", validateDoubleInput(e.target.value))} pattern={numberPattern} required={isUpload} />
                         </div>
-                    </div>
-                    <p className="card-text">Command Line</p>
-                    <Input variant="outlined" color="neutral" size="sm" type="text" id="command-line-input" className="form-control col" onChange={(e) => handleInputChange("commandLine", e.target.value)} />
-                </div>
-            </div>
-            <div className="col card border-bottom-0 border-top-0">
-                <Typography className="card-header" color="primary" level="title-md" variant="soft">
-                    4. Workload Option
-                </Typography>
-                <div className="card-body">
-                    <div className="row">
                         <div className="col">
                             <p className={requiredField}>Update Type</p>
                             <Select id="multiRegionSelect" onChange={(e, val) => handleInputChange("updateType", val)} required={isUpload}>
@@ -46,6 +35,8 @@ function TestForm({ isUpload }) {
                             <Input variant="outlined" color="neutral" size="sm" type="text" id="workloadType-input" className="form-control" placeholder="E.g., A" onChange={(e) => handleInputChange("workloadType", e.target.value)} required={isUpload} />
                         </div>
                     </div>
+                    <p className="card-text">Command Line</p>
+                    <Input variant="outlined" color="neutral" size="sm" type="text" id="command-line-input" className="form-control col" onChange={(e) => handleInputChange("commandLine", e.target.value)} />
                 </div>
             </div>
         </div>

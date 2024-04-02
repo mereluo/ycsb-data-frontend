@@ -27,13 +27,13 @@ function WorkloadForm() {
         <div className="row">
             <div className="card border-bottom-0 border-top-0 col-9 mr-3">
                 <Typography className="card-header" color="primary" level="title-md" variant="soft">
-                    5. Workload Data
+                    3. Workload Data
                 </Typography>
                 {formState.workloadType && formState.type && <WorkloadFactory type={formState.workloadType} test={formState.type} />}
             </div>
             <div className="card border-bottom-0 border-top-0 col">
                 <Typography className="card-header" color="primary" level="title-md" variant="soft">
-                    6. Upload Time Series CSV
+                    4. Upload Time Series CSV
                 </Typography>
                 <div className="mt-4">
                     <p>Download CSV Template</p>
