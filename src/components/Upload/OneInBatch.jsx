@@ -1,4 +1,5 @@
 import { useState, useContext } from "react";
+import { FieldContext } from "../../context/FieldContext";
 import TestForm from "../Form/TestForm";
 
 function OneInBatch(props) {
@@ -104,9 +105,9 @@ function OneInBatch(props) {
                 <TestForm isUpload={true} />
             </div>
             <div className="col mt-4">
-                <div class="input-group">
+                <div className="input-group">
                     <input type="file" id="txtFile" className="form-control" hidden onChange={(e) => handleFileUpload(e)} required />
-                    <label for="txtFile" className="input-group-text">
+                    <label htmlFor="txtFile" className="input-group-text">
                         Upload .txt File Here
                     </label>
                 </div>
