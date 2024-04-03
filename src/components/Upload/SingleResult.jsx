@@ -1,7 +1,7 @@
 import { useState } from "react";
 import ServerPath from "../../context/ServerPath";
 
-function UploadResult({ formState, submissionResult, setSubmissionResult, setTablesHidden, tablesHidden }) {
+function UploadResult({ formState, submissionResult, setTablesHidden, tablesHidden }) {
     const [deleteResult, setDeleteResult] = useState(null);
 
     const generateTable = () => {
@@ -18,7 +18,6 @@ function UploadResult({ formState, submissionResult, setSubmissionResult, setTab
                 </tr>
             ));
     };
-
     const generateMetric = () => {
         const userDefined = Object.keys(formState.userDefinedFields);
         return userDefined.map((key) => (
