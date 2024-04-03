@@ -52,7 +52,7 @@ function DBForm({ isUpload }) {
                         </div>
                     </div>
                     <div className="row">
-                        <div className="col">
+                        <div className="col-4">
                             <p className={requiredField}>Client/Database Colocated?</p>
                             <div className="form-group">
                                 <Select id="locateSelect" onChange={(e, val) => handleInputChange("isCoLocated", val)} required={isUpload}>

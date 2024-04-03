@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { FieldContext } from "../../context/FieldContext";
 import { Typography, Button, CircularProgress } from "@mui/joy";
 import ServerPath from "../../context/ServerPath";
-import DBForm from "../Form/DbForm";
+import DBForm from "../Form/DBForm";
 import TestForm from "../Form/TestForm";
 
 function Search() {
@@ -55,7 +55,7 @@ function Search() {
             </div>
             <div className="question-container mt-2">
                 <DBForm isUpload={false} />
-                <TestForm isUpload={false} />
+                <TestForm isUpload={false} isBatch={false} />
             </div>
             <div className="mt-3 text-center">
                 {loading ? (

@@ -9,6 +9,7 @@ const FieldProvider = ({ children }) => {
     const numberPattern = "[0-9]+([.][0-9]+)?";
     const [formState, setFormState] = useState(initialForm);
     const [data, setData] = useState(null);
+    const [formStateList, setFormStateList] = useState([]);
 
     // Functions for building form and data objects
     const handleInputChange = (fieldName, value) => {
@@ -54,7 +55,7 @@ const FieldProvider = ({ children }) => {
         }
     };
 
-    return <FieldContext.Provider value={{ numberPattern, formState, setFormState, data, setData, handleInputChange, handleDataChange, validateDoubleInput, handleTimeSeriesUpload }}>{children}</FieldContext.Provider>;
+    return <FieldContext.Provider value={{ numberPattern, formState, setFormState, data, setData, handleInputChange, handleDataChange, validateDoubleInput, handleTimeSeriesUpload, formStateList, setFormStateList }}>{children}</FieldContext.Provider>;
 };
 
 export { FieldContext, FieldProvider };

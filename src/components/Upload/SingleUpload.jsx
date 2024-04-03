@@ -1,6 +1,6 @@
 import { useContext, useState, useEffect } from "react";
 import { FieldContext } from "../../context/FieldContext";
-import DBForm from "../Form/DbForm";
+import DBForm from "../Form/DBForm";
 import TestForm from "../Form/TestForm";
 import WorkloadForm from "../Form/WorkloadForm";
 import UploadResult from "./SingleResult";
@@ -59,7 +59,7 @@ function SingleUpload() {
             <form onSubmit={(event) => handleSubmit(event)}>
                 <div className="question-container mt-2">
                     <DBForm isUpload={true} />
-                    <TestForm isUpload={true} />
+                    <TestForm isUpload={true} isBatch={false} />
                     <WorkloadForm />
                 </div>
 

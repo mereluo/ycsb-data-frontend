@@ -1,12 +1,17 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { FieldContext } from "../../context/FieldContext";
-import TestForm from "../Form/TestForm";
 
-function OneInBatch(props) {
-    const { setFormState } = useContext(FieldContext);
+function TxtForm({ id }) {
+    const { formState, setFormState, formStateList, setFormStateList } = useContext(FieldContext);
     const [userDefinedFields, setUserDefinedFields] = useState(null);
     const [rawContent, setRawContent] = useState("");
 
+    useEffect(() => {
+        if (userDefinedFields) {
+            setFormStateList([...formStateList, formState]);
+            console.log(formState);
+        }
+    }, [userDefinedFields]);
     const handleFileUpload = async (e) => {
         e.preventDefault();
         const file = e.target.files[0];
@@ -30,6 +35,7 @@ function OneInBatch(props) {
                 const userDefinedFields = reformatUserDefinedFields(extractedData);
                 setUserDefinedFields(userDefinedFields);
                 setFormState((prevState) => ({ ...prevState, userDefinedFields }));
+                console.log(userDefinedFields);
             }
         };
 
@@ -100,21 +106,16 @@ function OneInBatch(props) {
         return reformattedData;
     };
     return (
-        <div className="row">
-            <div className="col">
-                <TestForm isUpload={true} />
+        <div>
+            <div className="input-group">
+                <input type="file" id={`txtFile${id}`} className="form-control" hidden onChange={(e) => handleFileUpload(e)} required />
+                <label htmlFor={`txtFile${id}`} className="input-group-text">
+                    Upload .txt File Here
+                </label>
             </div>
-            <div className="col mt-4">
-                <div className="input-group">
-                    <input type="file" id="txtFile" className="form-control" hidden onChange={(e) => handleFileUpload(e)} required />
-                    <label htmlFor="txtFile" className="input-group-text">
-                        Upload .txt File Here
-                    </label>
-                </div>
-                {userDefinedFields && <pre style={{ fontSize: "8pt" }}>{JSON.stringify(userDefinedFields, null, 2)}</pre>}
-            </div>
+            {userDefinedFields && <pre style={{ fontSize: "8pt" }}>{JSON.stringify(userDefinedFields, null, 2)}</pre>}
         </div>
     );
 }
 
-export default OneInBatch;
+export default TxtForm;
