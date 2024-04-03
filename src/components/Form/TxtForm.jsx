@@ -7,11 +7,16 @@ function TxtForm({ id }) {
     const [rawContent, setRawContent] = useState("");
 
     useEffect(() => {
-        if (userDefinedFields) {
+        if (formStateList.length <= id) {
             setFormStateList([...formStateList, formState]);
             console.log(formState);
+        } else {
+            // If the array has enough elements, update the formState at the specified index
+            setFormStateList(formStateList.map((item, index) => (index === id ? formState : item)));
+            console.log(formState);
         }
-    }, [userDefinedFields]);
+    }, [userDefinedFields, formState]);
+
     const handleFileUpload = async (e) => {
         e.preventDefault();
         const file = e.target.files[0];
