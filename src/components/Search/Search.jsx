@@ -22,26 +22,26 @@ function Search() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         console.log(DBState);
-        // try {
-        //     setLoading(true);
-        //     const entity = await fetch(`${ServerPath}/api/workload/search`, {
-        //         method: "POST",
-        //         headers: {
-        //             "Content-Type": "application/json",
-        //         },
-        //         body: JSON.stringify(formState),
-        //     });
-        //     const result = await entity.json();
-        //     console.log("Workload requested: ", result);
-        //     setLoading(false);
-        //     if (result.length !== 0) {
-        //         navigateTo("/result", { state: { workload: result } });
-        //     } else {
-        //         alert("No matching workload found. Please try again.");
-        //     }
-        // } catch (error) {
-        //     console.error("Error finding workloadA: ", error);
-        // }
+        try {
+            setLoading(true);
+            const entity = await fetch(`${ServerPath}/api/workload/search`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(DBState),
+            });
+            const result = await entity.json();
+            console.log("Workload requested: ", result);
+            setLoading(false);
+            if (result.length !== 0) {
+                navigateTo("/result", { state: { workload: result } });
+            } else {
+                alert("No matching workload found. Please try again.");
+            }
+        } catch (error) {
+            console.error("Error finding workloadA: ", error);
+        }
     };
 
     return (

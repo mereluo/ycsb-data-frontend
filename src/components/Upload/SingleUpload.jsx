@@ -23,27 +23,27 @@ function SingleUpload() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        // setLoading(true);
+        setLoading(true);
         console.log(DBState);
-        // try {
-        //     const entity = await fetch(`${ServerPath}/api/workload/save`, {
-        //         method: "POST",
-        //         headers: {
-        //             "Content-Type": "application/json",
-        //         },
-        //         body: JSON.stringify(formState),
-        //     });
-        //     const result = await entity.json();
-        //     setSubmissionResult(result);
-        //     setTablesHidden(false);
-        //     setLoading(false);
-        // } catch (error) {
-        //     console.error("Error creating workload: ", error);
-        //     setSubmissionResult({
-        //         error: "Failed to create workload. Please try again.",
-        //         details: error,
-        //     });
-        // }
+        try {
+            const entity = await fetch(`${ServerPath}/api/workload/save`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(DBState),
+            });
+            const result = await entity.json();
+            setSubmissionResult(result);
+            setTablesHidden(false);
+            setLoading(false);
+        } catch (error) {
+            console.error("Error creating workload: ", error);
+            setSubmissionResult({
+                error: "Failed to create workload. Please try again.",
+                details: error,
+            });
+        }
     };
 
     return (
@@ -75,9 +75,9 @@ function SingleUpload() {
                     )}
                 </div>
             </form>
-            {/* <div className="mt-3 text-center">
+            <div className="mt-3 text-center">
                 <UploadResult formState={DBState} submissionResult={submissionResult} setSubmissionResult={setSubmissionResult} setTablesHidden={setTablesHidden} tablesHidden={tablesHidden} />
-            </div> */}
+            </div>
         </div>
     );
 }
