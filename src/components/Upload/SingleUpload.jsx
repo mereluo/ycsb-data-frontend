@@ -10,7 +10,7 @@ import ServerPath from "../../context/ServerPath";
 function SingleUpload() {
     const { DBState, setDBState } = useContext(FieldContext);
     const [submissionResult, setSubmissionResult] = useState(null);
-    const [tablesHidden, setTablesHidden] = useState(false);
+    const [tablesHidden, setTablesHidden] = useState(true);
     const [mounted, setMounted] = useState(false);
     const [loading, setLoading] = useState(false);
 

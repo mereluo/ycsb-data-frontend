@@ -8,8 +8,8 @@ import ServerPath from "../../context/ServerPath";
 
 function BatchUpload() {
     const { DBState, setDBState, workloadList, setWorkloadList } = useContext(FieldContext);
-    const [submissionResult, setSubmissionResult] = useState(null);
-    const [tablesHidden, setTablesHidden] = useState(false);
+    const [submissionResult, setSubmissionResult] = useState([]);
+    const [tablesHidden, setTablesHidden] = useState([]);
     const [mounted, setMounted] = useState(false);
     const [loading, setLoading] = useState(false);
 
@@ -25,28 +25,56 @@ function BatchUpload() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         // setLoading(true);
-        console.log(DBState);
-        console.log(workloadList);
-        // try {
-        //     const entity = await fetch(`${ServerPath}/api/workload/save`, {
-        //         method: "POST",
-        //         headers: {
-        //             "Content-Type": "application/json",
-        //         },
-        //         body: JSON.stringify(formState),
-        //     });
-        //     const result = await entity.json();
-        //     console.log("result: ", result);
-        //     setSubmissionResult(result);
-        //     setTablesHidden(false);
-        //     setLoading(false);
-        // } catch (error) {
-        //     console.error("Error creating workload: ", error);
-        //     setSubmissionResult({
-        //         error: "Failed to create workload. Please try again.",
-        //         details: error,
-        //     });
-        // }
+        const completeList = workloadList.map((obj) => {
+            return {
+                ...DBState,
+                ...obj,
+            };
+        });
+        console.log(completeList);
+        setTablesHidden(Array(completeList.length).fill(true));
+        setSubmissionResult(Array(completeList.length).fill(null));
+
+        // Define an array to store promises for each API call
+        const apiCalls = completeList.map(async (item, index) => {
+            try {
+                const entity = await fetch(`${ServerPath}/api/workload/save`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(item),
+                });
+                const result = await entity.json();
+                console.log("result for item", index, ": ", result);
+
+                // Update submissionResult and tablesHidden for each item
+                setSubmissionResult((prevState) => [...prevState.slice(0, index), result, ...prevState.slice(index + 1)]);
+                setTablesHidden((prevState) => [
+                    ...prevState.slice(0, index),
+                    false, // Assuming tables are shown after API call
+                    ...prevState.slice(index + 1),
+                ]);
+                console.log(tablesHidden);
+                console.log(submissionResult);
+            } catch (error) {
+                console.error("Error creating workload for item", index, ": ", error);
+
+                // Update submissionResult for error case
+                setSubmissionResult((prevState) => [
+                    ...prevState.slice(0, index),
+                    {
+                        error: "Failed to create workload. Please try again.",
+                        details: error,
+                    },
+                    ...prevState.slice(index + 1),
+                ]);
+            }
+            setLoading(false);
+        });
+
+        // Execute all API calls concurrently
+        await Promise.all(apiCalls);
     };
     const addForm = () => {
         const newIndex = testFormList.length;
@@ -94,9 +122,6 @@ function BatchUpload() {
                     )}
                 </div>
             </form>
-            {/* <div className="mt-3 text-center">
-                <UploadResult formState={formState} submissionResult={submissionResult} setSubmissionResult={setSubmissionResult} setTablesHidden={setTablesHidden} tablesHidden={tablesHidden} />
-            </div> */}
         </div>
     );
 }
