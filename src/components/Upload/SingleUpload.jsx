@@ -8,7 +8,7 @@ import { Typography, Button, CircularProgress } from "@mui/joy";
 import ServerPath from "../../context/ServerPath";
 
 function SingleUpload() {
-    const { formState, setFormState } = useContext(FieldContext);
+    const { DBState, setDBState } = useContext(FieldContext);
     const [submissionResult, setSubmissionResult] = useState(null);
     const [tablesHidden, setTablesHidden] = useState(false);
     const [mounted, setMounted] = useState(false);
@@ -16,34 +16,34 @@ function SingleUpload() {
 
     useEffect(() => {
         if (!mounted) {
-            setFormState({});
+            setDBState({});
         }
         setMounted(true);
     }, []);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        setLoading(true);
-        console.log(formState);
-        try {
-            const entity = await fetch(`${ServerPath}/api/workload/save`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(formState),
-            });
-            const result = await entity.json();
-            setSubmissionResult(result);
-            setTablesHidden(false);
-            setLoading(false);
-        } catch (error) {
-            console.error("Error creating workload: ", error);
-            setSubmissionResult({
-                error: "Failed to create workload. Please try again.",
-                details: error,
-            });
-        }
+        // setLoading(true);
+        console.log(DBState);
+        // try {
+        //     const entity = await fetch(`${ServerPath}/api/workload/save`, {
+        //         method: "POST",
+        //         headers: {
+        //             "Content-Type": "application/json",
+        //         },
+        //         body: JSON.stringify(formState),
+        //     });
+        //     const result = await entity.json();
+        //     setSubmissionResult(result);
+        //     setTablesHidden(false);
+        //     setLoading(false);
+        // } catch (error) {
+        //     console.error("Error creating workload: ", error);
+        //     setSubmissionResult({
+        //         error: "Failed to create workload. Please try again.",
+        //         details: error,
+        //     });
+        // }
     };
 
     return (
@@ -59,7 +59,7 @@ function SingleUpload() {
             <form onSubmit={(event) => handleSubmit(event)}>
                 <div className="question-container mt-2">
                     <DBForm isUpload={true} />
-                    <TestForm isUpload={true} isBatch={false} />
+                    <TestForm key={0} id={0} isUpload={true} isBatch={false} />
                     <WorkloadForm />
                 </div>
 
@@ -75,9 +75,9 @@ function SingleUpload() {
                     )}
                 </div>
             </form>
-            <div className="mt-3 text-center">
-                <UploadResult formState={formState} submissionResult={submissionResult} setSubmissionResult={setSubmissionResult} setTablesHidden={setTablesHidden} tablesHidden={tablesHidden} />
-            </div>
+            {/* <div className="mt-3 text-center">
+                <UploadResult formState={DBState} submissionResult={submissionResult} setSubmissionResult={setSubmissionResult} setTablesHidden={setTablesHidden} tablesHidden={tablesHidden} />
+            </div> */}
         </div>
     );
 }

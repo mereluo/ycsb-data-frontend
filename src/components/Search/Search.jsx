@@ -7,40 +7,41 @@ import DBForm from "../Form/DBForm";
 import TestForm from "../Form/TestForm";
 
 function Search() {
-    const { formState, setFormState } = useContext(FieldContext);
+    const { DBState, setDBState } = useContext(FieldContext);
     const navigateTo = useNavigate();
     const [mounted, setMounted] = useState(false);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         if (!mounted) {
-            setFormState({});
+            setDBState({});
         }
         setMounted(true);
     }, []);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        try {
-            setLoading(true);
-            const entity = await fetch(`${ServerPath}/api/workload/search`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(formState),
-            });
-            const result = await entity.json();
-            console.log("Workload requested: ", result);
-            setLoading(false);
-            if (result.length !== 0) {
-                navigateTo("/result", { state: { workload: result } });
-            } else {
-                alert("No matching workload found. Please try again.");
-            }
-        } catch (error) {
-            console.error("Error finding workloadA: ", error);
-        }
+        console.log(DBState);
+        // try {
+        //     setLoading(true);
+        //     const entity = await fetch(`${ServerPath}/api/workload/search`, {
+        //         method: "POST",
+        //         headers: {
+        //             "Content-Type": "application/json",
+        //         },
+        //         body: JSON.stringify(formState),
+        //     });
+        //     const result = await entity.json();
+        //     console.log("Workload requested: ", result);
+        //     setLoading(false);
+        //     if (result.length !== 0) {
+        //         navigateTo("/result", { state: { workload: result } });
+        //     } else {
+        //         alert("No matching workload found. Please try again.");
+        //     }
+        // } catch (error) {
+        //     console.error("Error finding workloadA: ", error);
+        // }
     };
 
     return (

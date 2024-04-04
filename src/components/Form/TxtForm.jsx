@@ -1,21 +1,20 @@
 import { useState, useContext, useEffect } from "react";
 import { FieldContext } from "../../context/FieldContext";
 
-function TxtForm({ id }) {
-    const { formState, setFormState, formStateList, setFormStateList } = useContext(FieldContext);
+function TxtForm({ id, testState, setTestState }) {
+    const { workloadList, setWorkloadList } = useContext(FieldContext);
     const [userDefinedFields, setUserDefinedFields] = useState(null);
     const [rawContent, setRawContent] = useState("");
 
     useEffect(() => {
-        if (formStateList.length <= id) {
-            setFormStateList([...formStateList, formState]);
-            console.log(formState);
+        if (workloadList.length <= id) {
+            setWorkloadList([...workloadList, testState]);
         } else {
             // If the array has enough elements, update the formState at the specified index
-            setFormStateList(formStateList.map((item, index) => (index === id ? formState : item)));
-            console.log(formState);
+            setWorkloadList(workloadList.map((item, index) => (index === id ? testState : item)));
         }
-    }, [userDefinedFields, formState]);
+        console.log(testState, id);
+    }, [userDefinedFields, testState]);
 
     const handleFileUpload = async (e) => {
         e.preventDefault();
@@ -39,8 +38,7 @@ function TxtForm({ id }) {
                 const extractedData = extractUserDefinedFields(fileContent);
                 const userDefinedFields = reformatUserDefinedFields(extractedData);
                 setUserDefinedFields(userDefinedFields);
-                setFormState((prevState) => ({ ...prevState, userDefinedFields }));
-                console.log(userDefinedFields);
+                setTestState((prevState) => ({ ...prevState, userDefinedFields }));
             }
         };
 
@@ -112,9 +110,9 @@ function TxtForm({ id }) {
     };
     return (
         <div>
-            <div className="input-group">
+            <div className="input-group pt-3">
                 <input type="file" id={`txtFile${id}`} className="form-control" hidden onChange={(e) => handleFileUpload(e)} required />
-                <label htmlFor={`txtFile${id}`} className="input-group-text">
+                <label htmlFor={`txtFile${id}`} className="input-group-text required">
                     Upload .txt File Here
                 </label>
             </div>

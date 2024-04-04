@@ -7,17 +7,17 @@ import { Typography, Button, CircularProgress } from "@mui/joy";
 import ServerPath from "../../context/ServerPath";
 
 function BatchUpload() {
-    const { formState, setFormState, formStateList } = useContext(FieldContext);
+    const { DBState, setDBState, workloadList, setWorkloadList } = useContext(FieldContext);
     const [submissionResult, setSubmissionResult] = useState(null);
     const [tablesHidden, setTablesHidden] = useState(false);
     const [mounted, setMounted] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    const [testFormList, setTestFormList] = useState([<TestForm key={0} isUpload={true} isBatch={true} />]);
+    const [testFormList, setTestFormList] = useState([<TestForm key={0} id={0} isUpload={true} isBatch={true} />]);
 
     useEffect(() => {
         if (!mounted) {
-            setFormState({});
+            setDBState({});
         }
         setMounted(true);
     }, []);
@@ -25,7 +25,8 @@ function BatchUpload() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         // setLoading(true);
-        console.log(formStateList);
+        console.log(DBState);
+        console.log(workloadList);
         // try {
         //     const entity = await fetch(`${ServerPath}/api/workload/save`, {
         //         method: "POST",
@@ -55,6 +56,7 @@ function BatchUpload() {
         if (testFormList.length > 1) {
             const deleteIdx = testFormList.length - 1;
             setTestFormList(testFormList.filter((form, i) => i !== deleteIdx));
+            setWorkloadList(workloadList.filter((workload, i) => i !== deleteIdx));
         }
     };
 

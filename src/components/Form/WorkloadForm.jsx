@@ -5,7 +5,7 @@ import { FieldContext } from "../../context/FieldContext";
 import { Typography } from "@mui/joy";
 
 function WorkloadForm() {
-    const { formState, handleTimeSeriesUpload } = useContext(FieldContext);
+    const { DBState, handleTimeSeriesUpload } = useContext(FieldContext);
     const handleDownload = () => {
         const createTemplate = (template, filename) => {
             const blob = new Blob([template], { type: "text/csv" });
@@ -29,7 +29,7 @@ function WorkloadForm() {
                 <Typography className="card-header" color="primary" level="title-md" variant="soft">
                     3. Workload Data
                 </Typography>
-                {formState.workloadType && formState.type && <WorkloadFactory type={formState.workloadType} test={formState.type} />}
+                {DBState.workloadType && DBState.type && <WorkloadFactory type={DBState.workloadType} test={DBState.type} />}
             </div>
             <div className="card border-bottom-0 border-top-0 col">
                 <Typography className="card-header" color="primary" level="title-md" variant="soft">
