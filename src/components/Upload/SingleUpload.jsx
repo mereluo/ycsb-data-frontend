@@ -3,7 +3,7 @@ import { FieldContext } from "../../context/FieldContext";
 import DBForm from "../Form/DBForm";
 import TestForm from "../Form/TestForm";
 import WorkloadForm from "../Form/WorkloadForm";
-import UploadResult from "./SingleResult";
+import SingleResult from "./SingleResult";
 import { Typography, Button, CircularProgress } from "@mui/joy";
 import ServerPath from "../../context/ServerPath";
 
@@ -76,7 +76,7 @@ function SingleUpload() {
                 </div>
             </form>
             <div className="mt-3 text-center">
-                <UploadResult formState={DBState} submissionResult={submissionResult} setSubmissionResult={setSubmissionResult} setTablesHidden={setTablesHidden} tablesHidden={tablesHidden} />
+                <SingleResult formState={DBState} submissionResult={submissionResult} setSubmissionResult={setSubmissionResult} setTablesHidden={setTablesHidden} tablesHidden={tablesHidden} />
             </div>
         </div>
     );

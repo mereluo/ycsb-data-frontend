@@ -1,9 +1,16 @@
 import { useState } from "react";
 import ServerPath from "../../context/ServerPath";
 
-function UploadResult({ formState, submissionResult, setTablesHidden, tablesHidden }) {
+function SingleResult({ formState, submissionResult, setTablesHidden, tablesHidden, index }) {
     const [deleteResult, setDeleteResult] = useState(null);
-
+    // If there are multiple tables
+    const updateTablesHidden = () => {
+        if (index != null) {
+            setTablesHidden((prevState) => [...prevState.slice(0, index), true, ...prevState.slice(index + 1)]);
+        } else {
+            setTablesHidden(true);
+        }
+    };
     const generateTable = () => {
         const excludedKeys = ["timeSeries", "userDefinedFields"];
 
@@ -40,7 +47,7 @@ function UploadResult({ formState, submissionResult, setTablesHidden, tablesHidd
             });
             if (response.ok) {
                 setDeleteResult(`Workload retracted successfully`);
-                setTablesHidden(true);
+                updateTablesHidden();
             } else {
                 const data = await response.json();
                 setDeleteResult(`Error: ${data.message}`);
@@ -108,4 +115,4 @@ function UploadResult({ formState, submissionResult, setTablesHidden, tablesHidd
     );
 }
 
-export default UploadResult;
+export default SingleResult;
