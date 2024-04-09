@@ -1,16 +1,20 @@
 import { useState } from "react";
 import ServerPath from "../../context/ServerPath";
 
-function SingleResult({ formState, submissionResult, setTablesHidden, tablesHidden, index }) {
+function SingleResult({ formState, workloadId, tablesHidden, setTablesHidden, index }) {
     const [deleteResult, setDeleteResult] = useState(null);
-    // If there are multiple tables
-    const updateTablesHidden = () => {
-        if (index != null) {
-            setTablesHidden((prevState) => [...prevState.slice(0, index), true, ...prevState.slice(index + 1)]);
+
+    const updateHiddenState = () => {
+        if (index >= 0) {
+            setTablesHidden((prevState) => {
+                return prevState.map((hidden, i) => (i === index ? true : hidden));
+            });
         } else {
             setTablesHidden(true);
         }
     };
+
+    // If there are multiple tables
     const generateTable = () => {
         const excludedKeys = ["timeSeries", "userDefinedFields"];
 
@@ -39,7 +43,7 @@ function SingleResult({ formState, submissionResult, setTablesHidden, tablesHidd
 
     const handleRetract = async () => {
         try {
-            const response = await fetch(`${ServerPath}/api/workload/delete/${submissionResult.id}`, {
+            const response = await fetch(`${ServerPath}/api/workload/delete/${workloadId}`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
@@ -47,7 +51,7 @@ function SingleResult({ formState, submissionResult, setTablesHidden, tablesHidd
             });
             if (response.ok) {
                 setDeleteResult(`Workload retracted successfully`);
-                updateTablesHidden();
+                updateHiddenState();
             } else {
                 const data = await response.json();
                 setDeleteResult(`Error: ${data.message}`);
@@ -60,21 +64,21 @@ function SingleResult({ formState, submissionResult, setTablesHidden, tablesHidd
 
     return (
         <div>
-            {submissionResult && (
+            {workloadId && (
                 <div className="mt-3">
-                    {submissionResult.error ? (
+                    {workloadId.error ? (
                         <div className="alert alert-danger" role="alert">
-                            <strong>{submissionResult.error}</strong>
+                            <strong>{workloadId.error}</strong>
                             <br />
-                            <strong>Error Details:</strong> {submissionResult.details}
+                            <strong>Error Details:</strong> {workloadId.details}
                         </div>
                     ) : (
                         <div>
-                            {tablesHidden ? (
+                            {(index && tablesHidden[index]) || tablesHidden ? (
                                 <strong>{deleteResult}</strong>
                             ) : (
                                 <div>
-                                    {Object.keys(submissionResult).length > 0 && (
+                                    {Object.keys(workloadId).length > 0 && (
                                         <div>
                                             <div className="alert alert-success" role="alert">
                                                 <strong>Workload created successfully!</strong>

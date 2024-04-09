@@ -9,7 +9,7 @@ import ServerPath from "../../context/ServerPath";
 
 function SingleUpload() {
     const { DBState, setDBState } = useContext(FieldContext);
-    const [submissionResult, setSubmissionResult] = useState(null);
+    const [workloadId, SetWorkloadID] = useState(null);
     const [tablesHidden, setTablesHidden] = useState(true);
     const [mounted, setMounted] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -34,12 +34,13 @@ function SingleUpload() {
                 body: JSON.stringify(DBState),
             });
             const result = await entity.json();
-            setSubmissionResult(result);
+            console.log("result for item: ", result);
+            SetWorkloadID(result.id);
             setTablesHidden(false);
             setLoading(false);
         } catch (error) {
             console.error("Error creating workload: ", error);
-            setSubmissionResult({
+            SetWorkloadID({
                 error: "Failed to create workload. Please try again.",
                 details: error,
             });
@@ -76,7 +77,7 @@ function SingleUpload() {
                 </div>
             </form>
             <div className="mt-3 text-center">
-                <SingleResult formState={DBState} submissionResult={submissionResult} setSubmissionResult={setSubmissionResult} setTablesHidden={setTablesHidden} tablesHidden={tablesHidden} />
+                <SingleResult formState={DBState} workloadId={workloadId} setTablesHidden={setTablesHidden} tablesHidden={tablesHidden} />
             </div>
         </div>
     );

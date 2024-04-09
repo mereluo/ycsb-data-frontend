@@ -36,7 +36,6 @@ function Result() {
 
     const handleDelete = async (index) => {
         const deleteId = workloads[index].id;
-        console.log(deleteId);
         try {
             const response = await fetch(`${ServerPath}/api/workload/delete/${deleteId}`, {
                 method: "DELETE",
