@@ -20,7 +20,7 @@ function DBForm({ isUpload }) {
                             <Input variant="outlined" color="neutral" size="sm" type="text" className="form-control" id="textInput" placeholder="E.g., Spanner" onChange={(e) => handleDbChange("database", e.target.value.toLowerCase())} required={isUpload} />
                         </div>
                         <div className="col">
-                            <p className="card-text">Description</p>
+                            <p className="card-text">Database Description</p>
                             <Input variant="outlined" color="neutral" size="sm" type="text" id="description-input" className="form-control" onChange={(e) => handleDbChange("description", e.target.value)} />
                         </div>
                         <div className="col">

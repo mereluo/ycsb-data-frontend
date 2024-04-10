@@ -28,11 +28,11 @@ function TestForm({ id, isUpload, isBatch }) {
                             <p className={requiredField}>Concurrency Level</p>
                             <Input variant="outlined" color="neutral" size="sm" type="number" id="concurrencySelect" className="form-control" onChange={(e) => handleTestChange("concurrencyLevel", Math.max(1, e.target.value))} required={isUpload} />
                         </div>
-                        <div className="col-4">
+                        <div className="col-3">
                             <p className={requiredField}>Record Counts(Million)</p>
                             <Input variant="outlined" color="neutral" size="sm" type="text" id="Record-input" className="form-control" onChange={(e) => handleTestChange("recordCounts", validateDoubleInput(e.target.value))} pattern={numberPattern} required={isUpload} />
                         </div>
-                        <div className="col-2">
+                        <div className="col-3">
                             <p className={requiredField}>Update Type</p>
                             <Select id="multiRegionSelect" onChange={(e, val) => handleTestChange("updateType", val)} required={isUpload}>
                                 <Option value="query">by query</Option>
@@ -45,7 +45,11 @@ function TestForm({ id, isUpload, isBatch }) {
                         </div>
                     </div>
                     <div className="row">
-                        <div className="col-4">
+                        <div className="col-3">
+                            <p className="card-text">Workload Description</p>
+                            <Input variant="outlined" color="neutral" size="sm" type="text" id="workload-description" className="form-control col" placeholder="E.g., read primary" onChange={(e) => handleTestChange("workloadDescription", e.target.value)} />
+                        </div>
+                        <div className="col-3">
                             <p className="card-text">Command Line</p>
                             <Input variant="outlined" color="neutral" size="sm" type="text" id="command-line-input" className="form-control col" onChange={(e) => handleTestChange("commandLine", e.target.value)} />
                         </div>

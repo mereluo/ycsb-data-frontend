@@ -54,7 +54,7 @@ function SingleUpload() {
                     Upload Data
                 </Typography>
                 <Typography color="neutral" level="body-md" variant="soft">
-                    Fill in the required fields and (Optional) upload the time series data as CSV.
+                    Fill in the required fields and upload the time series data as CSV (Optional).
                 </Typography>
             </div>
             <form onSubmit={(event) => handleSubmit(event)}>

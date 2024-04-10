@@ -1,4 +1,3 @@
-import React from "react";
 import { AB, AB_T, F, F_T, G, C, G_T, C_T } from "../../../models/Templates";
 import Workload from "./Workload";
 

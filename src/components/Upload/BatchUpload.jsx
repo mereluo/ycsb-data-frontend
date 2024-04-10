@@ -86,7 +86,7 @@ function BatchUpload() {
     };
 
     return (
-        <div>
+        <div className="container">
             <div className="mt-3">
                 <Typography color="neutral" level="h3" variant="plain" className="mb-2">
                     Upload Data

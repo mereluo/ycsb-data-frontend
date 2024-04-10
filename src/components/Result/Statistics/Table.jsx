@@ -29,8 +29,9 @@ function CustomTable({ workload }) {
                 <tbody>{renderRows()}</tbody>
             </Table>
             <div className="mb-4 mt-2">
-                {workload.description && <Typography level="body-sm">Description:{workload.description}</Typography>}
+                {workload.description && <Typography level="body-sm">Database Description:{workload.description}</Typography>}
                 {workload.locationDetails && <div>Location Details: {workload.locationDetails}</div>}
+                {workload.workloadDescription && <div>Workload Description: {workload.workloadDescription}</div>}
                 {workload.commandLine && <div>Command Line: {workload.commandLine}</div>}
             </div>
         </div>

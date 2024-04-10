@@ -1,11 +1,13 @@
 import { useContext } from "react";
 import { TSTemplate } from "../../models/Templates";
 import WorkloadFactory from "./Workload/WorkloadFactory";
+import WorkloadCustomize from "./Workload/WorkloadCustomize";
 import { FieldContext } from "../../context/FieldContext";
 import { Typography } from "@mui/joy";
 
 function WorkloadForm() {
     const { DBState, handleTimeSeriesUpload } = useContext(FieldContext);
+    const definedWorkloadType = ["A", "F", "G", "C"];
     const handleDownload = () => {
         const createTemplate = (template, filename) => {
             const blob = new Blob([template], { type: "text/csv" });
@@ -23,13 +25,22 @@ function WorkloadForm() {
         };
         createTemplate(TSTemplate, "time-series");
     };
+    const renderDataForm = () => {
+        if (DBState.workloadType) {
+            if (definedWorkloadType.includes(DBState.workloadType) && DBState.type) {
+                return <WorkloadFactory type={DBState.workloadType} test={DBState.type} />;
+            } else {
+                return <WorkloadCustomize type={DBState.workloadType} />;
+            }
+        }
+    };
     return (
         <div className="row">
             <div className="card border-bottom-0 border-top-0 col-9 mr-3">
                 <Typography className="card-header" color="primary" level="title-md" variant="soft">
                     3. Workload Data
                 </Typography>
-                {DBState.workloadType && DBState.type && <WorkloadFactory type={DBState.workloadType} test={DBState.type} />}
+                {renderDataForm()}
             </div>
             <div className="card border-bottom-0 border-top-0 col">
                 <Typography className="card-header" color="primary" level="title-md" variant="soft">
