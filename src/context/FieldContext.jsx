@@ -15,15 +15,14 @@ const FieldProvider = ({ children }) => {
         setDBState((prevState) => ({ ...prevState, [fieldName]: value }));
     };
     const handleDataChange = (fieldName, value) => {
-        console.log("in change, fieldname: ", fieldName);
         const newData = { ...DBState.userDefinedFields, [fieldName]: value };
         setDBState((prevState) => ({ ...prevState, userDefinedFields: newData }));
-        console.log("in change, dbstate: ", DBState);
     };
     const deleteDataByName = (fieldName) => {
-        const { [fieldName]: _, ...newData } = DBState.userDefinedFields;
-        setDBState((prevState) => ({ ...prevState, userDefinedFields: newData }));
-        console.log("in delete, dbstate: ", DBState);
+        if (DBState.userDefinedFields) {
+            const { [fieldName]: _, ...newData } = DBState.userDefinedFields;
+            setDBState((prevState) => ({ ...prevState, userDefinedFields: newData }));
+        }
     };
     // Validate if the input is a valid double
     const validateDoubleInput = (input) => {
