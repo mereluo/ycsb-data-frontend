@@ -54,6 +54,7 @@ const FieldProvider = ({ children }) => {
                     const finalResult = {
                         data: resultObject,
                     };
+
                     setDBState((prevState) => ({ ...prevState, ["timeSeries"]: finalResult }));
                 },
             });

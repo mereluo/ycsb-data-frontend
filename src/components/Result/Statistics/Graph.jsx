@@ -28,7 +28,7 @@ function Graph({ workload }) {
     };
 
     const options = {
-        responsive: true,
+        // responsive: true,
         plugins: {
             legend: {
                 display: true,
@@ -66,6 +66,9 @@ function Graph({ workload }) {
         elements: {
             line: {
                 tension: 0.4,
+            },
+            point: {
+                radius: 0,
             },
         },
     };
@@ -105,10 +108,10 @@ function Graph({ workload }) {
     };
 
     return (
-        <div className="graph-container" style={{ width: "100%" }}>
+        <div className="graph-container">
             {timeSeries && (
                 <div>
-                    <div className="graph-box" style={{ width: "100%" }}>
+                    <div className="graph-box">
                         <Scatter options={options} data={data} />
                     </div>
                     <div className="button-box">
