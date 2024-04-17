@@ -4,7 +4,7 @@ import { FieldContext } from "../../context/FieldContext";
 function TxtForm({ id, testState, setTestState }) {
     const { workloadList, setWorkloadList } = useContext(FieldContext);
     const [userDefinedFields, setUserDefinedFields] = useState(null);
-    const [rawContent, setRawContent] = useState("");
+    const [timeSeries, setTimeSeries] = useState(null);
 
     useEffect(() => {
         if (workloadList.length <= id) {
@@ -14,7 +14,7 @@ function TxtForm({ id, testState, setTestState }) {
             setWorkloadList(workloadList.map((item, index) => (index === id ? testState : item)));
         }
         console.log(testState, id);
-    }, [userDefinedFields, testState]);
+    }, [userDefinedFields, testState, timeSeries]);
 
     const handleFileUpload = async (e) => {
         e.preventDefault();
@@ -27,7 +27,6 @@ function TxtForm({ id, testState, setTestState }) {
         reader.onload = async (event) => {
             const content = event.target.result;
             fileContent += content;
-            setRawContent((prevContent) => prevContent + content);
 
             // Continue reading next chunk
             if (file.size > reader.offset) {
@@ -36,7 +35,20 @@ function TxtForm({ id, testState, setTestState }) {
             } else {
                 // Extract user-defined fields
                 const extractedData = extractUserDefinedFields(fileContent);
-                const userDefinedFields = reformatUserDefinedFields(extractedData);
+                console.log("extractedData", extractedData);
+                const data = extractedData.data;
+                if (Object.keys(data).length > 0) {
+                    setTestState((prevState) => ({ ...prevState, timeSeries: { data: data } }));
+                } else {
+                    if (testState.hasOwnProperty("data")) {
+                        setTestState((prevState) => {
+                            const updatedState = { ...prevState };
+                            delete updatedState.data;
+                            return updatedState;
+                        });
+                    }
+                }
+                const userDefinedFields = reformatUserDefinedFields(extractedData.userDefinedFields);
                 setUserDefinedFields(userDefinedFields);
                 setTestState((prevState) => ({ ...prevState, userDefinedFields }));
             }
@@ -48,12 +60,12 @@ function TxtForm({ id, testState, setTestState }) {
     };
     const extractUserDefinedFields = (fileContent) => {
         const lines = fileContent.split("\n");
-        const extractedData = {};
+        const extractedData = { userDefinedFields: {}, data: {} };
 
         lines.forEach((line) => {
-            const matches = line.match(/\[(.*?)\], (.*?), (\d+(?:\.\d+)?)/);
-            if (matches) {
-                const [, field, operation, value] = matches;
+            const fieldMatches = line.match(/\[(.*?)\], (.*?), (\d+(?:\.\d+)?)/);
+            if (fieldMatches) {
+                const [, field, operation, value] = fieldMatches;
                 if (!field.includes("-FAILED") && (operation === "AverageLatency(us)" || operation === "MaxLatency(us)" || operation === "MinLatency(us)" || operation === "95thPercentileLatency(us)" || operation === "99thPercentileLatency(us)" || (field === "OVERALL" && operation === "Throughput(ops/sec)"))) {
                     // field name preprocessing
                     const words = field.split(" ");
@@ -62,10 +74,21 @@ function TxtForm({ id, testState, setTestState }) {
                         formatField += words[i].charAt(0).toUpperCase() + words[i].slice(1).toLowerCase();
                     }
                     if (formatField === "read-modify-write") formatField = "rmw";
-                    if (!extractedData[formatField]) {
-                        extractedData[formatField] = {};
+                    if (!extractedData.userDefinedFields[formatField]) {
+                        extractedData.userDefinedFields[formatField] = {};
                     }
-                    extractedData[formatField][operation] = parseFloat(value);
+                    extractedData.userDefinedFields[formatField][operation] = parseFloat(value);
+                }
+            }
+            const timeSeriesMatches = line.match(/\[(.*?)\], (\d+), (\d+(?:\.\d+)?)/);
+            if (timeSeriesMatches) {
+                const [, type, time, latency] = timeSeriesMatches;
+                if (time !== "0") {
+                    if (!extractedData.data[type]) {
+                        extractedData.data[type] = { time: [], latency: [] };
+                    }
+                    extractedData.data[type].time.push(parseInt(time));
+                    extractedData.data[type].latency.push(parseFloat(latency));
                 }
             }
         });

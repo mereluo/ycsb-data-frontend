@@ -125,7 +125,7 @@ function Result() {
                 {workloads.map(
                     (workload, index) =>
                         showData[index] && (
-                            <div key={workload.id} className="col-5">
+                            <div key={workload.id} className="col-6">
                                 <div>
                                     <Typography level="title-md" variant="soft">
                                         Table for Index {index + 1}
