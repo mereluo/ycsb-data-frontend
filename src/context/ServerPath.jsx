@@ -1,2 +1,2 @@
-const ServerPath = "http://localhost:8080";
+const ServerPath = "https://ycsb-nosql.onrender.com";
 export default ServerPath;

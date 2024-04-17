@@ -106,7 +106,7 @@ function BatchUpload() {
                         Add Another Workload
                     </Button>
                     <Button className="col-md-2" variant="soft" color="danger" onClick={deleteForm}>
-                        Delete the Last Workload
+                        Delete Last Workload
                     </Button>
                 </div>
                 <div className="mt-3 text-center">
