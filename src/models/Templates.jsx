@@ -50,4 +50,26 @@ const F_T = {
     abort: createMetric("abort"),
 };
 
-export { TSTemplate, AB, AB_T, F, F_T };
+const G = {
+    update: createMetric("update"),
+};
+
+const G_T = {
+    update: createMetric("update"),
+    commit: createMetric("commit"),
+    start: createMetric("start"),
+    abort: createMetric("abort"),
+};
+
+const C = {
+    read: createMetric("read"),
+};
+
+const C_T = {
+    read: createMetric("read"),
+    commit: createMetric("commit"),
+    start: createMetric("start"),
+    abort: createMetric("abort"),
+};
+
+export { TSTemplate, AB, AB_T, F, F_T, G, G_T, C, C_T };

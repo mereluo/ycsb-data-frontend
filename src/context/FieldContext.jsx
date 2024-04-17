@@ -1,25 +1,31 @@
-import React, { createContext, useState } from "react";
+import { createContext, useState } from "react";
 import Papa from "papaparse";
 
 const FieldContext = createContext();
 
 const FieldProvider = ({ children }) => {
-    const initialForm = {};
     // Variables and states
     const numberPattern = "[0-9]+([.][0-9]+)?";
-    const [formState, setFormState] = useState(initialForm);
+    const [DBState, setDBState] = useState({});
     const [data, setData] = useState(null);
+    const [workloadList, setWorkloadList] = useState([]);
 
     // Functions for building form and data objects
-    const handleInputChange = (fieldName, value) => {
-        setFormState((prevState) => ({ ...prevState, [fieldName]: value }));
+    const handleDbChange = (fieldName, value) => {
+        setDBState((prevState) => ({ ...prevState, [fieldName]: value }));
     };
     const handleDataChange = (fieldName, value) => {
-        const newData = { ...formState.userDefinedFields, [fieldName]: value };
-        setFormState((prevState) => ({ ...prevState, userDefinedFields: newData }));
+        const newData = { ...DBState.userDefinedFields, [fieldName]: value };
+        setDBState((prevState) => ({ ...prevState, userDefinedFields: newData }));
     };
+    const deleteDataByName = (fieldName) => {
+        if (DBState.userDefinedFields) {
+            const { [fieldName]: _, ...newData } = DBState.userDefinedFields;
+            setDBState((prevState) => ({ ...prevState, userDefinedFields: newData }));
+        }
+    };
+    // Validate if the input is a valid double
     const validateDoubleInput = (input) => {
-        // Validate if the input is a valid double
         const parsedValue = parseFloat(input);
         return isNaN(parsedValue) ? 1 : Math.max(0, parsedValue);
     };
@@ -48,13 +54,13 @@ const FieldProvider = ({ children }) => {
                     const finalResult = {
                         data: resultObject,
                     };
-                    setFormState((prevState) => ({ ...prevState, ["timeSeries"]: finalResult }));
+                    setDBState((prevState) => ({ ...prevState, ["timeSeries"]: finalResult }));
                 },
             });
         }
     };
 
-    return <FieldContext.Provider value={{ numberPattern, formState, setFormState, data, setData, handleInputChange, handleDataChange, validateDoubleInput, handleTimeSeriesUpload }}>{children}</FieldContext.Provider>;
+    return <FieldContext.Provider value={{ numberPattern, DBState, setDBState, setData, data, workloadList, setWorkloadList, handleDbChange, handleDataChange, deleteDataByName, validateDoubleInput, handleTimeSeriesUpload }}>{children}</FieldContext.Provider>;
 };
 
 export { FieldContext, FieldProvider };

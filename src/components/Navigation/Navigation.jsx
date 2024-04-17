@@ -27,10 +27,13 @@ function Navigation() {
                             Home
                         </Link>
                         <Link to="/search" className={`nav-link ${isActive("/search")}`}>
-                            Start Search
+                            StartSearch
                         </Link>
-                        <Link to="/upload" className={`nav-link ${isActive("/upload")}`}>
-                            Upload
+                        <Link to="/single-upload" className={`nav-link ${isActive("/single-upload")}`}>
+                            SingleUpload
+                        </Link>
+                        <Link to="/batch-upload" className={`nav-link ${isActive("/batch-upload")}`}>
+                            BatchUpload
                         </Link>
                     </Nav>
                 </Navbar.Collapse>
