@@ -1,4 +1,5 @@
-import React from 'react';
+import { FieldContext } from '../../context/FieldContext';
+import React, { useContext } from 'react';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -6,6 +7,7 @@ import { Link, useLocation } from 'react-router-dom';
 import logo from '../../assets/ycsblogo.png';
 
 function Navigation() {
+  const { isLogin } = useContext(FieldContext);
   const location = useLocation();
 
   const isActive = (path) => {
@@ -28,15 +30,16 @@ function Navigation() {
             <Link to="/search" className={`nav-link ${isActive('/search')}`}>
               Search
             </Link>
-            <Link to="/single-upload" className={`nav-link ${isActive('/single-upload')}`}>
-              Single Upload
-            </Link>
-            <Link to="/batch-upload" className={`nav-link ${isActive('/batch-upload')}`}>
-              Batch Upload
-            </Link>
-            <Link to="/contact" className={`nav-link ${isActive('/contact')}`}>
-              Contact
-            </Link>
+            {isLogin && (
+              <>
+                <Link to="/single-upload" className={`nav-link ${isActive('/single-upload')}`}>
+                  Single Upload
+                </Link>
+                <Link to="/batch-upload" className={`nav-link ${isActive('/batch-upload')}`}>
+                  Batch Upload
+                </Link>
+              </>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>

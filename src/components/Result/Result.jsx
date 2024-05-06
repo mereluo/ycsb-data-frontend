@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { FieldContext } from '../../context/FieldContext';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSort, faSortUp, faSortDown } from '@fortawesome/free-solid-svg-icons';
@@ -10,6 +11,7 @@ import './result.css';
 import ServerPath from '../../context/ServerPath';
 
 function Result() {
+  const { isLogin } = useContext(FieldContext);
   const location = useLocation();
   let initialWorkloads = location.state.workload || [];
   const navigateTo = useNavigate();
@@ -55,8 +57,8 @@ function Result() {
     }
   };
 
-  const columns = React.useMemo(
-    () => [
+  const columns = React.useMemo(() => {
+    const baseColumns = [
       { Header: 'Index', accessor: (row, index) => index + 1 },
       { Header: 'Test Type', accessor: 'type' },
       { Header: 'Database', accessor: 'database' },
@@ -75,17 +77,22 @@ function Result() {
           </Button>
         ),
       },
-      {
+    ];
+
+    if (isLogin) {
+      baseColumns.push({
         Header: 'Delete',
         accessor: (row, index) => (
           <Button size="sm" variant="outlined" color="danger" onClick={() => handleDelete(index)}>
             Delete
           </Button>
         ),
-      },
-    ],
-    [showData, workloads]
-  );
+      });
+    }
+
+    return baseColumns;
+  }, [isLogin, showData, workloads]);
+
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({ columns, data: workloads }, useSortBy);
 
   return (
