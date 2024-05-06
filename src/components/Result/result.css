@@ -1,15 +1,15 @@
 .workload-grid-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Adjust the column widths as needed */
-    gap: 20px; /* Adjust the gap between items as needed */
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Adjust the column widths as needed */
+  gap: 20px; /* Adjust the gap between items as needed */
 }
 .card-body {
-    font-size: 12px;
+  font-size: 12px;
 }
 
 .sticky-header {
-    position: sticky;
-    top: 0;
-    z-index: 1;
-    font-size: 14px;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  font-size: 14px;
 }

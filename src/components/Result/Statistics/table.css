@@ -1,15 +1,15 @@
 .table-container {
-    width: 100%;
+  width: 100%;
 }
 
 thead {
-    font-weight: bold;
-    font-size: 14px;
+  font-weight: bold;
+  font-size: 14px;
 }
 .table-container table {
-    width: 100%;
+  width: 100%;
 }
 td {
-    width: 200px;
-    font-size: 13px;
+  width: 200px;
+  font-size: 13px;
 }
