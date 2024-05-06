@@ -72,4 +72,6 @@ const C_T = {
   abort: createMetric('abort'),
 };
 
-export { TSTemplate, AB, AB_T, F, F_T, G, G_T, C, C_T };
+const definedWorkloadType = ['A', 'F', 'G', 'C', 'B'];
+
+export { TSTemplate, AB, AB_T, F, F_T, G, G_T, C, C_T, definedWorkloadType };

@@ -1,13 +1,13 @@
 import { useContext } from 'react';
-import { TSTemplate } from '../../models/Templates';
+import { TSTemplate, definedWorkloadType } from '../../models/Templates';
 import WorkloadFactory from './Workload/WorkloadFactory';
 import WorkloadCustomize from './Workload/WorkloadCustomize';
 import { FieldContext } from '../../context/FieldContext';
 import { Typography } from '@mui/joy';
 
 function WorkloadForm() {
-  const { DBState, handleTimeSeriesUpload } = useContext(FieldContext);
-  const definedWorkloadType = ['A', 'F', 'G', 'C'];
+  const { DBState } = useContext(FieldContext);
+
   const handleDownload = () => {
     const createTemplate = (template, filename) => {
       const blob = new Blob([template], { type: 'text/csv' });
@@ -32,6 +32,37 @@ function WorkloadForm() {
       } else {
         return <WorkloadCustomize type={DBState.workloadType} />;
       }
+    }
+  };
+  const handleTimeSeriesUpload = (event) => {
+    // Handle the uploaded file here
+    const file = event.target.files[0];
+    if (file) {
+      Papa.parse(event.target.files[0], {
+        header: true,
+        skipEmptyLines: true,
+        complete: function (results) {
+          const inputData = results.data;
+          const resultObject = {};
+
+          inputData.forEach((item) => {
+            const { category, time, mean_latency } = item;
+            if (!resultObject[category]) {
+              resultObject[category] = {
+                time: [],
+                latency: [],
+              };
+            }
+            resultObject[category].time.push(time);
+            resultObject[category].latency.push(mean_latency);
+          });
+          const finalResult = {
+            data: resultObject,
+          };
+
+          setDBState((prevState) => ({ ...prevState, ['timeSeries']: finalResult }));
+        },
+      });
     }
   };
   return (

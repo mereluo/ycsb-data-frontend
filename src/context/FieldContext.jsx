@@ -29,39 +29,8 @@ const FieldProvider = ({ children }) => {
     const parsedValue = parseFloat(input);
     return isNaN(parsedValue) ? 1 : Math.max(0, parsedValue);
   };
-  const handleTimeSeriesUpload = (event) => {
-    // Handle the uploaded file here
-    const file = event.target.files[0];
-    if (file) {
-      Papa.parse(event.target.files[0], {
-        header: true,
-        skipEmptyLines: true,
-        complete: function (results) {
-          const inputData = results.data;
-          const resultObject = {};
 
-          inputData.forEach((item) => {
-            const { category, time, mean_latency } = item;
-            if (!resultObject[category]) {
-              resultObject[category] = {
-                time: [],
-                latency: [],
-              };
-            }
-            resultObject[category].time.push(time);
-            resultObject[category].latency.push(mean_latency);
-          });
-          const finalResult = {
-            data: resultObject,
-          };
-
-          setDBState((prevState) => ({ ...prevState, ['timeSeries']: finalResult }));
-        },
-      });
-    }
-  };
-
-  return <FieldContext.Provider value={{ numberPattern, DBState, setDBState, setData, data, workloadList, setWorkloadList, handleDbChange, handleDataChange, deleteDataByName, validateDoubleInput, handleTimeSeriesUpload }}>{children}</FieldContext.Provider>;
+  return <FieldContext.Provider value={{ numberPattern, DBState, setDBState, setData, data, workloadList, setWorkloadList, handleDbChange, handleDataChange, deleteDataByName, validateDoubleInput }}>{children}</FieldContext.Provider>;
 };
 
 export { FieldContext, FieldProvider };

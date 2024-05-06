@@ -6,7 +6,6 @@ import SingleUpload from './components/Upload/SingleUpload.jsx';
 import Result from './components/Result/Result.jsx';
 import { Route, Routes } from 'react-router-dom';
 import Search from './components/Search/Search.jsx';
-import { FieldProvider } from './context/FieldContext.jsx';
 import BatchUpload from './components/Upload/BatchUpload.jsx';
 
 function App() {
@@ -17,30 +16,9 @@ function App() {
         <div>
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route
-              path="/search"
-              element={
-                <FieldProvider>
-                  <Search />
-                </FieldProvider>
-              }
-            />
-            <Route
-              path="/single-upload"
-              element={
-                <FieldProvider>
-                  <SingleUpload />
-                </FieldProvider>
-              }
-            />
-            <Route
-              path="/batch-upload"
-              element={
-                <FieldProvider>
-                  <BatchUpload />
-                </FieldProvider>
-              }
-            />
+            <Route path="/search" element={<Search />} />
+            <Route path="/single-upload" element={<SingleUpload />} />
+            <Route path="/batch-upload" element={<BatchUpload />} />
             <Route path="/result" element={<Result />} />
           </Routes>
         </div>
