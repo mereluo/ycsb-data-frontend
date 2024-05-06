@@ -11,16 +11,12 @@ function BatchUpload() {
   const [completeList, setCompleteList] = useState([]);
   const [workloadsId, setWorkloadsId] = useState([]);
   const [tablesHidden, setTablesHidden] = useState([]);
-  const [mounted, setMounted] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const [testFormList, setTestFormList] = useState([<TestForm key={0} id={0} isUpload={true} isBatch={true} />]);
 
   useEffect(() => {
-    if (!mounted) {
-      setDBState({});
-    }
-    setMounted(true);
+    setDBState({});
   }, []);
 
   const handleSubmit = useMemo(

@@ -9,14 +9,10 @@ import TestForm from '../Form/TestForm';
 function Search() {
   const { DBState, setDBState } = useContext(FieldContext);
   const navigateTo = useNavigate();
-  const [mounted, setMounted] = useState(false);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (!mounted) {
-      setDBState({});
-    }
-    setMounted(true);
+    setDBState({});
   }, []);
 
   const handleSubmit = async (event) => {

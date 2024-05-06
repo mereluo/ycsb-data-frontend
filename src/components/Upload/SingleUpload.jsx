@@ -11,14 +11,10 @@ function SingleUpload() {
   const { DBState, setDBState } = useContext(FieldContext);
   const [workloadId, SetWorkloadID] = useState(null);
   const [tablesHidden, setTablesHidden] = useState(true);
-  const [mounted, setMounted] = useState(false);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (!mounted) {
-      setDBState({});
-    }
-    setMounted(true);
+    setDBState({});
   }, []);
 
   const handleSubmit = async (event) => {
