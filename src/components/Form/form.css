@@ -1,13 +1,13 @@
 .card-header {
-    font-weight: bold;
+  font-weight: bold;
 }
 .card-text {
-    font-size: 11pt;
-    margin-top: 15px;
-    margin-bottom: 2px;
+  font-size: 11pt;
+  margin-top: 15px;
+  margin-bottom: 2px;
 }
 
 .required::after {
-    content: " *";
-    color: red;
+  content: ' *';
+  color: red;
 }
