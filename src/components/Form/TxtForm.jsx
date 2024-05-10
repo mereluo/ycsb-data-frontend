@@ -4,7 +4,6 @@ import { FieldContext } from '../../context/FieldContext';
 function TxtForm({ id, testState, setTestState }) {
   const { workloadList, setWorkloadList } = useContext(FieldContext);
   const [userDefinedFields, setUserDefinedFields] = useState(null);
-  const [timeSeries, setTimeSeries] = useState(null);
 
   useEffect(() => {
     if (workloadList.length <= id) {
@@ -14,7 +13,7 @@ function TxtForm({ id, testState, setTestState }) {
       setWorkloadList(workloadList.map((item, index) => (index === id ? testState : item)));
     }
     console.log(testState, id);
-  }, [userDefinedFields, testState, timeSeries]);
+  }, [userDefinedFields, testState]);
 
   const handleFileUpload = async (e) => {
     e.preventDefault();
@@ -66,7 +65,7 @@ function TxtForm({ id, testState, setTestState }) {
       const fieldMatches = line.match(/\[(.*?)\], (.*?), (\d+(?:\.\d+)?)/);
       if (fieldMatches) {
         const [, field, operation, value] = fieldMatches;
-        if (!field.includes('-FAILED') && (operation === 'AverageLatency(us)' || operation === 'MaxLatency(us)' || operation === 'MinLatency(us)' || operation === '95thPercentileLatency(us)' || operation === '99thPercentileLatency(us)' || (field === 'OVERALL' && operation === 'Throughput(ops/sec)'))) {
+        if (!field.includes('-FAILED') && (operation === 'AverageLatency(us)' || operation === 'MaxLatency(us)' || operation === '95thPercentileLatency(us)' || operation === '99thPercentileLatency(us)' || (field === 'OVERALL' && operation === 'Throughput(ops/sec)'))) {
           // field name preprocessing
           const words = field.split(' ');
           let formatField = words[0].toLowerCase();
@@ -112,8 +111,8 @@ function TxtForm({ id, testState, setTestState }) {
           case 'AverageLatency(us)':
             newKey = `${prefix}MeanLatency`;
             break;
-          case 'MinLatency(us)':
-            newKey = `${prefix}MinLatency`;
+          case 'MaxLatency(us)':
+            newKey = `${prefix}MaxLatency`;
             break;
           case '95thPercentileLatency(us)':
             newKey = `${prefix}P95`;

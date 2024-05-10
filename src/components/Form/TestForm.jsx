@@ -37,6 +37,7 @@ function TestForm({ id, isUpload, isBatch }) {
               <Select id="multiRegionSelect" onChange={(e, val) => handleTestChange('updateType', val)} required={isUpload}>
                 <Option value="query">by query</Option>
                 <Option value="buffer">by buffer</Option>
+                <Option value="none">Not Specified</Option>
               </Select>
             </div>
             <div className="col-3">
