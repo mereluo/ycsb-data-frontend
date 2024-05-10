@@ -13,6 +13,7 @@ const HomePage = () => {
 
   const validateLogin = (input) => {
     if (input.name === import.meta.env.VITE_NAME && input.password === import.meta.env.VITE_PASSWORD) {
+      document.cookie = 'isLoggedIn=true;max-age=3600';
       setIsLogin(true);
       return '';
     }
@@ -20,6 +21,7 @@ const HomePage = () => {
   };
 
   const logout = () => {
+    document.cookie = 'isLoggedIn=;max-age=0';
     setIsLogin(false);
   };
 

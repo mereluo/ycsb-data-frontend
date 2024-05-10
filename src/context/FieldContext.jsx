@@ -8,7 +8,7 @@ const FieldProvider = ({ children }) => {
   const [DBState, setDBState] = useState({});
   const [data, setData] = useState(null);
   const [workloadList, setWorkloadList] = useState([]);
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(document.cookie.includes('isLoggedIn=true'));
 
   // Functions for building form and data objects
   const handleDbChange = (fieldName, value) => {
@@ -29,7 +29,6 @@ const FieldProvider = ({ children }) => {
     const parsedValue = parseFloat(input);
     return isNaN(parsedValue) ? 1 : Math.max(0, parsedValue);
   };
-
 
   return <FieldContext.Provider value={{ numberPattern, DBState, setDBState, setData, data, workloadList, isLogin, setIsLogin, setWorkloadList, handleDbChange, handleDataChange, deleteDataByName, validateDoubleInput }}>{children}</FieldContext.Provider>;
 };
