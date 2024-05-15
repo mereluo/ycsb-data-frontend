@@ -7,7 +7,7 @@ import { Typography } from '@mui/joy';
 import Papa from 'papaparse';
 
 function WorkloadForm() {
-  const { DBState } = useContext(FieldContext);
+  const { DBState, setDBState } = useContext(FieldContext);
 
   const handleDownload = () => {
     const createTemplate = (template, filename) => {
@@ -29,7 +29,12 @@ function WorkloadForm() {
   const renderDataForm = () => {
     if (DBState.workloadType) {
       if (definedWorkloadType.includes(DBState.workloadType) && DBState.type) {
-        return <WorkloadFactory type={DBState.workloadType} test={DBState.type} />;
+        return (
+          <WorkloadFactory
+            type={DBState.workloadType}
+            test={DBState.type}
+          />
+        );
       } else {
         return <WorkloadCustomize type={DBState.workloadType} />;
       }
@@ -67,26 +72,48 @@ function WorkloadForm() {
     }
   };
   return (
-    <div className="row">
-      <div className="card border-bottom-0 border-top-0 col-9 mr-3">
-        <Typography className="card-header" color="primary" level="title-md" variant="soft">
+    <div className='row'>
+      <div className='card border-bottom-0 border-top-0 col-9 mr-3'>
+        <Typography
+          className='card-header'
+          color='primary'
+          level='title-md'
+          variant='soft'
+        >
           3. Workload Data
         </Typography>
         {renderDataForm()}
       </div>
-      <div className="card border-bottom-0 border-top-0 col">
-        <Typography className="card-header" color="primary" level="title-md" variant="soft">
+      <div className='card border-bottom-0 border-top-0 col'>
+        <Typography
+          className='card-header'
+          color='primary'
+          level='title-md'
+          variant='soft'
+        >
           4. Upload Time Series CSV
         </Typography>
-        <div className="mt-4">
+        <div className='mt-4'>
           <p>Download CSV Template</p>
-          <button className="btn btn-outline-info p-3" onClick={handleDownload}>
+          <button
+            className='btn btn-outline-info p-3'
+            onClick={handleDownload}
+          >
             Download Template
           </button>
         </div>
-        <div className="custom-file mt-5">
-          <input type="file" className="custom-file-input" id="csvFile" accept=".csv" onChange={handleTimeSeriesUpload} />
-          <label className="custom-file-label" htmlFor="csvFile">
+        <div className='custom-file mt-5'>
+          <input
+            type='file'
+            className='custom-file-input'
+            id='csvFile'
+            accept='.csv'
+            onChange={handleTimeSeriesUpload}
+          />
+          <label
+            className='custom-file-label'
+            htmlFor='csvFile'
+          >
             Choose file
           </label>
         </div>
