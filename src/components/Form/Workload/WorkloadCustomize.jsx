@@ -25,28 +25,68 @@ function WorkloadCustomize({ type }) {
     console.log('In change, fieldNames: ', fieldNames);
   };
   return (
-    <div className="card-body">
-      <p className="card-text required">Operations per Second</p>
-      <Input variant="outlined" color="neutral" size="sm" type="text" id="opsPerSec-input" className="form-control col-3" onChange={(e) => handleDataChange('opsPerSec', validateDoubleInput(e.target.value))} pattern={numberPattern} required />
+    <div className='card-body'>
+      <p className='card-text required'>Operations per Second</p>
+      <Input
+        variant='outlined'
+        color='neutral'
+        size='sm'
+        type='text'
+        id='opsPerSec-input'
+        className='form-control col-3'
+        onChange={(e) => handleDataChange('opsPerSec', validateDoubleInput(e.target.value))}
+        pattern={numberPattern}
+        required
+      />
 
       {fieldNames.map((field, index) => (
         <div key={index}>
-          <div className="row">
-            <div className="col-4">
-              <p className="card-text required">Field Name</p>
-              <Input variant="outlined" color="neutral" size="sm" type="text" id={`field-${index}-name-input`} className="form-control" onChange={(e) => handleFieldChange(index, e.target.value)} />
+          <div className='row'>
+            <div className='col-4'>
+              <p className='card-text required'>Field Name</p>
+              <Input
+                variant='outlined'
+                color='neutral'
+                size='sm'
+                type='text'
+                id={`field-${index}-name-input`}
+                className='form-control'
+                onChange={(e) => handleFieldChange(index, e.target.value)}
+              />
             </div>
-            <div className="col-4">
-              <p className="card-text required">Field Value</p>
-              <Input variant="outlined" color="neutral" size="sm" type="text" id={`field-${index}-value-input`} className="form-control " onChange={(e) => handleDataChange(fieldNames[index], validateDoubleInput(e.target.value))} pattern={numberPattern} placeholder="float number" />
+            <div className='col-4'>
+              <p className='card-text required'>Field Value</p>
+              <Input
+                variant='outlined'
+                color='neutral'
+                size='sm'
+                type='text'
+                id={`field-${index}-value-input`}
+                className='form-control '
+                onChange={(e) => handleDataChange(fieldNames[index], validateDoubleInput(e.target.value))}
+                pattern={numberPattern}
+                placeholder='float number'
+              />
             </div>
-            <Button className="col-1 mt-4" variant="soft" color="danger" onClick={() => deleteField(index)}>
+            <Button
+              className='col-1 mt-4'
+              variant='soft'
+              color='danger'
+              onClick={() => deleteField(index)}
+            >
               Delete
             </Button>
           </div>
         </div>
       ))}
-      <Button className="mt-3" variant="soft" onClick={addField}>
+      <div className='mt-3'>
+        The unit for the fields below should be <strong>microsecond(µs)</strong>
+      </div>
+      <Button
+        className='mt-3'
+        variant='soft'
+        onClick={addField}
+      >
         Add Field
       </Button>
     </div>

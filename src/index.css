@@ -2,3 +2,15 @@
 :root {
   --bs-body-font-family: 'Roboto', sans-serif;
 }
+
+body {
+  zoom: 0.95;
+  transform: scale(0.95);
+  transform-origin: 0 0;
+  -webkit-transform: scale(0.95);
+  -webkit-transform-origin: 0 0;
+  -moz-transform: scale(0.95);
+  -moz-transform-origin: 0 0;
+  -o-transform: scale(0.95);
+  -o-transform-origin: 0 0;
+}
